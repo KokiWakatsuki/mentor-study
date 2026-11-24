@@ -1,0 +1,89 @@
+/* ハウスみまもり講座のスタイル（アプリと同じ配色） */
+
+:root {
+  --green-dark: #1F6B52;
+  --green-light: #E8F3EE;
+  --gray: #5F6B75;
+  --text: #1E2A32;
+  --background: #F4F6F5;
+  --white: #FFFFFF;
+  --radius: 14px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic UI", sans-serif;
+  color: var(--text);
+  background: var(--background);
+  line-height: 1.8;
+}
+
+.page { max-width: 880px; margin: 0 auto; padding: 24px; }
+
+/* ===== ヘッダー・写真 ===== */
+
+.topbar { padding: 14px 24px; background: var(--green-dark); }
+.brand { color: var(--white); font-weight: bold; font-size: 20px; text-decoration: none; }
+
+.hero { position: relative; height: 220px; overflow: hidden; }
+.hero img { width: 100%; height: 100%; object-fit: cover; }
+.hero-text {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 24px;
+  color: var(--white);
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+}
+.hero-text h1 { margin: 0; font-size: 28px; }
+.hero-text p { margin: 0; font-size: 17px; }
+
+/* ===== 各セクション ===== */
+
+.panel {
+  margin-bottom: 18px;
+  padding: 20px 24px;
+  border-radius: var(--radius);
+  background: var(--white);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+.panel h2 { margin: 0 0 8px; font-size: 20px; color: var(--green-dark); }
+.panel h3 { margin: 18px 0 4px; font-size: 16px; }
+
+.note { padding: 10px 14px; border-radius: 8px; background: var(--green-light); font-size: 15px; }
+.ok { color: var(--green-dark); font-weight: bold; }
+
+/* ===== 実行場所の表示（PowerShell・Ubuntu） ===== */
+
+.where { display: inline-block; padding: 1px 10px; border-radius: 999px; font-size: 13px; font-weight: bold; color: var(--white); background: var(--gray); }
+.where.ps { background: #005AFF; }
+.where.ub { background: #B5400F; }
+
+/* ===== コマンドとコピーボタン ===== */
+
+.cmd { display: flex; margin: 6px 0 10px; }
+.cmd code {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 8px 0 0 8px;
+  background: var(--text);
+  color: var(--green-light);
+  font-size: 14px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.cmd button { padding: 0 16px; border: none; border-radius: 0 8px 8px 0; background: var(--green-dark); color: var(--white); font-size: 14px; cursor: pointer; }
+
+/* ===== 流れの図 ===== */
+
+.map { display: flex; align-items: center; gap: 8px; margin: 12px 0; }
+.map div { flex: 1; padding: 12px 6px; border-radius: 10px; background: var(--green-light); text-align: center; font-weight: bold; }
+.map span { color: var(--gray); font-size: 22px; }
+.map small { display: block; color: var(--gray); font-size: 12px; font-weight: normal; }
+
+/* ===== 一覧（トップページ） ===== */
+
+.lessons { list-style: none; padding: 0; }
+.lessons li { margin-bottom: 10px; }
+.lessons a { color: var(--green-dark); font-weight: bold; }

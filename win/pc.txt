@@ -1,0 +1,25 @@
+# この Windows で講義を受講できるかを確認する．インストール・変更は一切しない．
+# 使い方（PowerShell）：
+#   [Net.ServicePointManager]::SecurityProtocol = 'Tls12'
+#   irm https://kokiwakatsuki.github.io/house-mimamori-course/win/pc.txt | iex
+
+function Mark($ok) { if ($ok) { '○' } else { '×' } }
+
+$computer = Get-CimInstance Win32_ComputerSystem
+$os       = Get-CimInstance Win32_OperatingSystem
+$cpu      = Get-CimInstance Win32_Processor | Select-Object -First 1
+
+$hasWsl2 = [int]$os.BuildNumber -ge 19041                              # WSL2 は Windows 10 の 19041 以降で使用可
+$memory  = [math]::Round($computer.TotalPhysicalMemory / 1GB, 1)       # メモリ（GB）
+$free    = [math]::Round((Get-PSDrive C).Free / 1GB)                   # C ドライブの空き容量（GB）
+$virt    = $computer.HypervisorPresent -or $cpu.VirtualizationFirmwareEnabled   # 仮想化が有効か
+
+''
+'項目        判定  この PC'
+'Windows     {0}    {1}（ビルド {2}）' -f (Mark $hasWsl2), ($os.Caption -replace 'Microsoft ', ''), $os.BuildNumber
+'メモリ      {0}    {1} GB' -f (Mark ($memory -ge 7.5)), $memory
+'仮想化      {0}    {1}' -f (Mark $virt), $(if ($virt) { '有効' } else { '無効の可能性あり' })
+'空き容量    {0}    {1} GB' -f (Mark ($free -ge 20)), $free
+''
+'すべて ○ なら受講可能．× があればメンターと確認．'
+''

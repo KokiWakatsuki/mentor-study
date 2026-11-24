@@ -1,0 +1,69 @@
+# 講義で使う道具が，この Windows で使用可能かを確認する．インストール・変更は一切しない．
+# インストールの有無だけでなく，コマンド名で実行可能か（Get-Command）で判定する．
+# 「次の作業」の列の番号は，第2回のページの手順を指す．
+# 使い方（PowerShell）：
+#   [Net.ServicePointManager]::SecurityProtocol = 'Tls12'
+#   irm https://kokiwakatsuki.github.io/house-mimamori-course/win/tools.txt | iex
+
+# 全角の字は2文字分の幅として，列をそろえる
+function Pad($text, $width) { $w = 0; foreach ($c in $text.ToCharArray()) { $w += $(if ([int]$c -gt 255) { 2 } else { 1 }) }; $text + (' ' * [Math]::Max(1, $width - $w)) }
+function Row($mark, $name, $next, $detail) { '{0}  {1}{2}{3}' -f $mark, (Pad $name 16), (Pad $next 28), $detail }
+function Find($command) { (Get-Command $command -ErrorAction SilentlyContinue | Select-Object -First 1).Source }
+
+# PowerShell を開き直したあとに見に行くフォルダの一覧（いま開いている窓には，まだ反映されていないことがある）
+$savedPath = [Environment]::ExpandEnvironmentVariables(
+  [Environment]::GetEnvironmentVariable('Path', 'User') + ';' + [Environment]::GetEnvironmentVariable('Path', 'Machine'))
+
+''
+Row '　' '道具' '次の作業' '詳細'
+
+# winget：アプリを入れる道具（Windows 10 の新しい版と Windows 11 には最初から入っている）
+$x = Find 'winget'
+if ($x) { Row '○' 'winget' '不要' $x } else { Row '※' 'winget' 'メンターと確認' 'Microsoft Store の「アプリ インストーラー」を更新する' }
+
+# WSL：Microsoft Store の新しい版か，Windows に最初から入っていた古い版か
+$lxss  = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Lxss'
+$wsl   = Get-AppxPackage MicrosoftCorporationII.WindowsSubsystemForLinux -ErrorAction SilentlyContinue
+$linux = @(Get-ChildItem $lxss -ErrorAction SilentlyContinue | ForEach-Object { Get-ItemProperty $_.PSPath })
+$main  = (Get-ItemProperty $lxss -ErrorAction SilentlyContinue).DefaultDistribution
+
+# systemd（docker を自動で動かす仕組み）を使うには 0.67.6 以上の版が要る
+if ($wsl -and [version]$wsl.Version -lt [version]'0.67.6') { Row '※' 'WSL' 'wsl --update を実行' ('版が古い ' + $wsl.Version) }
+elseif ($wsl) { Row '○' 'WSL' '不要' ('新しい版 ' + $wsl.Version) }
+elseif ($linux.Count -gt 0) { Row '※' 'WSL' 'wsl --update を実行' '古い版' }
+else { Row '×' 'WSL' '手順①' '' }
+
+# Linux：WSL がレジストリに書く一覧から読む（Version 2 が WSL2）
+$ubuntu = $linux | Where-Object { $_.DistributionName -like 'Ubuntu*' } | Select-Object -First 1
+foreach ($d in $linux) {
+  $isWsl2 = $d.Version -eq 2
+  $label  = $d.DistributionName + $(if ($isWsl2) { ' / WSL2' } else { ' / WSL1' }) + $(if ($d.PSChildName -eq $main) { '（いつも使う）' } else { '' })
+  if ($d.DistributionName -notlike 'Ubuntu*') { Row '・' 'Linux' '不要（講義では使わない）' $label }
+  elseif ($isWsl2) { Row '○' 'Linux' '不要' $label }
+  else { Row '※' 'Linux' 'メンターと確認' ('wsl --set-version ' + $d.DistributionName + ' 2') }
+}
+if (-not $ubuntu -and $wsl) { Row '×' 'Linux' '手順①' 'Ubuntu がない' }
+elseif (-not $ubuntu -and $linux.Count -gt 0) { Row '×' 'Linux' '手順①' 'Ubuntu がない（wsl --update の後に実行）' }
+
+# VS Code：アプリがあっても，code コマンドが呼び出せないとターミナルから開けない
+$x = Find 'code'
+$app = @("$env:LOCALAPPDATA\Programs\Microsoft VS Code", "$env:ProgramFiles\Microsoft VS Code") |
+  Where-Object { Test-Path "$_\Code.exe" } | Select-Object -First 1
+# 標準の場所以外：「アプリ」に登録された VS Code と，ダウンロード・デスクトップに置かれた VS Code（zip 版）
+$other = @(Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*', 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*' -ErrorAction SilentlyContinue |
+  Where-Object { $_.DisplayName -like 'Microsoft Visual Studio Code*' -and $_.InstallLocation } | ForEach-Object { $_.InstallLocation.TrimEnd('\') }) +
+  @(Get-ChildItem "$env:USERPROFILE\Downloads", "$env:USERPROFILE\Desktop" -Filter Code.exe -Recurse -Depth 3 -ErrorAction SilentlyContinue | ForEach-Object { $_.DirectoryName }) |
+  Where-Object { $_ -and $_ -ne $app } | Select-Object -First 1
+if ($x) { Row '○' 'VS Code' '不要' $x }
+elseif ($app -and $savedPath.ToLower().Contains("$app\bin".ToLower())) { Row '△' 'VS Code' 'PowerShell を再起動' $app }
+elseif ($app) { Row '※' 'VS Code' 'メンターと確認' ('code コマンドがない：' + $app) }
+elseif ($other) { Row '※' 'VS Code' 'メンターと確認' ('標準とは別の場所：' + $other) }
+else { Row '×' 'VS Code' '手順②' '' }
+
+# 参考：Docker・Git は Ubuntu 側のものを使う
+$dd = @("$env:ProgramFiles\Docker\Docker", "$env:LOCALAPPDATA\Programs\DockerDesktop") | Where-Object { Test-Path $_ } | Select-Object -First 1
+if ($dd) { Row '※' 'Docker Desktop' 'メンターと確認' 'Ubuntu の docker とぶつかることがある' } else { Row '・' 'Docker Desktop' '不要' 'なし（なくてよい）' }
+
+''
+'○ 使用可　△ 未設定　× 未インストール　※ 要確認　・ 参考'
+''

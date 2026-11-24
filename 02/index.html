@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>第2回 着任 | ハウスみまもり講座</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="../">ハウスみまもり講座</a>
+  </header>
+
+  <section class="hero">
+    <img src="https://raw.githubusercontent.com/KokiWakatsuki/house-mimamori/main/static/images/farm.jpg" alt="ひだまり農園のビニールハウス">
+    <div class="hero-text">
+      <h1>第2回　着任</h1>
+      <p>引き継いだアプリを，自分の PC で起動する</p>
+    </div>
+  </section>
+
+  <main class="page">
+
+    <section class="panel">
+      <h2>状況</h2>
+      <p>ひだまり農園は，ビニールハウス8棟で冬にいちご・トマトを栽培している．ハウス内が 5℃ 未満になると作物が傷む．</p>
+      <p>そのため農園は，各棟の温度・湿度を監視するアプリ「ハウスみまもり」を使用している．</p>
+      <p>本日から，このアプリの開発チームに配属．前任者からアプリを引き継ぐ．</p>
+    </section>
+
+    <section class="panel">
+      <h2>今回の目標</h2>
+      <ul>
+        <li>アプリを自分の PC で起動する</li>
+        <li>測定値が画面に表示されるまでの流れを説明できる</li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>① PC の確認</h2>
+      <p><span class="where ps">PowerShell</span></p>
+      <div class="cmd"><code>[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/house-mimamori-course/win/pc.txt | iex</code><button>コピー</button></div>
+      <p class="note">すべて ○ なら次へ．× があればメンターと確認．</p>
+    </section>
+
+    <section class="panel">
+      <h2>② 道具の確認</h2>
+      <p><span class="where ps">PowerShell</span></p>
+      <div class="cmd"><code>[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/house-mimamori-course/win/tools.txt | iex</code><button>コピー</button></div>
+      <p class="note">「次の作業」の列に従い，下の手順①〜③のうち必要なものだけ実行する．</p>
+    </section>
+
+    <section class="panel">
+      <h2>③ インストール（必要なものだけ）</h2>
+
+      <h3>手順① Ubuntu（Windows 上の Linux）</h3>
+      <p><span class="where ps">PowerShell</span></p>
+      <div class="cmd"><code>wsl --install -d Ubuntu</code><button>コピー</button></div>
+      <p class="note">再起動を求められたら再起動する．Ubuntu の初回起動時にユーザー名とパスワードを設定する（パスワードは入力しても表示されない）．</p>
+
+      <h3>手順② VS Code（コードエディタ）</h3>
+      <p><span class="where ps">PowerShell</span></p>
+      <div class="cmd"><code>winget install -e --id Microsoft.VisualStudioCode</code><button>コピー</button></div>
+      <p><span class="where ps">PowerShell を再起動して</span></p>
+      <div class="cmd"><code>code --install-extension ms-vscode-remote.remote-wsl</code><button>コピー</button></div>
+
+      <h3>手順③ git（変更履歴の管理）と docker（コンテナの実行）</h3>
+      <p><span class="where ub">Ubuntu</span></p>
+      <div class="cmd"><code>sudo apt update && sudo apt install -y git</code><button>コピー</button></div>
+      <div class="cmd"><code>curl -fsSL https://get.docker.com | sudo sh && sudo usermod -aG docker $USER</code><button>コピー</button></div>
+      <p><span class="where ps">PowerShell</span>で Ubuntu を再起動する．</p>
+      <div class="cmd"><code>wsl --shutdown</code><button>コピー</button></div>
+
+      <h3>インストール後の確認</h3>
+      <p><span class="where ub">Ubuntu</span></p>
+      <div class="cmd"><code>curl -fsSL https://kokiwakatsuki.github.io/house-mimamori-course/ubuntu/tools.sh | bash</code><button>コピー</button></div>
+      <p class="note">git・python3・docker が ○ なら完了．</p>
+    </section>
+
+    <section class="panel">
+      <h2>④ アプリの取得</h2>
+      <p>前任者が GitHub に公開したアプリを，自分の PC に複製（clone）する．</p>
+      <p><span class="where ub">Ubuntu</span></p>
+      <div class="cmd"><code>git clone https://github.com/KokiWakatsuki/house-mimamori.git && cd house-mimamori && code .</code><button>コピー</button></div>
+      <p class="note">VS Code が起動し，左にファイル一覧が表示される．README.md にファイル構成の説明がある．</p>
+    </section>
+
+    <section class="panel">
+      <h2>⑤ アプリの起動</h2>
+      <p>前任者と同じ環境（コンテナ）でアプリを起動する．</p>
+      <p><span class="where ub">Ubuntu</span>（house-mimamori フォルダ内）</p>
+      <div class="cmd"><code>docker compose up --build</code><button>コピー</button></div>
+      <p>ブラウザで <b>http://localhost:8000</b> を開く．全棟「記録なし」と表示されれば<span class="ok">起動成功</span>．</p>
+    </section>
+
+    <section class="panel">
+      <h2>⑥ センサーの代わりを実行</h2>
+      <p>実際のハウスでは，センサー（測定機器）が測定値を送信する．ここでは，その代わりのプログラムを実行する．</p>
+      <p><span class="where ub">別の Ubuntu の画面</span></p>
+      <div class="cmd"><code>cd house-mimamori && python3 sensor.py</code><button>コピー</button></div>
+      <p>アプリの「更新」を押すと，8棟の温度が表示される．カードを押すと棟の画面が開く．測定値は1分ごとに届く．</p>
+    </section>
+
+    <section class="panel">
+      <h2>⑦ 測定値が表示されるまでの流れ</h2>
+      <div class="map">
+        <div>センサー<small>sensor.py</small></div><span>→</span>
+        <div>サーバー<small>app.py</small></div><span>→</span>
+        <div>データベース<small>data/house.db</small></div><span>→</span>
+        <div>画面<small>static/</small></div>
+      </div>
+      <p><b>課題</b>：画面に表示された1つの温度は，どのファイルのどの関数を経由したか．VS Code でファイルを開いて確認する．</p>
+    </section>
+
+  </main>
+
+  <script>
+    // 「コピー」ボタン：隣のコマンドをクリップボードにコピーする
+    for (const button of document.querySelectorAll(".cmd button")) {
+      button.addEventListener("click", async () => {
+        const command = button.previousElementSibling.textContent;
+        await navigator.clipboard.writeText(command);
+        button.textContent = "完了";
+        setTimeout(() => { button.textContent = "コピー"; }, 1500);
+      });
+    }
+  </script>
+</body>
+</html>
