@@ -1,7 +1,7 @@
 # この Windows で講義を受講できるかを確認する．インストール・変更は一切しない．
 # 使い方（PowerShell）：
 #   [Net.ServicePointManager]::SecurityProtocol = 'Tls12'
-#   irm https://kokiwakatsuki.github.io/house-mimamori-course/win/pc.txt | iex
+#   irm https://kokiwakatsuki.github.io/berry-watch-course/win/pc.txt | iex
 
 function Mark($ok) { if ($ok) { '○' } else { '×' } }
 

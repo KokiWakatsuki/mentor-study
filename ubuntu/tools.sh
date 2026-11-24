@@ -1,6 +1,6 @@
 #!/bin/bash
 # Ubuntu（WSL2）で，講義で使う道具が使用可能かを確認する．インストール・変更は一切しない．
-# 使い方（Ubuntu の窓で）：curl -fsSL https://kokiwakatsuki.github.io/house-mimamori-course/ubuntu/tools.sh | bash
+# 使い方（Ubuntu の窓で）：curl -fsSL https://kokiwakatsuki.github.io/berry-watch-course/ubuntu/tools.sh | bash
 
 # 字数を正しく数えるため，UTF-8 の設定にする
 export LC_ALL="$(locale -a 2>/dev/null | grep -i -m1 -E '^(C|en_US)\.utf-?8$')"

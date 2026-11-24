@@ -44,6 +44,7 @@ const sceneCount = document.getElementById("scene-count");
 const playButton = document.getElementById("scene-play");
 const prevButton = document.getElementById("scene-prev");
 const nextButton = document.getElementById("scene-next");
+const restartButton = document.getElementById("scene-restart");
 const panels = ["m-sensor", "m-browser", "m-server", "m-db"].map((id) => document.getElementById(id));
 
 let current = 0;          // 表示中の場面（0＝導入）
@@ -302,6 +303,13 @@ async function togglePlay() {
 // ============================================================
 
 playButton.addEventListener("click", togglePlay);
+restartButton.addEventListener("click", () => {   // 導入に戻して，最初から自動で再生
+  runId += 1;
+  isAutoPlaying = false;
+  current = 0;
+  renderState(0);
+  togglePlay();
+});
 prevButton.addEventListener("click", () => goTo(current - 1));
 nextButton.addEventListener("click", () => goTo(current + 1));
 renderState(0);

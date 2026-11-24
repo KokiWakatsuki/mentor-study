@@ -1,4 +1,4 @@
-/* ハウスみまもり講座のスタイル
+/* ベリーウォッチ講座のスタイル
    画面の半分（幅 680〜960px）で読むことを想定．
    配色：カラーユニバーサルデザイン推奨配色（青 #005AFF・緑 #03AF7A・黄 #FFF100・橙 #F6AA00）と，アプリ共通の深緑． */
 
@@ -286,7 +286,9 @@ details[open] summary::before { content: "▾ "; }
 .part b { display: block; font-size: 16px; }
 .part-here { display: block; margin-top: 6px; color: var(--text); font-size: 12px; }
 .part-name { display: block; margin-top: 4px; padding-top: 4px; border-top: 1px dashed var(--line); color: var(--gray); font-size: 12px; line-height: 1.5; }
-.key { margin: 18px 0 0; padding: 12px 16px; border-radius: 10px; background: var(--green-light); font-weight: bold; text-align: center; }
+.key { margin: 18px 0 0; padding: 12px 20px; border-radius: 10px; background: var(--green-light); }
+.key p { margin: 0; }
+.key b { display: inline-block; min-width: 6em; color: var(--green); }
 
 
 /* ===== VS Code のファイル一覧 ===== */
@@ -300,7 +302,7 @@ details[open] summary::before { content: "▾ "; }
 
 /* ===== 吹き出し（引き継ぎメモ風） ===== */
 
-[data-tip]:not(.help) { border-bottom: 1px dotted var(--gray); cursor: help; }
+[data-tip]:not(.help) { border-bottom: 2px dotted var(--green-cud); cursor: help; }
 .bubble {
   position: fixed;
   z-index: 20;
@@ -403,7 +405,7 @@ details[open] summary::before { content: "▾ "; }
 .scene-count { margin-left: auto; color: var(--gray); font-size: 14px; }
 
 
-/* ===== 着任完了 ===== */
+/* ===== 回の完了 ===== */
 
 .finish { position: relative; overflow: hidden; text-align: center; }
 .finish[hidden] { display: none; }

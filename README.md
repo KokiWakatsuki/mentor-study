@@ -1,9 +1,9 @@
-# ハウスみまもり講座
+# ベリーウォッチ講座
 
-架空の農園のアプリ「ハウスみまもり」を題材にした Web 開発入門の講義資料．
+架空の農園のアプリ「ベリーウォッチ」を題材にした Web 開発入門の講義資料．
 
-- 公開ページ：https://kokiwakatsuki.github.io/house-mimamori-course/
-- 教材のアプリ：https://github.com/KokiWakatsuki/house-mimamori
+- 公開ページ：https://kokiwakatsuki.github.io/berry-watch-course/
+- 教材のアプリ：https://github.com/KokiWakatsuki/berry-watch
 
 ## ファイル構成
 

@@ -1,7 +1,7 @@
 // 講義資料の共通の動き
 // ・コピーボタン：コマンドをコピーし，「✓ コピー済」と表示
 // ・確認済のチェック：上部の進捗に反映し，ブラウザに保存（次に開いたときも残る）
-// ・全手順を確認済にすると「着任完了」を表示
+// ・全手順を確認済にすると「完了」の欄を表示
 
 
 // ============================================================
@@ -66,7 +66,7 @@ function showProgress() {
   return doneSteps;
 }
 
-// 紙吹雪を，着任完了の欄の中だけに1回降らせる
+// 紙吹雪を，完了の欄の中だけに1回降らせる
 function celebrate() {
   for (let i = 0; i < 28; i++) {
     const piece = document.createElement("span");
@@ -79,7 +79,7 @@ function celebrate() {
   }
 }
 
-// チェックを切り替えたとき：保存し，全部そろったら着任完了を表示する
+// チェックを切り替えたとき：保存し，全部そろったら完了の欄を表示する
 function onCheck() {
   const wasFinished = !finishCard.hidden;
   const doneSteps = showProgress();

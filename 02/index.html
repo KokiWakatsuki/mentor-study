@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>第2回 着任 | ハウスみまもり講座</title>
+  <title>第2回 アプリの起動 | ベリーウォッチ講座</title>
   <link rel="stylesheet" href="../style.css">
 </head>
 <body data-lesson="02">
   <header class="topbar">
-    <a class="brand" href="../">ハウスみまもり講座</a>
+    <a class="brand" href="../">ベリーウォッチ講座</a>
   </header>
 
   <section class="hero">
-    <img src="https://raw.githubusercontent.com/KokiWakatsuki/house-mimamori/main/static/images/farm.jpg" alt="ひだまり農園のビニールハウス">
+    <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="ひだまり農園のビニールハウス">
     <div class="hero-text">
-      <h1>第2回　着任</h1>
-      <p>引き継いだアプリを，自分の PC で起動</p>
+      <h1>第2回　アプリの起動</h1>
+      <p>いちご農園のアプリを，自分の PC で起動</p>
     </div>
   </section>
 
@@ -45,10 +45,12 @@
 
     <!-- ===== 状況と目標 ===== -->
     <section class="card">
-      <h2>状況</h2>
-      <p>ひだまり農園：ビニールハウス8棟で，いちご・トマトを栽培．<br>
-         5℃ 未満で作物が傷むため，温度監視アプリ「ハウスみまもり」を使用．</p>
-      <p>本日，このアプリの開発チームに配属．</p>
+      <h2>今回から使う題材</h2>
+      <p>架空の「ひだまり農園」<br>
+         ビニールハウス8棟で，冬にいちごを栽培</p>
+      <p>夜のハウス内は 8℃ 以上が目安<br>
+         温度監視アプリ「<span data-tip="いちご（ベリー）を見守る（ウォッチ）アプリ" data-tip-head="名前の由来｜ベリーウォッチ">ベリーウォッチ</span>」で8棟を確認</p>
+      <p>みなさんは，このアプリの開発チームの一員</p>
       <h2>今回の目標</h2>
       <ul class="goal">
         <li>アプリを自分の PC で起動</li>
@@ -57,8 +59,8 @@
     </section>
 
     <aside class="memo">
-      <img src="https://raw.githubusercontent.com/KokiWakatsuki/house-mimamori/main/static/images/strawberry.jpg" alt="">
-      <div><b>前任者メモ｜引き継ぎ</b><p>アプリ一式は GitHub に保管．<br>まずは自分の PC で起動確認を．</p></div>
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/strawberry.jpg" alt="">
+      <div><b>先輩メモ｜アプリの場所</b><p>アプリ一式は GitHub に保管．<br>まずは自分の PC で起動確認を．</p></div>
     </aside>
 
     <!-- ===== 今日使う画面 ===== -->
@@ -89,14 +91,14 @@
         <div>
           <div class="window">
             <div class="window-bar">Visual Studio Code</div>
-            <div class="window-body" style="background:#1F1F1F;">▸ house-mimamori</div>
+            <div class="window-body" style="background:#1F1F1F;">▸ berry-watch</div>
           </div>
           <div class="window-label"><span data-tip="コードを編集するアプリ" data-tip-head="用語｜VS Code">VS Code</span>・ブラウザ</div>
         </div>
       </div>
       <div class="rules">
         <div class="rule"><b>起動</b><span>Windows キー → 名前を入力 → Enter</span></div>
-        <div class="rule"><b>管理者</b><span>Enter の代わりに右クリック →「管理者として実行」</span></div>
+        <div class="rule"><b>管理者</b><span>検索結果の「Windows PowerShell」を右クリック<br>→「管理者として実行」→「はい」</span></div>
         <div class="rule"><b>貼り付け</b><span>右クリック</span></div>
         <div class="rule"><b>終了</b><span>「終了可」の表示まで開いたまま</span></div>
       </div>
@@ -110,7 +112,7 @@
         <h2>PC の確認</h2>
         <span class="where ps">PowerShell</span>
       </div>
-      <div class="cmd"><code data-tip="確認のみ．インストールなし">[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/house-mimamori-course/win/pc.txt | iex</code><button class="copy">コピー</button></div>
+      <div class="cmd"><code data-tip="確認のみ．インストールなし">[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/berry-watch-course/win/pc.txt | iex</code><button class="copy">コピー</button></div>
       <details>
         <summary>表示例</summary>
         <div class="detail-body">
@@ -134,7 +136,7 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <h2>道具の確認</h2>
         <span class="where ps">PowerShell</span>
       </div>
-      <div class="cmd"><code data-tip="確認のみ．インストールなし">[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/house-mimamori-course/win/tools.txt | iex</code><button class="copy">コピー</button></div>
+      <div class="cmd"><code data-tip="確認のみ．インストールなし">[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/berry-watch-course/win/tools.txt | iex</code><button class="copy">コピー</button></div>
       <details>
         <summary>表示例</summary>
         <div class="detail-body">
@@ -183,8 +185,8 @@ Windows     ○    Windows 10 Home（ビルド 19045）
           </details>
         </li>
       </ol>
-      <p class="caution">パスワード：Ubuntu 用（Windows とは別）．以降も使用</p>
-      <p class="closable">管理者の PowerShell：終了可</p>
+      <p class="caution">ここで決めたパスワードは Ubuntu 用<br>Windows のパスワードとは別．このあとも使用</p>
+      <p class="closable">管理者の PowerShell は，ここで終了可</p>
       <div class="check-row">
         <p class="done"><code>名前@PC名:~$</code> の表示</p>
         <label class="check"><input type="checkbox" data-step="3"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
@@ -211,7 +213,7 @@ Windows     ○    Windows 10 Home（ビルド 19045）
           <div class="cmd"><code data-tip="Ubuntu 接続・日本語化">code --install-extension ms-vscode-remote.remote-wsl --install-extension ms-ceintl.vscode-language-pack-ja</code><button class="copy">コピー</button></div>
         </li>
       </ol>
-      <p class="closable">PowerShell：終了可（以降は不使用）</p>
+      <p class="closable">PowerShell は，ここで終了可<br>このあとは使わない</p>
       <details>
         <summary>うまくいかないとき</summary>
         <div class="detail-body">
@@ -231,14 +233,14 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <h2><span data-tip="変更履歴を記録する道具" data-tip-head="用語｜git">git</span>・<span data-tip="アプリを箱（コンテナ）ごと起動する道具" data-tip-head="用語｜docker">docker</span> の準備</h2>
         <span class="where ub">Ubuntu</span>
       </div>
-      <p class="caution">パスワード：③ の Ubuntu 用（入力は非表示）</p>
+      <p class="caution">パスワードを聞かれたら，③ で決めた Ubuntu 用を入力<br>入力しても画面には表示されない</p>
       <ol class="actions">
         <li>
-          <p>git のインストール</p>
+          <p><span data-tip="変更の履歴を記録する道具／チームでコードを共有するときにも使う" data-tip-head="用語｜git">git</span> のインストール</p>
           <div class="cmd"><code data-tip="git をインストール">sudo apt update && sudo apt install -y git</code><button class="copy">コピー</button></div>
         </li>
         <li>
-          <p>docker のインストール</p>
+          <p><span data-tip="アプリを，必要な道具ごと箱（コンテナ）に入れて起動する道具／どの PC でも同じように動く" data-tip-head="用語｜docker">docker</span> のインストール</p>
           <div class="cmd"><code data-tip="docker をインストール">curl -fsSL https://get.docker.com | sudo sh && sudo usermod -aG docker $USER</code><button class="copy">コピー</button></div>
           <span class="wait"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5V8l2.5 1.5"/></svg>待機 数分（英文で20秒停止 → そのまま）</span>
         </li>
@@ -249,7 +251,7 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         </li>
         <li>
           <p>確認</p>
-          <div class="cmd"><code data-tip="インストール結果を確認">curl -fsSL https://kokiwakatsuki.github.io/house-mimamori-course/ubuntu/tools.sh | bash</code><button class="copy">コピー</button></div>
+          <div class="cmd"><code data-tip="インストール結果を確認">curl -fsSL https://kokiwakatsuki.github.io/berry-watch-course/ubuntu/tools.sh | bash</code><button class="copy">コピー</button></div>
         </li>
       </ol>
       <details>
@@ -285,7 +287,7 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <h2>アプリの取得</h2>
         <span class="where ub">Ubuntu</span>
       </div>
-      <div class="cmd"><code data-tip="アプリを複製し，VS Code で開く">git clone https://github.com/KokiWakatsuki/house-mimamori.git && cd house-mimamori && code .</code><button class="copy">コピー</button></div>
+      <div class="cmd"><code data-tip="アプリを複製し，VS Code で開く">git clone https://github.com/KokiWakatsuki/berry-watch.git && cd berry-watch && code .</code><button class="copy">コピー</button></div>
       <details open>
         <summary>VS Code の起動後</summary>
         <div class="detail-body">
@@ -299,8 +301,8 @@ Windows     ○    Windows 10 Home（ビルド 19045）
       <div class="files">
         <div class="file"><code>README.md</code><span>説明書</span></div>
         <div class="file"><code>sensor.py</code><span>センサーの代わり</span></div>
-        <div class="file"><code data-tip="app＝アプリ本体" data-tip-head="名前の由来｜app.py">app.py</code><span>サーバー</span></div>
-        <div class="file"><code data-tip="static＝静的（中身が変わらないファイルの置き場）" data-tip-head="名前の由来｜static">static/</code><span>画面</span></div>
+        <div class="file"><code data-tip="app（application）．アプリの中心の処理によく使う名前" data-tip-head="名前の由来｜app.py">app.py</code><span>サーバー</span></div>
+        <div class="file"><code data-tip="static（静的）．中身が変わらないファイルの置き場" data-tip-head="名前の由来｜static">static/</code><span>画面</span></div>
         <div class="file later"><code>その他</code><span>今日は不要</span></div>
       </div>
       <div class="check-row">
@@ -315,23 +317,23 @@ Windows     ○    Windows 10 Home（ビルド 19045）
       <div class="parts">
         <figure class="part">
           <img src="../images/parts/sensor.jpg" alt="ハウスの中の温度センサー">
-          <figcaption><b>センサー</b>温度を測る機械<span class="part-here">今日の代役：<code>sensor.py</code></span><span class="part-name">sensor＝センサー</span></figcaption>
+          <figcaption><b>センサー</b>温度を測る機械<span class="part-here">今日の代役：<code>sensor.py</code></span><span class="part-name">名前の由来<br>sensor（センサー）</span></figcaption>
         </figure>
         <figure class="part">
           <img src="../images/parts/server.jpg" alt="要求に応答するサーバー">
-          <figcaption><b>サーバー</b>要求に応じてデータを用意<span class="part-here"><code>app.py</code>（1つ目の Ubuntu）</span><span class="part-name">app＝アプリ本体．中心となる処理のため，よく使う名前</span></figcaption>
+          <figcaption><b>サーバー</b>要求に応じてデータを用意<span class="part-here"><code>app.py</code>（1つ目の Ubuntu）</span><span class="part-name">名前の由来<br>app（application）．アプリの中心の処理によく使う名前</span></figcaption>
         </figure>
         <figure class="part">
           <img src="../images/parts/database.jpg" alt="記録をしまうデータベース">
-          <figcaption><b>データベース</b>記録の保管庫<span class="part-here"><code>data/house.db</code></span><span class="part-name">db＝database．house＝ハウス</span></figcaption>
+          <figcaption><b>データベース</b>記録の保管庫<span class="part-here"><code>data/house.db</code></span><span class="part-name">名前の由来<br>db（database）</span></figcaption>
         </figure>
         <figure class="part">
           <img src="../images/parts/screen.jpg" alt="スマホに表示された画面">
-          <figcaption><b>画面</b>園主が見る所<span class="part-here">ブラウザ（<code>static/</code>）</span><span class="part-name">static＝静的．中身が変わらないファイル（HTML・CSS・画像）の置き場</span></figcaption>
+          <figcaption><b>画面</b>園主が見る所<span class="part-here">ブラウザ（<code>static/</code>）</span><span class="part-name">名前の由来<br>static（静的）．中身が変わらないファイル（HTML・CSS・画像）の置き場</span></figcaption>
         </figure>
       </div>
-      <p class="key">画面＝見る所．サーバー＝データを用意する所．</p>
-      <p class="hint" style="margin-top:10px;">.py＝Python のプログラム．.db＝データベースのファイル</p>
+      <div class="key"><p><b>画面</b>　見る所</p><p><b>サーバー</b>　データを用意する所</p></div>
+      <p class="hint" style="margin-top:10px;">ファイル名の最後<br><code>.py</code>　Python のプログラム<br><code>.db</code>　データベースのファイル</p>
     </section>
 
     <!-- ===== ⑦ ===== -->
@@ -344,14 +346,14 @@ Windows     ○    Windows 10 Home（ビルド 19045）
       <div class="cmd"><code data-tip="アプリを起動">docker compose up --build</code><button class="copy">コピー</button></div>
       <span class="wait"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5V8l2.5 1.5"/></svg>初回 1〜2分</span>
       <p class="hint" style="margin-top: 8px;"><code>Uvicorn running on http://0.0.0.0:8000</code> → 起動完了</p>
-      <p class="closable">この画面：サーバー（終了不可）</p>
+      <p class="closable">この画面はサーバー<br>閉じない</p>
       <p>ブラウザで <a href="http://localhost:8000" target="_blank">http://localhost:8000</a></p>
       <img class="shot" src="../images/02/app_empty.jpg" alt="起動直後の画面．全棟が記録なし">
       <details>
         <summary>うまくいかないとき</summary>
         <div class="detail-body">
           <p><b>permission denied</b> → ⑤ の3 → 次を実行</p>
-          <div class="cmd"><code data-tip="アプリを起動">cd ~/house-mimamori && docker compose up --build</code><button class="copy">コピー</button></div>
+          <div class="cmd"><code data-tip="アプリを起動">cd ~/berry-watch && docker compose up --build</code><button class="copy">コピー</button></div>
           <p><b>address already in use</b> → メンターと確認</p>
         </div>
       </details>
@@ -362,8 +364,8 @@ Windows     ○    Windows 10 Home（ビルド 19045）
     </section>
 
     <aside class="memo">
-      <img src="https://raw.githubusercontent.com/KokiWakatsuki/house-mimamori/main/static/images/farm.jpg" alt="">
-      <div><b>前任者メモ｜起動確認</b><p>起動できたら，引き継ぎの半分は完了．</p></div>
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="">
+      <div><b>先輩メモ｜起動確認</b><p>起動できたら，準備の半分は完了．</p></div>
     </aside>
 
     <!-- ===== ⑧ ===== -->
@@ -379,7 +381,7 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         </li>
         <li>
           <p>実行</p>
-          <div class="cmd"><code data-tip="センサーの代わりを起動">cd house-mimamori && python3 sensor.py</code><button class="copy">コピー</button></div>
+          <div class="cmd"><code data-tip="センサーの代わりを起動">cd berry-watch && python3 sensor.py</code><button class="copy">コピー</button></div>
 <pre class="out">1号棟：10.2℃，75.3% を送信
 ……（8号棟まで．1分ごと）</pre>
         </li>
@@ -396,7 +398,7 @@ Windows     ○    Windows 10 Home（ビルド 19045）
     </section>
 
     <aside class="memo">
-      <img src="https://raw.githubusercontent.com/KokiWakatsuki/house-mimamori/main/static/images/tomato.jpg" alt="">
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="">
       <div><b>園主より｜温度の確認</b><p>8棟の温度が見えると，夜の見回りが楽になる．よろしく．</p></div>
     </aside>
 
@@ -424,11 +426,11 @@ Windows     ○    Windows 10 Home（ビルド 19045）
 
           <!-- 上段右：ブラウザ -->
           <div class="mock browser" id="m-browser">
-            <div class="mock-bar">ブラウザ｜ハウスみまもり</div>
+            <div class="mock-bar">ブラウザ｜ベリーウォッチ</div>
             <div class="mock-body">
               <button class="mock-reload" id="mock-reload" tabindex="-1">更新</button>
               <div class="mock-card" id="mock-card">
-                <img src="https://raw.githubusercontent.com/KokiWakatsuki/house-mimamori/main/static/images/strawberry.jpg" alt="">
+                <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/strawberry.jpg" alt="">
                 <div>
                   <b>1号棟</b>
                   <span class="mock-temp" id="card-temp"></span>
@@ -464,6 +466,7 @@ Windows     ○    Windows 10 Home（ビルド 19045）
           <button id="scene-play">▶ 再生</button>
           <button id="scene-prev" class="sub">前へ</button>
           <button id="scene-next" class="sub">次へ</button>
+          <button id="scene-restart" class="sub">⟲ 最初から</button>
           <span class="scene-count" id="scene-count"></span>
         </div>
       </div>
@@ -481,17 +484,17 @@ Windows     ○    Windows 10 Home（ビルド 19045）
       </div>
     </section>
 
-    <!-- ===== 着任完了（全手順の確認済で表示） ===== -->
+    <!-- ===== 第2回の完了（全手順の確認済で表示） ===== -->
     <section class="card finish" id="finish" hidden>
-      <img src="https://raw.githubusercontent.com/KokiWakatsuki/house-mimamori/main/static/images/farm.jpg" alt="">
-      <span class="stamp">着任完了</span>
-      <h2>引き継ぎ完了</h2>
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="">
+      <span class="stamp">第2回 完了</span>
+      <h2>アプリの起動に成功</h2>
       <ul class="goal">
         <li>アプリの起動</li>
         <li>8棟の温度の表示</li>
         <li>温度表示までの流れの理解</li>
       </ul>
-      <p style="margin-top: 16px;">次回：コードの読解</p>
+      <p style="margin-top: 16px;">次回は，このコードを読む</p>
     </section>
 
     <section class="card">
