@@ -363,3 +363,19 @@ textarea.note:focus { outline: none; border-color: var(--blue); }
 .timebar figure { display: grid; grid-template-columns: 5em 1fr; align-items: center; gap: 10px; margin: 0; }
 .timebar figcaption { font-weight: bold; text-align: right; }
 .timebar img { width: 100%; max-width: 450px; border: 1px solid var(--line); border-radius: 8px; }
+
+/* ===== OS の系統図 ===== */
+
+.ostree { display: grid; grid-template-columns: 1fr 2.2fr; gap: 10px; margin: 4px 0 8px; font-size: 14px; line-height: 1.4; }
+.os-family { padding: 10px 12px; border-radius: 12px; border: 2px solid; background: var(--white); }
+.os-family > b { display: block; font-size: 15px; }
+.os-family > small { display: block; color: var(--gray); font-size: 12px; }
+.os-family.win { border-color: var(--blue); background: #F3F7FF; }
+.os-family.unixlike { border-color: #7A8B95; border-style: dashed; background: #F6F7F8; }
+.os-family.unix { border-color: #9AA5AD; }
+.os-family.linux { border-color: var(--green); background: var(--green-light); }
+.os-branches { display: grid; grid-template-columns: 1fr 1.6fr; gap: 8px; margin-top: 8px; }
+.os-leaves { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.os-leaves span { padding: 3px 10px; border-radius: 999px; background: var(--white); border: 1px solid var(--line); font-weight: bold; }
+.os-leaves span.here { border: 2px solid var(--orange); color: var(--orange); }
+@media (max-width: 720px) { .ostree, .os-branches { grid-template-columns: 1fr; } }
