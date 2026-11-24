@@ -10,8 +10,15 @@
 
 ```
 index.html        講義資料の一覧
-02/index.html     第2回の資料
+02/〜11/          各回の資料（index.html）
 style.css         スタイル
+lesson.css        第3回以降の部品のスタイル（予想・コードを追う・練習問題など）
+tip.js            用語の吹き出し
+page.js           コピーボタン・確認済のチェック・進捗
+lesson.js         第3回以降の部品の動き
+judge-worker.js   練習問題の Python をブラウザ内で実行（Pyodide）
+config.js         期ごとの設定（チームのリポジトリ名）
+ubuntu/git-setup.sh  git の名前とメールの設定
 win/pc.txt        Windows の PC 確認スクリプト（PowerShell）
 win/tools.txt     Windows の道具確認スクリプト（PowerShell）
 ubuntu/tools.sh   Ubuntu の道具確認スクリプト
