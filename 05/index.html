@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>第5回 記録1件と変更の履歴 | メンター勉強会</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../lesson.css">
+</head>
+<body data-lesson="05">
+  <header class="topbar">
+    <a class="brand" href="../">メンター勉強会</a>
+  </header>
+
+  <section class="hero">
+    <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="ひだまり農園のビニールハウス">
+    <div class="hero-text">
+      <h1>第5回　記録1件と変更の履歴</h1>
+      <p>データの形と，前任者が変えたこと</p>
+    </div>
+  </section>
+
+  <nav class="progress" aria-label="進捗">
+    <div class="progress-groups">
+      <div class="progress-group"><span>準備</span>
+        <div class="progress-dots"><button class="dot" data-step="1">1</button></div>
+      </div>
+      <div class="progress-group"><span>データ</span>
+        <div class="progress-dots"><button class="dot" data-step="2">2</button><button class="dot" data-step="3">3</button><button class="dot" data-step="4">4</button></div>
+      </div>
+      <div class="progress-group"><span>履歴</span>
+        <div class="progress-dots"><button class="dot" data-step="5">5</button></div>
+      </div>
+      <div class="progress-group"><span>書く</span>
+        <div class="progress-dots"><button class="dot" data-step="6">6</button><button class="dot" data-step="7">7</button></div>
+      </div>
+    </div>
+    <div class="progress-count" id="progress-count"></div>
+  </nav>
+
+  <main class="page">
+
+    <section class="card">
+      <h2>今回の目標</h2>
+      <ul class="goal">
+        <li>記録1件の形（辞書）を読める</li>
+        <li>同じ1件を，表・サーバー・画面で見分ける</li>
+        <li>前任者の変更を，履歴から読める</li>
+      </ul>
+    </section>
+
+    <aside class="memo">
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/strawberry.jpg" alt="">
+      <div><b>先輩メモ｜引き継ぎ 3</b><p>アプリは2025年2月に納品．<br>その後の変更は，全部履歴に残っている．</p></div>
+    </aside>
+
+    <!-- ===== ① 起動 ===== -->
+    <section class="card" id="step-1">
+      <div class="step-head">
+        <span class="step-num">1</span>
+        <h2>アプリの起動</h2>
+        <span class="where ub">Ubuntu</span>
+      </div>
+      <p class="hint">今回から，サーバーとセンサーは VS Code の中のターミナルで実行<br>画面が1つで済む</p>
+      <ol class="actions" style="--step: '1'">
+        <li>
+          <p>VS Code でアプリを開く</p>
+          <p class="hint">Windows キー →「ubuntu」→ Enter</p>
+          <div class="cmd"><code data-tip="アプリのフォルダに移動し，VS Code で開く">cd ~/berry-watch && code .</code><button class="copy">コピー</button></div>
+          <p class="hint">VS Code が開いたら，Ubuntu の画面は終了可</p>
+        </li>
+        <li>
+          <p>サーバーの起動<span class="where vs" style="margin-left:6px;">VS Code</span></p>
+          <p class="hint">上部のメニュー「ターミナル」→「新しいターミナル」<br>→ 下に開いた画面に貼り付け（Ctrl + V）→ Enter</p>
+          <div class="cmd"><code data-tip="アプリを起動">docker compose up</code><button class="copy">コピー</button></div>
+          <p class="hint"><code>Application startup complete.</code> → 起動完了</p>
+        </li>
+        <li>
+          <p>センサーの代わりを実行<span class="where vs" style="margin-left:6px;">VS Code</span></p>
+          <p class="hint">ターミナルの右上の「＋」→ 2つ目のターミナル</p>
+          <div class="cmd"><code data-tip="センサーの代わりを起動">python3 sensor.py</code><button class="copy">コピー</button></div>
+          <p class="hint">ターミナルの切り替え：右側の一覧（bash が2つ）</p>
+        </li>
+        <li>
+          <p>ブラウザで <a href="http://localhost:8000" target="_blank">http://localhost:8000</a></p>
+        </li>
+      </ol>
+      <details>
+        <summary>うまくいかないとき</summary>
+        <div class="detail-body">
+          <p><b>No such file or directory</b><br>→ アプリが未取得．第2回の「アプリの取得」から</p>
+          <p><b>左下に「WSL: Ubuntu」が出ない</b><br>→ VS Code を閉じて，1-1 をもう一度</p>
+          <p><b>permission denied</b>（docker）<br>→ メンターと確認</p>
+        </div>
+      </details>
+      <div class="check-row">
+        <p class="done">8棟の温度の表示<br>VS Code にファイル一覧</p>
+        <label class="check"><input type="checkbox" data-step="1"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ② 辞書 ===== -->
+    <section class="card" id="step-2">
+      <div class="step-head">
+        <span class="step-num">2</span>
+        <h2>記録1件＝辞書</h2>
+      </div>
+<div class="code"><span class="line">reading = {<span class="s">"house_id"</span>: 3, <span class="s">"measured_at"</span>: <span class="s">"2026-11-24 06:30"</span>, <span class="s">"temperature"</span>: 7.2}</span><span class="line">print(reading[<span class="s">"temperature"</span>])</span></div>
+      <div class="terms">
+        <div class="term-row"><code>{ 名前: 値, … }</code><span><span data-tip="名前（キー）と値の組をまとめたもの" data-tip-head="用語｜辞書">辞書</span>．名前と値の組をまとめたもの</span></div>
+        <div class="term-row"><code>reading["temperature"]</code><span>名前で値を取り出す</span></div>
+      </div>
+      <div class="predict">
+        <p class="predict-q">出力は？</p>
+        <div class="predict-options">
+          <button type="button">3</button>
+          <button type="button" data-right>7.2</button>
+          <button type="button">temperature</button>
+        </div>
+        <div class="predict-answer" hidden><b>7.2</b>　"temperature" の組の値<br>アプリの <code>row["temperature"]</code> も同じ書き方</div>
+      </div>
+      <div class="terms">
+        <div class="term-row"><code>リスト</code><span>番号で取り出す　<code>temperatures[0]</code></span></div>
+        <div class="term-row"><code>辞書</code><span>名前で取り出す　<code>reading["temperature"]</code></span></div>
+      </div>
+      <div class="check-row">
+        <p class="done">答えを確認</p>
+        <label class="check"><input type="checkbox" data-step="2"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ③ データベースの表 ===== -->
+    <section class="card" id="step-3">
+      <div class="step-head">
+        <span class="step-num">3</span>
+        <h2>データベースの表で見る</h2>
+        <span class="where vs">VS Code</span>
+      </div>
+      <ol class="actions" style="--step: '3'">
+        <li>
+          <p>左の一覧 → <code>data</code> → <code>house.db</code></p>
+          <p class="hint">SQLite Viewer で表が開く（第2回で追加した拡張機能）</p>
+        </li>
+        <li>
+          <p>左上の表の一覧 → <code>readings</code></p>
+        </li>
+      </ol>
+      <div class="db" style="border:1px solid var(--line); border-radius:10px; overflow:hidden;">
+        <table>
+          <thead><tr><th>id</th><th>house_id</th><th>measured_at</th><th>temperature</th><th>humidity</th></tr></thead>
+          <tbody>
+            <tr><td>101</td><td>3</td><td>2026-11-24 06:30</td><td>7.2</td><td>88.0</td></tr>
+            <tr class="read"><td>102</td><td>4</td><td>2026-11-24 06:30</td><td>9.1</td><td>84.5</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="caption">表示例（値は人ごとに異なる）</p>
+      <div class="terms">
+        <div class="term-row"><code>1行</code><span>記録1件（辞書1つ）</span></div>
+        <div class="term-row"><code>列の名前</code><span>辞書の名前（house_id・temperature など）</span></div>
+        <div class="term-row"><code>readings</code><span>記録の表．<code>houses</code> は棟の表</span></div>
+      </div>
+      <details>
+        <summary>うまくいかないとき</summary>
+        <div class="detail-body">
+          <p><b>文字化けした画面が開く</b><br>→ 拡張機能の一覧で「SQLite Viewer」を確認．なければ第2回の ⑥-3</p>
+        </div>
+      </details>
+      <div class="check-row">
+        <p class="done">readings の表に，センサーの記録の行</p>
+        <label class="check"><input type="checkbox" data-step="3"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ④ 1件の旅 ===== -->
+    <section class="card" id="step-4">
+      <div class="step-head">
+        <span class="step-num">4</span>
+        <h2>サーバーの返事を直接見る</h2>
+        <span class="where br">ブラウザ</span>
+      </div>
+      <p>画面が裏で受け取っている返事を，ブラウザで直接開く</p>
+      <p><a href="http://localhost:8000/api/houses/3/today" target="_blank">http://localhost:8000/api/houses/3/today</a></p>
+      <div class="pair">
+<div class="code"><span class="line">{</span><span class="line">  <span class="s">"house_id"</span>: 3,</span><span class="line">  <span class="s">"has_data"</span>: true,</span><span class="line is-mark">  <span class="s">"measured_at"</span>: <span class="s">"2026-11-24 21:12"</span>,</span><span class="line is-mark">  <span class="s">"temperature"</span>: 10.4,</span><span class="line">  <span class="s">"humidity"</span>: 76.1,</span><span class="line is-mark">  <span class="s">"max"</span>: 10.9,</span><span class="line is-mark">  <span class="s">"min"</span>: 9.6,</span><span class="line">  <span class="s">"is_cold"</span>: false</span><span class="line">}</span></div>
+        <div class="terms" style="margin:0;">
+          <div class="term-row"><code>temperature</code><span>カードの大きな温度</span></div>
+          <div class="term-row"><code>max</code><span>本日最高</span></div>
+          <div class="term-row"><code>min</code><span>本日最低</span></div>
+          <div class="term-row"><code>measured_at</code><span>測定：〇〇</span></div>
+        </div>
+      </div>
+      <p class="hint" style="margin-top:10px;">辞書と同じ形．この形式の名前は <span data-tip="JavaScript Object Notation／サーバーと画面の間で，辞書の形のデータを送る書き方" data-tip-head="用語｜JSON">JSON</span><br>ブラウザによっては1行で表示．「整形して表示」の欄があれば押す</p>
+      <div class="predict">
+        <p class="predict-q">URL の <code>3</code> を <code>9</code> にすると？</p>
+        <div class="predict-options">
+          <button type="button">9号棟の値</button>
+          <button type="button">何も出ない</button>
+          <button type="button" data-right>「ない」という返事</button>
+        </div>
+        <div class="predict-answer" hidden><b>「ない」という返事</b>　<code>{"detail":"9 という棟はありません"}</code><br>棟は8つ．<code>check_house_exists</code> が確認</div>
+      </div>
+      <div class="check-row">
+        <p class="done">返事の数値と，一覧の3号棟のカードが一致</p>
+        <label class="check"><input type="checkbox" data-step="4"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑤ 履歴 ===== -->
+    <section class="card" id="step-5">
+      <div class="step-head">
+        <span class="step-num">5</span>
+        <h2>前任者の変更の履歴</h2>
+        <span class="where vs">VS Code</span>
+      </div>
+      <ol class="actions" style="--step: '5'">
+        <li>
+          <p>Git Graph を開く</p>
+          <p class="hint">左端の <span data-tip="枝分かれした線のアイコン／Ctrl + Shift + G でも開く" data-tip-head="場所｜ソース管理">ソース管理</span> → 上部の <span data-tip="線と点のアイコン（View Git Graph）／見つからない → Ctrl + Shift + P →「Git Graph: View Git Graph」" data-tip-head="場所｜Git Graph">Git Graph のアイコン</span></p>
+          <div class="gh">
+            <div class="gh-bar">Git Graph</div>
+            <div class="gh-body" style="font-family: Consolas, Menlo, monospace; font-size: 13px; line-height: 2;">
+              ● 2026-11-20　新しい担当者向けに，VS Code の設定を追加<br>
+              ● 2026-09-08　Merge pull request #2 from KokiWakatsuki/sensor-1min<br>
+              │● 2026-09-08　<b style="background: var(--yellow-light);">センサーの送信間隔を10分から1分に変更</b><br>
+              ● 2026-03-02　低温の警告文に，確認する場所（暖房と換気窓）を追加<br>
+              ● 2025-02-03　ベリーウォッチを作成
+            </div>
+          </div>
+          <p class="hint">1行＝1回の変更の記録（<span data-tip="変更をまとめて記録したもの．日時・作者・説明つき" data-tip-head="用語｜コミット">コミット</span>）．下が古い</p>
+        </li>
+        <li>
+          <p>「センサーの送信間隔を10分から1分に変更」→ <code>sensor.py</code></p>
+<pre class="diff">
+@ sensor.py
+ SERVER_URL = "http://localhost:8000/api/readings"  # 送信先
+ HOUSE_IDS = [1, 2, 3, 4, 5, 6, 7, 8]               # 測定する棟
+-INTERVAL_SECONDS = 600                             # 送信間隔（秒）
++INTERVAL_SECONDS = 60                              # 送信間隔（秒）
+</pre>
+          <p class="hint">赤（-）が消した行，緑（+）が足した行</p>
+        </li>
+        <li>
+          <p>GitHub で，変更の理由を読む</p>
+          <p><a href="https://github.com/KokiWakatsuki/berry-watch/issues/1" target="_blank">Issue #1</a>（園主の要望の記録）<br>
+             <a href="https://github.com/KokiWakatsuki/berry-watch/pull/2" target="_blank">Pull request #2</a>（変更の提案と，取り込みの記録）</p>
+          <div class="terms">
+            <div class="term-row"><code>Issue</code><span>やること・困りごとの記録</span></div>
+            <div class="term-row"><code>Pull request</code><span>「この変更を取り込んで」という提案．<br>取り込むと Merged（紫）</span></div>
+          </div>
+        </li>
+      </ol>
+      <label class="note-label" for="history">いつ・誰の要望で・何を変えた？</label>
+      <textarea class="note" data-id="history" id="history" placeholder="例：〇年〇月，〇〇の要望で，……"></textarea>
+      <div class="check-row">
+        <p class="done">9月の変更の中身と理由を記入</p>
+        <label class="check"><input type="checkbox" data-step="5"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑥ 練習 ===== -->
+    <section class="card practice" id="step-6">
+      <div class="step-head">
+        <span class="step-num">6</span>
+        <h2>記録を数える</h2>
+      </div>
+      <p class="hint">入力は受け取り済み（readings に，辞書のリストで）．続きを書く</p>
+
+      <h3>問1　3号棟の記録の数</h3>
+      <p>記録のうち，house_id が 3 のものの数を出力</p>
+      <div class="io">
+        <div><b>入力例（1行目は記録の数．以降は「棟 温度」）</b><pre>4
+3 7.2
+4 9.1
+3 7.5
+1 10.0</pre></div>
+        <div><b>出力例</b><pre>2</pre></div>
+      </div>
+      <div class="judge" data-id="05-1">
+        <script type="text/plain" class="starter">n = int(input())
+readings = []
+for i in range(n):
+    house_id, temperature = input().split()
+    readings.append({"house_id": int(house_id), "temperature": float(temperature)})
+
+# ここから書く（readings の1件は {"house_id": 3, "temperature": 7.2} の形）
+</script>
+        <script type="application/json" class="tests">[
+          {"in": "4\n3 7.2\n4 9.1\n3 7.5\n1 10.0", "out": "2"},
+          {"in": "2\n1 9.0\n2 8.5", "out": "0"},
+          {"in": "5\n3 1.0\n3 2.0\n3 3.0\n3 4.0\n3 5.0", "out": "5"}
+        ]</script>
+      </div>
+      <details>
+        <summary>ヒント</summary>
+        <div class="detail-body"><p><code>for reading in readings:</code> で1件ずつ<br><code>reading["house_id"] == 3</code> なら数を増やす（<code>==</code> は「等しい」）</p></div>
+      </details>
+      <details>
+        <summary>解答例</summary>
+        <div class="detail-body">
+<div class="code"><span class="line">count = 0</span><span class="line"><span class="k">for</span> reading <span class="k">in</span> readings:</span><span class="line">    <span class="k">if</span> reading[<span class="s">"house_id"</span>] == 3:</span><span class="line">        count = count + 1</span><span class="line">print(count)</span></div>
+        </div>
+      </details>
+
+      <h3>問2　3号棟の最低（続き）</h3>
+      <p>3号棟の記録の中で，最低の温度を出力．3号棟の記録は必ず1件以上</p>
+      <div class="io">
+        <div><b>入力例</b><pre>4
+3 7.2
+4 6.1
+3 7.5
+1 10.0</pre></div>
+        <div><b>出力例</b><pre>7.2</pre></div>
+      </div>
+      <div class="judge" data-id="05-2">
+        <script type="text/plain" class="starter">n = int(input())
+readings = []
+for i in range(n):
+    house_id, temperature = input().split()
+    readings.append({"house_id": int(house_id), "temperature": float(temperature)})
+
+</script>
+        <script type="application/json" class="tests">[
+          {"in": "4\n3 7.2\n4 6.1\n3 7.5\n1 10.0", "out": "7.2"},
+          {"in": "3\n1 2.0\n3 9.9\n2 1.0", "out": "9.9"},
+          {"in": "4\n3 8.0\n3 8.5\n5 3.0\n3 7.9", "out": "7.9"}
+        ]</script>
+      </div>
+      <details>
+        <summary>ヒント</summary>
+        <div class="detail-body"><p>先に3号棟の温度だけのリストを作る → 先頭を仮の最低にして，for で比べる<br>リストへの追加は <code>リスト.append(値)</code></p></div>
+      </details>
+      <details>
+        <summary>解答例</summary>
+        <div class="detail-body">
+<div class="code"><span class="line">temperatures = []</span><span class="line"><span class="k">for</span> reading <span class="k">in</span> readings:</span><span class="line">    <span class="k">if</span> reading[<span class="s">"house_id"</span>] == 3:</span><span class="line">        temperatures.append(reading[<span class="s">"temperature"</span>])</span><span class="line">lowest = temperatures[0]</span><span class="line"><span class="k">for</span> t <span class="k">in</span> temperatures:</span><span class="line">    <span class="k">if</span> t &lt; lowest:</span><span class="line">        lowest = t</span><span class="line">print(lowest)</span></div>
+        </div>
+      </details>
+      <div class="check-row">
+        <p class="done">問1 が全問正解（問2 は続き）</p>
+        <label class="check"><input type="checkbox" data-step="6"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑦ 手応えメモ ===== -->
+    <section class="card" id="step-7">
+      <div class="step-head">
+        <span class="step-num">7</span>
+        <h2>手応えメモ</h2>
+      </div>
+      <p class="hint">このブラウザに保存．第11回で並べて振り返る</p>
+      <label class="note-label" for="memo-done">自分でできた所</label>
+      <textarea class="note" data-id="memo-done" id="memo-done"></textarea>
+      <label class="note-label" for="memo-help">手伝ってもらった所</label>
+      <textarea class="note" data-id="memo-help" id="memo-help"></textarea>
+      <label class="note-label" for="memo-again">もう一度やりたい所・もっと知りたい所</label>
+      <textarea class="note" data-id="memo-again" id="memo-again"></textarea>
+      <div class="check-row">
+        <p class="done">3つとも記入</p>
+        <label class="check"><input type="checkbox" data-step="7"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <section class="card finish" id="finish" hidden>
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="">
+      <span class="stamp">第5回 完了</span>
+      <h2>データと履歴を読めた</h2>
+      <ul class="goal">
+        <li>辞書と JSON</li>
+        <li>表・サーバー・画面の対応</li>
+        <li>コミット・Issue・Pull request</li>
+      </ul>
+      <p style="margin-top: 16px;">次回は，GitHub の準備と，園主からの相談</p>
+    </section>
+
+    <section class="card">
+      <h2>終了</h2>
+      <p class="closable">センサー → サーバーの順に，各ターミナルで Ctrl + C<br>入力待ち（$）に戻ったら，VS Code・ブラウザを閉じる</p>
+    </section>
+
+  </main>
+
+  <script src="../tip.js"></script>
+  <script src="../page.js"></script>
+  <script src="../lesson.js"></script>
+</body>
+</html>
