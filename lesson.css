@@ -319,3 +319,47 @@ textarea.note:focus { outline: none; border-color: var(--blue); }
 /* コンフリクトの画面の見本は大きく */
 .vsc.big { font-size: 14px; }
 .on-pic.label.blue-l { border-color: var(--blue); color: var(--blue); }
+
+/* 絵の大きさは枠（.overlay）に合わせる．.picture img の上限を外し，言葉の位置（%）と絵をそろえる */
+.overlay img { max-width: none; }
+/* 絵の上の言葉は，絵の幅に合わせて大きさを変える（360px のときに元の大きさ） */
+.overlay { container-type: inline-size; }
+.on-pic.label, .on-pic.cond { font-size: clamp(12px, 3.9cqw, 16px); }
+.on-pic.tag { font-size: clamp(12px, 4.2cqw, 17px); }
+.on-pic.tag.white { font-size: clamp(12px, 3.6cqw, 13px); }
+.on-pic.note-s { font-size: clamp(12px, 3.3cqw, 15px); }
+.on-pic.big { font-size: clamp(16px, 7.2cqw, 30px); }
+.on-pic.big.small { font-size: clamp(13px, 5cqw, 20px); }
+.on-pic.value { font-size: clamp(16px, 6.1cqw, 24px); }
+
+/* ===== PC の中の地図（回ごとに育てる．data-hl の場所だけ明るく） ===== */
+
+.m2 { display: grid; grid-template-columns: 1fr 150px; gap: 12px; align-items: start; margin: 8px 0 6px; font-size: 14px; line-height: 1.4; }
+.m2-pc, .m2-ub, .m2-folder, .m2-box, .m2-cloud, .m2-out { position: relative; border-radius: 12px; border: 2px solid; }
+.m2-pc { padding: 26px 10px 10px; border-color: var(--blue); background: #F3F7FF; }
+.m2-ub { margin-top: 10px; padding: 26px 10px 10px; border-color: var(--orange); background: #FFF6F1; }
+.m2-name { position: absolute; left: 10px; top: 4px; font-size: 12px; font-weight: bold; color: var(--gray); }
+.m2-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.m2-row:first-of-type { margin-top: 0; }
+.m2-item { display: inline-block; padding: 5px 10px; border-radius: 8px; background: var(--white); border: 1px solid var(--line); font-weight: bold; }
+.m2-folder { flex: 1 1 200px; padding: 8px 10px; border-color: var(--green); background: var(--white); }
+.m2-box { flex: 0 1 150px; padding: 8px 10px; border-color: #2496ED; border-style: dashed; background: #EEF7FE; }
+.m2-folder small, .m2-box small, .m2-cloud small, .m2-out small { display: block; color: var(--gray); font-size: 12px; font-weight: normal; }
+.m2-side { display: flex; flex-direction: column; gap: 10px; }
+.m2-cloud { display: flex; flex-direction: column; gap: 6px; padding: 10px; border-color: #24292F; background: #F6F8FA; border-radius: 28px; text-align: center; }
+.m2-out { padding: 8px 10px; border-color: #7A8B95; background: var(--white); text-align: center; }
+.m2-cap { margin: 0 0 4px; padding: 8px 14px; border-radius: 10px; background: var(--yellow-light); font-weight: bold; }
+/* 明るくする場所以外は薄く */
+.m2[data-hl] :is(.m2-item, .m2-folder, .m2-box, .m2-cloud, .m2-out) { opacity: 0.38; }
+.m2[data-hl~="vscode"] .k-vscode, .m2[data-hl~="browser"] .k-browser, .m2[data-hl~="folder"] .k-folder, .m2[data-hl~="db"] .k-db,
+.m2[data-hl~="git"] .k-git, .m2[data-hl~="docker"] .k-docker, .m2[data-hl~="term"] .k-term, .m2[data-hl~="sensor"] .k-sensor,
+.m2[data-hl~="github"] .k-github, .m2[data-hl~="public"] .k-public, .m2[data-hl~="team"] .k-team, .m2[data-hl~="mentor"] .k-mentor,
+.m2[data-hl~="phone"] .k-phone, .m2[data-hl~="all"] :is(.m2-item, .m2-folder, .m2-box, .m2-cloud, .m2-out) { opacity: 1; box-shadow: 0 0 0 3px rgba(255, 241, 0, 0.9); }
+/* 箱やフォルダの中の物を明るくするときは，入れ物も読めるように */
+.m2[data-hl~="db"] .k-folder, .m2[data-hl~="git"] .k-folder, .m2[data-hl~="public"] .k-github, .m2[data-hl~="team"] .k-github { opacity: 1; }
+@media (max-width: 720px) { .m2 { grid-template-columns: 1fr; } }
+/* 直す前と後の表示時間の帯 */
+.timebar { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+.timebar figure { display: grid; grid-template-columns: 5em 1fr; align-items: center; gap: 10px; margin: 0; }
+.timebar figcaption { font-weight: bold; text-align: right; }
+.timebar img { width: 100%; max-width: 450px; border: 1px solid var(--line); border-radius: 8px; }

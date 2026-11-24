@@ -58,7 +58,7 @@
       <div class="picture">
         <div class="overlay">
           <img src="../images/06/concept_github.jpg" alt="クラウドとノートPCの間を行き来する矢印">
-          <span class="on-pic tag" style="left:46%; top:38%;">berry-watch</span><span class="on-pic tag" style="left:18%; top:79%;">あなた</span><span class="on-pic tag" style="left:50%; top:79%;">仲間</span><span class="on-pic tag" style="left:82%; top:79%;">仲間</span>
+          <span class="on-pic tag" style="left:46%; top:38%; font-size:clamp(12px, 3.1cqw, 14px);">berry-watch</span><span class="on-pic tag" style="left:18%; top:79%;">あなた</span><span class="on-pic tag" style="left:50%; top:79%;">仲間</span><span class="on-pic tag" style="left:82%; top:79%;">仲間</span>
         </div>
         <div class="picture-labels"><span class="chip blue"><code>push</code>送る</span><span class="chip"><code>pull</code>受け取る</span></div>
       </div>
@@ -118,26 +118,26 @@
         <h2>チームのリポジトリに参加</h2>
         <span class="where vs">VS Code</span>
       </div>
-      <div class="pcmap">
-        <div class="pcmap-box win"><span class="pcmap-name">Windows</span>
-          <div class="pcmap-row">
-            <div class="pcmap-item">VS Code</div>
-            <div class="pcmap-item">ブラウザ</div>
-          </div>
-          <div class="pcmap-box wsl"><span class="pcmap-name">WSL2（Windows の機能）</span>
-            <div class="pcmap-box ub"><span class="pcmap-name">Ubuntu</span>
-              <div class="pcmap-row">
-                <div class="pcmap-item">git・python3・gh</div>
-                <div class="pcmap-item">docker<br><small>└ 箱：サーバー</small></div>
+      <div class="m2" data-hl="git public team">
+        <div class="m2-pc">
+          <span class="m2-name">自分の PC（Windows）</span>
+          <div class="m2-row"><span class="m2-item k-vscode">VS Code</span><span class="m2-item k-browser">ブラウザ</span></div>
+          <div class="m2-ub">
+            <span class="m2-name">Ubuntu（WSL2 で動く）</span>
+            <div class="m2-row">
+              <div class="m2-folder k-folder"><b>~/berry-watch</b><small>app.py・static/・sensor.py</small>
+                <div class="m2-row"><span class="m2-item k-db">data/house.db</span><span class="m2-item k-git">.git（履歴）</span></div>
               </div>
-              <div class="pcmap-item folder">~/berry-watch<br><small>app.py・sensor.py・data/・.git</small></div>
+              <div class="m2-box k-docker"><b>docker の箱</b><small>サーバー（app.py）<br>← フォルダを共有</small></div>
             </div>
+            <div class="m2-row"><span class="m2-item k-term">ターミナル</span><span class="m2-item k-sensor">センサーの代わり</span></div>
           </div>
         </div>
-        <div class="pcmap-link"><span class="pcmap-arrow"></span><small>push・pull</small></div>
-        <div class="pcmap-cloud">GitHub<br><small>チームのリポジトリ</small></div>
+        <div class="m2-side">
+          <div class="m2-cloud k-github"><b>GitHub</b><span class="m2-item k-public">手本（公開）</span><span class="m2-item k-team">チーム（非公開）</span></div>
+        </div>
       </div>
-      <p class="hint">手元の berry-watch の行き先（origin）を，チームの GitHub に変える</p>
+      <p class="m2-cap">手元の .git の行き先（origin）を，手本（公開）→ チーム（非公開）に変える</p>
       <ol class="actions" style="--step: '3'">
         <li><p><a data-team href="https://github.com/{team}/invitations" target="_blank">招待のページ</a> → Accept invitation</p></li>
         <li><p>Ubuntu で <code>cd ~/berry-watch && code .</code> → VS Code のターミナル</p></li>

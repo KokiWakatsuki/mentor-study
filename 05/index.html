@@ -145,6 +145,30 @@
       </div>
     </section>
 
+    <section class="card">
+      <h2>PC の中の地図</h2>
+      <div class="m2" data-hl="db git public">
+        <div class="m2-pc">
+          <span class="m2-name">自分の PC（Windows）</span>
+          <div class="m2-row"><span class="m2-item k-vscode">VS Code</span><span class="m2-item k-browser">ブラウザ</span></div>
+          <div class="m2-ub">
+            <span class="m2-name">Ubuntu（WSL2 で動く）</span>
+            <div class="m2-row">
+              <div class="m2-folder k-folder"><b>~/berry-watch</b><small>app.py・static/・sensor.py</small>
+                <div class="m2-row"><span class="m2-item k-db">data/house.db</span><span class="m2-item k-git">.git（履歴）</span></div>
+              </div>
+              <div class="m2-box k-docker"><b>docker の箱</b><small>サーバー（app.py）<br>← フォルダを共有</small></div>
+            </div>
+            <div class="m2-row"><span class="m2-item k-term">ターミナル</span><span class="m2-item k-sensor">センサーの代わり</span></div>
+          </div>
+        </div>
+        <div class="m2-side">
+          <div class="m2-cloud k-github"><b>GitHub</b><span class="m2-item k-public">手本（公開）</span></div>
+        </div>
+      </div>
+      <p class="m2-cap">今日見る3か所：箱の中のサーバーが書く house.db／手元の履歴 .git／GitHub の手本の Issue・PR</p>
+    </section>
+
     <section class="card" id="step-3">
       <div class="step-head">
         <span class="step-num">3</span>
@@ -183,9 +207,13 @@
         <span class="where br">ブラウザ</span>
       </div>
       <p><a href="http://localhost:8000/api/houses/3/today" target="_blank">localhost:8000/api/houses/3/today</a> を開く</p>
-      <div class="picture"><img src="../images/05/json.jpg" alt="サーバーの返事（JSON）" style="max-width:100%; border:1px solid var(--line); border-radius:10px;"></div>
-      <div class="picture-labels">
-        <span class="chip"><code>temperature</code>大きな温度</span><span class="chip"><code>max</code>本日最高</span><span class="chip"><code>min</code>本日最低</span>
+      <p class="hint">1行で出たら，上の「プリティプリント」（整形）にチェック</p>
+      <div class="pair">
+<div class="code"><span class="line">{</span><span class="line">  <span class="s">"house_id"</span>: 3,</span><span class="line">  <span class="s">"has_data"</span>: true,</span><span class="line">  <span class="s">"measured_at"</span>: <span class="s">"… 21:12"</span>,</span><span class="line is-mark">  <span class="s">"temperature"</span>: 10.4,</span><span class="line">  <span class="s">"humidity"</span>: 76.1,</span><span class="line is-mark">  <span class="s">"max"</span>: 10.9,</span><span class="line is-mark">  <span class="s">"min"</span>: 9.6,</span><span class="line">  <span class="s">"is_cold"</span>: false</span><span class="line">}</span></div>
+        <div class="flow" style="flex-direction:column; align-items:stretch; margin:0;">
+          <div class="flow-box"><small>temperature</small><b>大きな温度</b></div>
+          <div class="flow-box"><small>max ／ min</small><b>本日最高・最低</b></div>
+        </div>
       </div>
       <p class="hint" style="margin-top:10px;">画面が裏で受け取る封筒の中身．形は辞書と同じ（<span data-tip="サーバーと画面の間で，辞書の形のデータを送る書き方" data-tip-head="用語｜JSON">JSON</span>）</p>
       <div class="predict">
@@ -209,7 +237,7 @@
       <div class="picture">
         <div class="overlay wide">
           <img src="../images/05/concept_history.jpg" alt="変更の写真が並ぶ時間の線">
-          <span class="on-pic note-s" style="left:12%; top:46%;">25/02<br>作成</span><span class="on-pic note-s" style="left:31%; top:46%;">26/03<br>警告文</span><span class="on-pic note-s red" style="left:50%; top:46%;">26/09<br>10分<br>→1分</span><span class="on-pic note-s" style="left:69%; top:46%;">26/09<br>取り込み</span><span class="on-pic note-s" style="left:88%; top:46%;">26/11<br>設定</span>
+          <span class="on-pic note-s" style="left:12%; top:42%;">25/02<br>作成</span><span class="on-pic note-s" style="left:31%; top:42%;">26/03<br>警告文</span><span class="on-pic note-s red" style="left:50%; top:42%;">26/09<br>10分<br>→1分</span><span class="on-pic note-s" style="left:69%; top:42%;">26/09<br>取り込み</span><span class="on-pic note-s" style="left:88%; top:42%;">26/11<br>設定</span>
         </div>
       </div>
       <ol class="actions" style="--step: '5'">

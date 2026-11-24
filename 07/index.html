@@ -124,6 +124,26 @@
       <p class="hint">ターミナルの「＋」→ 3つ目</p>
       <div class="cmd"><code data-tip="動いているサーバーの箱の中で，試験データを作成">docker compose exec app python sample_data.py</code><button class="copy">コピー</button></div>
       <span class="wait"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5V8l2.5 1.5"/></svg>1分ほど →「完了：記録は全部で 1,457,312件」</span>
+      <div class="m2" data-hl="docker db">
+        <div class="m2-pc">
+          <span class="m2-name">自分の PC（Windows）</span>
+          <div class="m2-row"><span class="m2-item k-vscode">VS Code</span><span class="m2-item k-browser">ブラウザ</span></div>
+          <div class="m2-ub">
+            <span class="m2-name">Ubuntu（WSL2 で動く）</span>
+            <div class="m2-row">
+              <div class="m2-folder k-folder"><b>~/berry-watch</b><small>app.py・static/・sensor.py</small>
+                <div class="m2-row"><span class="m2-item k-db">data/house.db</span><span class="m2-item k-git">.git（履歴）</span></div>
+              </div>
+              <div class="m2-box k-docker"><b>docker の箱</b><small>サーバー（app.py）<br>← フォルダを共有</small></div>
+            </div>
+            <div class="m2-row"><span class="m2-item k-term">ターミナル</span><span class="m2-item k-sensor">センサーの代わり</span></div>
+          </div>
+        </div>
+        <div class="m2-side">
+          <div class="m2-cloud k-github"><b>GitHub</b><span class="m2-item k-public">手本（公開）</span><span class="m2-item k-team">チーム（非公開）</span></div>
+        </div>
+      </div>
+      <p class="m2-cap">exec＝動いている箱の中で実行．作った記録は house.db へ</p>
       <p style="margin-top:12px;">「更新」を3回 → 表示時間</p>
       <textarea class="note" data-id="before" id="before" style="min-height:50px;" placeholder="例：3.2秒，3.0秒，3.1秒"></textarea>
 
@@ -142,7 +162,7 @@
       <div class="picture">
         <div class="overlay wide">
           <img src="../images/07/concept_requests.jpg" alt="スマホからサーバーへ8通の封筒が順番に">
-          <span class="on-pic label red" style="left:50%; top:33%;">1棟ずつ8回の問い合わせ</span><span class="on-pic note-s" style="left:7%; top:63%;">一覧</span><span class="on-pic note-s" style="left:89%; top:67%;">サーバー</span>
+          <span class="on-pic label red" style="left:50%; top:16%;">1棟ずつ8回の問い合わせ</span><span class="on-pic note-s" style="left:7%; top:84%;">一覧</span><span class="on-pic note-s" style="left:89%; top:92%;">サーバー</span>
         </div>
       </div>
       <ol class="actions" style="--step: '3'">
@@ -197,7 +217,7 @@
       <div class="picture">
         <div class="overlay">
           <img src="../images/07/concept_diary.jpg" alt="分厚い日記を最初からめくるいちご">
-          <span class="on-pic label" style="left:68%; top:92%;">1年分の記録（1棟 約18万件）</span>
+          <span class="on-pic label" style="left:34%; top:8%;">1年分の記録（1棟 約18万件）</span>
         </div>
       </div>
       <p class="lead">今日の分を探すのに，1年分（約18万件）を毎回全部読む</p>

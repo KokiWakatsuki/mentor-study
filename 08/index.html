@@ -148,7 +148,7 @@
       <div class="picture">
         <div class="overlay wide">
           <img src="../images/08/concept_branch.jpg" alt="本道から分かれて，また合流するわき道">
-          <span class="on-pic label" style="left:16%; top:76%;">main（本道）</span><span class="on-pic label" style="left:40%; top:25%;">わき道（ブランチ）</span><span class="on-pic label blue-l" style="left:74%; top:36%;">PR＝合流のお願い</span><span class="on-pic label" style="left:78%; top:76%;">Merge＝採用して合流</span>
+          <span class="on-pic label" style="left:19%; top:92%;">main（本道）</span><span class="on-pic label" style="left:40%; top:8%;">わき道（ブランチ）</span><span class="on-pic label blue-l" style="left:76%; top:27%;">PR＝合流のお願い</span><span class="on-pic label" style="left:75%; top:92%;">Merge＝採用して合流</span>
         </div>
       </div>
       <p class="hint">わき道で直して確かめる → PR でお願い → 採用（Merge）で本道に合流</p>
@@ -273,7 +273,7 @@
       <div class="picture">
         <div class="overlay">
           <img src="../images/08/concept_index.jpg" alt="索引の付箋で目的のページへ直行する本">
-          <span class="on-pic label" style="left:47%; top:66%;">3号棟・今日</span>
+          <span class="on-pic label blue-l" style="left:40%; top:96%;">青い付箋＝3号棟・今日</span>
         </div>
       </div>
       <div class="picture-labels" style="margin:0 0 10px;"><span class="chip">今日だけ読む＝読む量を減らす</span><span class="chip blue">索引＝読む場所をすぐ探す</span></div>
@@ -314,10 +314,11 @@ CREATE INDEX IF NOT EXISTS readings_house_time ON readings (house_id, measured_a
       <ol class="actions" style="--step: '7'">
         <li style="counter-set: action 1;"><p>「更新」を3回 → 表示時間．3号棟の値も</p></li>
       </ol>
-      <div class="compare">
-        <figure><img src="../images/08/list_fast.jpg" alt="直した後の一覧"><figcaption>表示時間<small>「更新」の右</small></figcaption></figure>
-        <figure><img src="../images/08/card3_after.jpg" alt="直した後の3号棟のカード"><figcaption>3号棟<small>直す前と比べる</small></figcaption></figure>
+      <div class="timebar">
+        <figure><figcaption>直す前</figcaption><img src="../images/08/time_before.jpg" alt="表示時間 1.84 秒"></figure>
+        <figure><figcaption>直した後</figcaption><img src="../images/08/time_after.jpg" alt="表示時間 0.06 秒"></figure>
       </div>
+      <p class="hint">先輩の Mac での例．3号棟の温度・最高・最低は，直す前と同じかも確認</p>
       <textarea class="note" data-id="after" id="after" style="min-height:60px; margin-top:12px;" placeholder="表示時間：〇秒，〇秒，〇秒&#10;3号棟：直す前と同じ／違う"></textarea>
       <details>
         <summary>豆知識｜付箋だけでは速くならない</summary>
@@ -383,6 +384,28 @@ Closes #1</code><button class="copy">コピー</button></div>
         <li><div class="cmd"><code data-tip="main に移動し，採用された変更を受け取る">git switch main && git pull</code><button class="copy">コピー</button></div></li>
         <li><div class="wait-mentor">本番に反映．URL が届いたらスマホで</div></li>
       </ol>
+      <div class="m2" data-hl="git team mentor phone">
+        <div class="m2-pc">
+          <span class="m2-name">自分の PC（Windows）</span>
+          <div class="m2-row"><span class="m2-item k-vscode">VS Code</span><span class="m2-item k-browser">ブラウザ</span></div>
+          <div class="m2-ub">
+            <span class="m2-name">Ubuntu（WSL2 で動く）</span>
+            <div class="m2-row">
+              <div class="m2-folder k-folder"><b>~/berry-watch</b><small>app.py・static/・sensor.py</small>
+                <div class="m2-row"><span class="m2-item k-db">data/house.db</span><span class="m2-item k-git">.git（履歴）</span></div>
+              </div>
+              <div class="m2-box k-docker"><b>docker の箱</b><small>サーバー（app.py）<br>← フォルダを共有</small></div>
+            </div>
+            <div class="m2-row"><span class="m2-item k-term">ターミナル</span><span class="m2-item k-sensor">センサーの代わり</span></div>
+          </div>
+        </div>
+        <div class="m2-side">
+          <div class="m2-cloud k-github"><b>GitHub</b><span class="m2-item k-public">手本（公開）</span><span class="m2-item k-team">チーム（非公開）</span></div>
+        <div class="m2-out k-mentor">メンターの PC<small>本番</small></div>
+        <div class="m2-out k-phone">スマホ<small>園主の画面</small></div>
+        </div>
+      </div>
+      <p class="m2-cap">push で GitHub へ → メンターが本番に反映 → スマホで確認．push だけでは本番は変わらない</p>
     <aside class="memo person">
       <img src="../images/people/owner_happy.jpg" alt="">
       <div><b>園主｜届いた</b><p>朝の一覧が，すぐ出るようになった！</p></div>
