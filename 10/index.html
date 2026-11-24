@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>第10回 レビューと再納品 | メンター勉強会</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../lesson.css">
+</head>
+<body data-lesson="10">
+  <header class="topbar">
+    <a class="brand" href="../">メンター勉強会</a>
+  </header>
+
+  <section class="hero">
+    <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="ひだまり農園のビニールハウス">
+    <div class="hero-text">
+      <h1>第10回　レビューと再納品</h1>
+      <p>確かめ合って，園主に届け直す</p>
+    </div>
+  </section>
+
+  <nav class="progress" aria-label="進捗">
+    <div class="progress-groups">
+      <div class="progress-group"><span>準備</span>
+        <div class="progress-dots"><button class="dot" data-step="1">1</button></div>
+      </div>
+      <div class="progress-group"><span>確かめる</span>
+        <div class="progress-dots"><button class="dot" data-step="2">2</button><button class="dot" data-step="3">3</button></div>
+      </div>
+      <div class="progress-group"><span>重なり</span>
+        <div class="progress-dots"><button class="dot" data-step="4">4</button><button class="dot" data-step="5">5</button></div>
+      </div>
+      <div class="progress-group"><span>届ける</span>
+        <div class="progress-dots"><button class="dot" data-step="6">6</button><button class="dot" data-step="7">7</button></div>
+      </div>
+      <div class="progress-group"><span>書く</span>
+        <div class="progress-dots"><button class="dot" data-step="8">8</button><button class="dot" data-step="9">9</button></div>
+      </div>
+    </div>
+    <div class="progress-count" id="progress-count"></div>
+  </nav>
+
+  <main class="page">
+
+    <section class="card">
+      <h2>今回の目標</h2>
+      <ul class="goal">
+        <li>仲間の Pull request をレビュー</li>
+        <li>同じ行の変更の重なり（コンフリクト）を解消</li>
+        <li>戻し方を決めて，再納品</li>
+      </ul>
+    </section>
+
+    <aside class="memo">
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/strawberry.jpg" alt="">
+      <div><b>先輩メモ｜納める前に</b><p>自分以外の目で確かめる．<br>園主と同じ画面で確かめる．戻し方も決めておく．</p></div>
+    </aside>
+
+    <!-- ===== ① 起動 ===== -->
+    <section class="card" id="step-1">
+      <div class="step-head">
+        <span class="step-num">1</span>
+        <h2>アプリの起動</h2>
+        <span class="where ub">Ubuntu</span>
+      </div>
+      <p class="hint">今回から，サーバーとセンサーは VS Code の中のターミナルで実行<br>画面が1つで済む</p>
+      <ol class="actions" style="--step: '1'">
+        <li>
+          <p>VS Code でアプリを開く</p>
+          <p class="hint">Windows キー →「ubuntu」→ Enter</p>
+          <div class="cmd"><code data-tip="アプリのフォルダに移動し，VS Code で開く">cd ~/berry-watch && code .</code><button class="copy">コピー</button></div>
+          <p class="hint">VS Code が開いたら，Ubuntu の画面は終了可</p>
+        </li>
+        <li>
+          <p>サーバーの起動<span class="where vs" style="margin-left:6px;">VS Code</span></p>
+          <p class="hint">上部のメニュー「ターミナル」→「新しいターミナル」<br>→ 下に開いた画面に貼り付け（Ctrl + V）→ Enter</p>
+          <div class="cmd"><code data-tip="アプリを起動">docker compose up</code><button class="copy">コピー</button></div>
+          <p class="hint"><code>Application startup complete.</code> → 起動完了</p>
+        </li>
+        <li>
+          <p>センサーの代わりを実行<span class="where vs" style="margin-left:6px;">VS Code</span></p>
+          <p class="hint">ターミナルの右上の「＋」→ 2つ目のターミナル</p>
+          <div class="cmd"><code data-tip="センサーの代わりを起動">python3 sensor.py</code><button class="copy">コピー</button></div>
+          <p class="hint">ターミナルの切り替え：右側の一覧（bash が2つ）</p>
+        </li>
+        <li>
+          <p>ブラウザで <a href="http://localhost:8000" target="_blank">http://localhost:8000</a></p>
+        </li>
+      </ol>
+      <details>
+        <summary>うまくいかないとき</summary>
+        <div class="detail-body">
+          <p><b>No such file or directory</b><br>→ アプリが未取得．第2回の「アプリの取得」から</p>
+          <p><b>左下に「WSL: Ubuntu」が出ない</b><br>→ VS Code を閉じて，1-1 をもう一度</p>
+          <p><b>permission denied</b>（docker）<br>→ メンターと確認</p>
+        </div>
+      </details>
+      <div class="check-row">
+        <p class="done">8棟の温度の表示<br>VS Code にファイル一覧</p>
+        <label class="check"><input type="checkbox" data-step="1"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ② レビュー ===== -->
+    <section class="card" id="step-2">
+      <div class="step-head">
+        <span class="step-num">2</span>
+        <h2>仲間の Pull request をレビュー</h2>
+        <span class="where gh-where">GitHub</span>
+      </div>
+      <p class="hint">担当：メンターが決めた相手の1つ（自分のものは見ない）</p>
+      <ol class="actions" style="--step: '2'">
+        <li>
+          <p><a data-team href="https://github.com/{team}/pulls" target="_blank">github.com/{team}/pulls</a> → 担当の Pull request → Files changed</p>
+        </li>
+        <li>
+          <p>差分の中で，3つを確認</p>
+          <ul>
+            <li>数える条件の行 <code>if row["temperature"] … COLD_LIMIT:</code> を発見</li>
+            <li>記号が <code>&lt;</code>（7.9℃ は数える・8.0℃ は数えない）</li>
+            <li>ほかに，説明のない変更がない</li>
+          </ul>
+          <p class="hint">判断できない → コメントで質問（例：「この行は何のための変更ですか？」）</p>
+        </li>
+        <li>
+          <p>右上の「Review changes」→ 下の型で書く →「Approve」→「Submit review」</p>
+          <div class="cmd block"><code>確認したこと：
+- 数える条件が「8℃ 未満」（&lt;）
+-
+
+気になった所：
+- なし</code><button class="copy">コピー</button></div>
+        </li>
+      </ol>
+      <div class="gh">
+        <div class="gh-tabs"><span>Conversation</span><span>Commits</span><span class="on">Files changed</span></div>
+        <div class="gh-body" style="text-align:right;"><span class="gh-btn primary is-target">Review changes ▾</span></div>
+      </div>
+      <div class="check-row">
+        <p class="done">担当の Pull request に Approve</p>
+        <label class="check"><input type="checkbox" data-step="2"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ③ ステージング ===== -->
+    <section class="card" id="step-3">
+      <div class="step-head">
+        <span class="step-num">3</span>
+        <h2>ステージングで確認</h2>
+        <span class="where br">スマホ</span>
+      </div>
+      <div class="terms">
+        <div class="term-row"><code><span data-tip="本番と同じ形の，確認用の環境．園主には見えない" data-tip-head="用語｜ステージング">ステージング</span></code><span>本番と同じ形の確認用．園主には見えない</span></div>
+        <div class="term-row"><code>本番</code><span>園主が毎晩見ている環境</span></div>
+      </div>
+      <ol class="actions" style="--step: '3'">
+        <li><div class="wait-mentor">採用候補をステージングに反映．URL が届いたら <span style="white-space:nowrap">3-2 へ</span></div></li>
+        <li><p>届いた URL をスマホで開き，園主の操作をなぞる</p>
+          <p class="hint">一覧を開く → 3号棟のカードの「低温の回数」→ 更新 → 棟の画面</p></li>
+      </ol>
+      <label class="note-label" for="staging">園主の目で気づいたこと</label>
+      <textarea class="note" data-id="staging" id="staging" style="min-height:70px;" placeholder="例：回数は見やすい．ただ……"></textarea>
+      <div class="check-row">
+        <p class="done">スマホで「低温の回数」を確認</p>
+        <label class="check"><input type="checkbox" data-step="3"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ④ コンフリクトの理由 ===== -->
+    <section class="card" id="step-4">
+      <div class="step-head">
+        <span class="step-num">4</span>
+        <h2>同じ行を，2人が変えたら</h2>
+      </div>
+      <p>園主から，警告文について2つの要望．先輩と自分で分担した</p>
+      <div class="terms">
+        <div class="term-row"><code>元の文</code><span>…暖房と換気窓を確認してください．</span></div>
+        <div class="term-row"><code>先輩（扉も）</code><span>…暖房・換気窓・扉を確認してください．</span></div>
+        <div class="term-row"><code>自分（すぐに）</code><span>…暖房と換気窓をすぐに確認してください．</span></div>
+      </div>
+      <div class="predict">
+        <p class="predict-q">先輩の変更が main に入った後，自分の枝に main を取り込むと？</p>
+        <div class="predict-options">
+          <button type="button">先輩の文になる</button>
+          <button type="button">自分の文のまま</button>
+          <button type="button" data-right>自動では取り込めず，人が直す</button>
+        </div>
+        <div class="predict-answer" hidden><b>自動では取り込めず，人が直す</b>　同じ行が別々に変わり，どちらを残すか Git には決められない<br>これが<span data-tip="同じ場所の変更が重なり，自動で取り込めない状態" data-tip-head="用語｜コンフリクト">コンフリクト</span>．失敗ではなく，相談の合図</div>
+      </div>
+      <p>正解は「両方の意図を満たす1行」<br>…暖房・換気窓・扉を<b>すぐに</b>確認してください．</p>
+      <div class="check-row">
+        <p class="done">起きる理由と，目指す1行を確認</p>
+        <label class="check"><input type="checkbox" data-step="4"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑤ コンフリクトの解消 ===== -->
+    <section class="card" id="step-5">
+      <div class="step-head">
+        <span class="step-num">5</span>
+        <h2>コンフリクトの解消</h2>
+        <span class="where vs">VS Code</span>
+      </div>
+      <ol class="actions" style="--step: '5'">
+        <li>
+          <p>main から自分の枝を作る</p>
+          <div class="cmd"><code data-tip="main を最新にし，「alert-ユーザー名」の枝を作って移動">git switch main && git pull && git switch -c "alert-$(git config user.name)"</code><button class="copy">コピー</button></div>
+        </li>
+        <li>
+          <p><code>static/list.js</code> で「確認してください」→「すぐに確認してください」→ Ctrl + S</p>
+          <p class="hint">Ctrl + F →「確認してください」</p>
+        </li>
+        <li>
+          <p>記録</p>
+          <div class="cmd"><code data-tip="変更を記録">git commit -am "低温の警告文を「すぐに確認」に変更"</code><button class="copy">コピー</button></div>
+        </li>
+        <li>
+          <div class="wait-mentor">先輩の変更を main に取り込み中．合図が出たら <span style="white-space:nowrap">5-5 へ</span></div>
+        </li>
+        <li>
+          <p>main の最新を，自分の枝に取り込む</p>
+          <div class="cmd"><code data-tip="チームの最新を取得し，main の変更を今の枝に取り込む">git fetch && git merge origin/main</code><button class="copy">コピー</button></div>
+          <p class="hint"><code>CONFLICT (content): Merge conflict in static/list.js</code> → 予定どおり</p>
+        </li>
+        <li>
+          <p><code>static/list.js</code> を開く → 重なった所（色付きの5行）</p>
+          <div class="vsc">
+            <div class="vsc-bar">static/list.js</div>
+            <div class="vsc-editor">
+              <span class="cl" style="display:block;">現在の変更を採用 | 入力側の変更を採用 | 両方の変更を採用 | 変更の比較</span>
+              <span class="cur">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD (現在の変更)</span>
+              <span class="cur">  alertBar.textContent = `… 暖房と換気窓をすぐに確認してください．`;</span>
+              <span style="display:block;">=======</span>
+              <span class="inc">  alertBar.textContent = `… 暖房・換気窓・扉を確認してください．`;</span>
+              <span class="inc">&gt;&gt;&gt;&gt;&gt;&gt;&gt; origin/main (入力側の変更)</span>
+            </div>
+          </div>
+          <div class="terms">
+            <div class="term-row"><code>緑（現在の変更）</code><span>自分の枝の文．「すぐに」</span></div>
+            <div class="term-row"><code>青（入力側の変更）</code><span>main の文．先輩の「扉」</span></div>
+            <div class="term-row"><code>&lt;&lt;&lt; === &gt;&gt;&gt;</code><span>Git が付けた区切りの印．最後は全部消す</span></div>
+          </div>
+        </li>
+        <li>
+          <p><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> の行の先頭から，<code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> の行の末尾までをドラッグで選択 → 貼り付け → Ctrl + S</p>
+          <div class="cmd"><code>  alertBar.textContent = `${coldHouseNames.join("・")} が ${coldLimit}℃ を下回っています．暖房・換気窓・扉をすぐに確認してください．`;</code><button class="copy">コピー</button></div>
+          <div class="before-after">
+            <span class="ba-label is-after">後</span><div class="code"><span class="line" style="white-space:pre-wrap;">  alertBar.textContent = `${coldHouseNames.join("・")} が ${coldLimit}℃ を下回っています．暖房・換気窓・<span class="hl">扉</span>を<span class="hl">すぐに</span>確認してください．`;</span></div>
+          </div>
+          <p class="hint">5行が1行に．上に出る「現在の変更を採用」などのボタンは使わない</p>
+        </li>
+        <li>
+          <p>解消を記録して送信</p>
+          <div class="cmd"><code data-tip="解消した結果を記録し，チームのリポジトリに送る">git commit -am "警告文の変更（扉・すぐに）を統合" && git push -u origin HEAD</code><button class="copy">コピー</button></div>
+          <p class="hint">→ GitHub の「Compare &amp; pull request」→ Create<br>（警告文の変更も，メンターが1つを採用）</p>
+        </li>
+      </ol>
+      <details>
+        <summary>うまくいかないとき</summary>
+        <div class="detail-body">
+          <p><b>CONFLICT が出ない（Already up to date）</b><br>→ 先輩の変更がまだ main にない．メンターと確認</p>
+          <p><b>途中で分からなくなった</b><br>→ 次で取り込む前に戻る → 5-5 から</p>
+          <div class="cmd"><code data-tip="取り込みを中止し，取り込む前の状態に戻す">git merge --abort</code><button class="copy">コピー</button></div>
+        </div>
+      </details>
+      <div class="check-row">
+        <p class="done">印 <code>&lt;&lt;&lt;</code>・<code>===</code>・<code>&gt;&gt;&gt;</code> がすべて消えた<br>警告文が「…扉をすぐに確認してください．」<br>（3号棟に 7.9℃ を送ると表示）</p>
+        <label class="check"><input type="checkbox" data-step="5"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑥ 戻し方 ===== -->
+    <section class="card" id="step-6">
+      <div class="step-head">
+        <span class="step-num">6</span>
+        <h2>戻し方を決める</h2>
+      </div>
+      <p>本番で問題が出たら，まず元に戻す．原因の調査はその後</p>
+      <ol class="actions" style="--step: '6'">
+        <li><p><b>開発チーム</b>　取り込んだ Pull request の下の「Revert」→「Create pull request」</p><p class="hint">「元に戻す変更」の Pull request ができる</p></li>
+        <li><p><b>開発チーム</b>　その Pull request を Merge → 本番に反映</p></li>
+        <li><p><b>確認</b>　スマホで本番を開き，カードから「低温の回数」が消えたこと</p></li>
+        <li><p><b>連絡</b>　園主に「戻した」と伝える → 原因を調べ，直してから出し直す</p></li>
+      </ol>
+      <div class="gh">
+        <div class="gh-body"><span class="gh-state merged">Merged</span>　…merged commit into main<span style="float:right;"><span class="gh-btn is-target">Revert</span></span></div>
+      </div>
+      <div class="predict">
+        <p class="predict-q">Revert すると，データベースの記録も消える？</p>
+        <div class="predict-options">
+          <button type="button">消える</button>
+          <button type="button" data-right>消えない</button>
+        </div>
+        <div class="predict-answer" hidden><b>消えない</b>　戻るのはコードだけ<br>データ・索引・本番で動いている版は，別に確認</div>
+      </div>
+      <label class="note-label" for="rollback">今回の変更で，戻す必要が出るのはどんなとき？</label>
+      <textarea class="note" data-id="rollback" id="rollback" style="min-height:60px;" placeholder="例：回数の表示で，一覧の表示が崩れたとき"></textarea>
+      <div class="check-row">
+        <p class="done">戻す手順と，戻す場面を記入</p>
+        <label class="check"><input type="checkbox" data-step="6"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑦ 再納品 ===== -->
+    <section class="card" id="step-7">
+      <div class="step-head">
+        <span class="step-num">7</span>
+        <h2>再納品</h2>
+      </div>
+      <ol class="actions" style="--step: '7'">
+        <li><div class="wait-mentor">採用する Pull request を取り込み，本番に反映．合図が出たら <span style="white-space:nowrap">7-2 へ</span></div></li>
+        <li><p>スマホで本番を確認</p></li>
+      </ol>
+      <label class="note-label" for="mail">園主への連絡（何を・いつ・確かめたこと・困ったときの連絡先）</label>
+      <textarea class="note" data-id="mail" id="mail" style="min-height:120px;" placeholder="変えたこと：&#10;確認したこと：&#10;困ったときの連絡先："></textarea>
+      <div class="check-row">
+        <p class="done">本番で「低温の回数」と新しい警告文<br>連絡を記入</p>
+        <label class="check"><input type="checkbox" data-step="7"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑧ 練習 ===== -->
+    <section class="card practice" id="step-8">
+      <div class="step-head">
+        <span class="step-num">8</span>
+        <h2>解き直し</h2>
+      </div>
+      <p class="hint">これまでの型．解けなかった型から</p>
+
+      <h3>問1　判定の型</h3>
+      <p>湿度を受け取り，90.0 以上なら <code>多湿</code>，それ以外は <code>適正</code></p>
+      <div class="io">
+        <div><b>入力例</b><pre>92.5</pre></div>
+        <div><b>出力例</b><pre>多湿</pre></div>
+      </div>
+      <div class="judge" data-id="10-1">
+        <script type="text/plain" class="starter">humidity = float(input())
+
+</script>
+        <script type="application/json" class="tests">[
+          {"in": "92.5", "out": "多湿"},
+          {"in": "90.0", "out": "多湿"},
+          {"in": "89.9", "out": "適正"}
+        ]</script>
+      </div>
+      <details>
+        <summary>解答例</summary>
+        <div class="detail-body">
+<div class="code"><span class="line">humidity = float(input())</span><span class="line"><span class="k">if</span> humidity &gt;= 90.0:</span><span class="line">    print(<span class="s">"多湿"</span>)</span><span class="line"><span class="k">else</span>:</span><span class="line">    print(<span class="s">"適正"</span>)</span></div>
+        </div>
+      </details>
+
+      <h3>問2　リストと for の型</h3>
+      <p>温度のリストの平均を，小数第1位まで出力（<code>sum</code> は使わない）</p>
+      <div class="io">
+        <div><b>入力例</b><pre>3
+9.0
+7.0
+11.0</pre></div>
+        <div><b>出力例</b><pre>9.0</pre></div>
+      </div>
+      <div class="judge" data-id="10-2">
+        <script type="text/plain" class="starter">n = int(input())
+temperatures = []
+for i in range(n):
+    temperatures.append(float(input()))
+
+# 小数第1位までの出力：print(round(値, 1))
+</script>
+        <script type="application/json" class="tests">[
+          {"in": "3\n9.0\n7.0\n11.0", "out": "9.0"},
+          {"in": "2\n8.0\n9.5", "out": "8.8"},
+          {"in": "1\n-2.0", "out": "-2.0"}
+        ]</script>
+      </div>
+      <details>
+        <summary>解答例</summary>
+        <div class="detail-body">
+<div class="code"><span class="line">total = 0</span><span class="line"><span class="k">for</span> t <span class="k">in</span> temperatures:</span><span class="line">    total = total + t</span><span class="line">print(round(total / n, 1))</span></div>
+        </div>
+      </details>
+
+      <h3>問3　辞書の型</h3>
+      <p>記録の数を，棟の番号の小さい順に「棟 件数」で出力（記録のある棟だけ）</p>
+      <div class="io">
+        <div><b>入力例</b><pre>4
+3 7.2
+1 9.1
+3 7.5
+1 10.0</pre></div>
+        <div><b>出力例</b><pre>1 2
+3 2</pre></div>
+      </div>
+      <div class="judge" data-id="10-3">
+        <script type="text/plain" class="starter">n = int(input())
+readings = []
+for i in range(n):
+    house_id, temperature = input().split()
+    readings.append({"house_id": int(house_id), "temperature": float(temperature)})
+
+</script>
+        <script type="application/json" class="tests">[
+          {"in": "4\n3 7.2\n1 9.1\n3 7.5\n1 10.0", "out": "1 2\n3 2"},
+          {"in": "3\n8 1.0\n2 2.0\n8 3.0", "out": "2 1\n8 2"},
+          {"in": "1\n5 9.9", "out": "5 1"}
+        ]</script>
+      </div>
+      <details>
+        <summary>ヒント</summary>
+        <div class="detail-body"><p>辞書で数える：<code>counts = {}</code>．棟の番号を名前に<br>名前があるかは <code>house_id in counts</code>．小さい順は <code>sorted(counts)</code></p></div>
+      </details>
+      <details>
+        <summary>解答例</summary>
+        <div class="detail-body">
+<div class="code"><span class="line">counts = {}</span><span class="line"><span class="k">for</span> reading <span class="k">in</span> readings:</span><span class="line">    house_id = reading[<span class="s">"house_id"</span>]</span><span class="line">    <span class="k">if</span> house_id <span class="k">in</span> counts:</span><span class="line">        counts[house_id] = counts[house_id] + 1</span><span class="line">    <span class="k">else</span>:</span><span class="line">        counts[house_id] = 1</span><span class="line"><span class="k">for</span> house_id <span class="k">in</span> sorted(counts):</span><span class="line">    print(house_id, counts[house_id])</span></div>
+        </div>
+      </details>
+      <div class="check-row">
+        <p class="done">どれか1問が全問正解</p>
+        <label class="check"><input type="checkbox" data-step="8"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑦ 手応えメモ ===== -->
+    <section class="card" id="step-9">
+      <div class="step-head">
+        <span class="step-num">9</span>
+        <h2>手応えメモ</h2>
+      </div>
+      <p class="hint">このブラウザに保存．第11回で並べて振り返る</p>
+      <label class="note-label" for="memo-done">自分でできた所</label>
+      <textarea class="note" data-id="memo-done" id="memo-done"></textarea>
+      <label class="note-label" for="memo-help">手伝ってもらった所</label>
+      <textarea class="note" data-id="memo-help" id="memo-help"></textarea>
+      <label class="note-label" for="memo-again">もう一度やりたい所・もっと知りたい所</label>
+      <textarea class="note" data-id="memo-again" id="memo-again"></textarea>
+      <div class="check-row">
+        <p class="done">3つとも記入</p>
+        <label class="check"><input type="checkbox" data-step="9"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <section class="card finish" id="finish" hidden>
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="">
+      <span class="stamp">第10回 完了</span>
+      <h2>再納品できた</h2>
+      <ul class="goal">
+        <li>レビュー</li>
+        <li>コンフリクトの解消</li>
+        <li>戻し方と再納品</li>
+      </ul>
+      <p style="margin-top: 16px;">次回は，振り返りと次の相談</p>
+    </section>
+
+    <section class="card">
+      <h2>終了</h2>
+      <p class="closable">センサー → サーバーの順に，各ターミナルで Ctrl + C<br>入力待ち（$）に戻ったら，VS Code・ブラウザを閉じる</p>
+    </section>
+
+  </main>
+
+  <script src="../config.js"></script>
+  <script src="../tip.js"></script>
+  <script src="../page.js"></script>
+  <script src="../lesson.js"></script>
+</body>
+</html>
