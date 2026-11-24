@@ -1,0 +1,237 @@
+/* 第3回以降の部品のスタイル（style.css の続き）
+   予想・コードの表示・コードを追う・差分・練習問題・書く欄・GitHub の画面の見本 */
+
+
+/* ===== コード（アプリのコードの抜き出し） ===== */
+
+.code {
+  margin: 10px 0;
+  padding: 12px 0;
+  border-radius: 10px;
+  background: #1E2A32;
+  color: #E3EAE6;
+  font-family: "Consolas", "Menlo", monospace;
+  font-size: 14px;
+  line-height: 1.75;
+  overflow-x: auto;
+}
+.code .line { display: block; padding: 0 16px; white-space: pre; }
+.code .line.is-mark { background: rgba(255, 241, 0, 0.16); box-shadow: inset 4px 0 0 var(--yellow); }
+.code .line.is-dim { opacity: 0.45; }
+.code .c { color: #8FB3A2; }          /* コメント */
+.code .s { color: #FFD27A; }          /* 文字 */
+.code .k { color: #8CC2FF; }          /* 予約語（if・for など） */
+.code-file { display: inline-block; margin: 8px 0 -4px; padding: 2px 10px; border-radius: 6px 6px 0 0; background: #1E2A32; color: #B8C7C0; font-family: "Consolas", "Menlo", monospace; font-size: 12px; }
+
+/* 左にコード・右に画面 */
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+.pair .code { margin: 0; }
+@media (max-width: 720px) { .pair { grid-template-columns: 1fr; } }
+
+/* 用語の説明（コードの部品ごと） */
+.terms { margin: 10px 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.term-row { display: grid; grid-template-columns: 13em 1fr; gap: 12px; padding: 8px 16px; border-bottom: 1px solid var(--line); line-height: 1.6; }
+.term-row:last-child { border-bottom: none; }
+.term-row code { font-weight: bold; color: var(--green); }
+@media (max-width: 720px) { .term-row { grid-template-columns: 1fr; gap: 0; } }
+
+
+/* ===== 予想 ===== */
+
+.predict { margin: 14px 0; padding: 16px; border-radius: 12px; background: var(--background); }
+.predict-q { margin: 0 0 10px; font-weight: bold; }
+.predict-q::before { content: "予想"; margin-right: 8px; padding: 1px 8px; border-radius: 6px; background: var(--blue); color: var(--white); font-size: 13px; }
+.predict-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.predict-options button {
+  padding: 8px 16px;
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  background: var(--white);
+  color: var(--text);
+  font-size: 15px;
+  cursor: pointer;
+}
+.predict-options button:hover { border-color: var(--blue); }
+.predict-options button.is-chosen { border-color: var(--orange); }
+.predict-options button.is-right { border-color: var(--green); background: var(--green-light); font-weight: bold; }
+.predict-answer { margin-top: 12px; padding: 12px 16px; border-radius: 10px; background: var(--white); border-left: 4px solid var(--green); }
+.predict-answer b { color: var(--green); }
+
+
+/* ===== コードを追う ===== */
+
+.trace { margin: 14px 0; padding: 16px; border-radius: 12px; background: var(--background); }
+.trace-body { display: grid; grid-template-columns: 1.6fr 1fr; gap: 14px; }
+.trace-code { margin: 0; }
+.trace-code .line { transition: background 0.2s; }
+.trace-code .line.is-current { background: rgba(255, 241, 0, 0.22); box-shadow: inset 4px 0 0 var(--yellow); }
+.trace-side { display: flex; flex-direction: column; gap: 8px; }
+.trace-side h4 { margin: 0; color: var(--gray); font-size: 13px; }
+.trace-vars { display: flex; flex-direction: column; gap: 6px; }
+.trace-var { display: grid; grid-template-columns: 7em 1fr; align-items: center; padding: 6px 10px; border-radius: 8px; background: var(--white); border: 2px solid transparent; font-size: 15px; transition: border-color 0.2s; }
+.trace-var code { color: var(--green); font-weight: bold; }
+.trace-var span { font-family: "Consolas", "Menlo", monospace; font-weight: bold; }
+.trace-var.is-changed { border-color: var(--orange); animation: flash 1s; }
+.trace-note { min-height: 3.4em; margin: 12px 0 8px; font-weight: bold; }
+.trace-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.trace-nav button { padding: 8px 20px; border: 2px solid var(--green); border-radius: 8px; background: var(--white); color: var(--green); font-size: 15px; font-weight: bold; cursor: pointer; }
+.trace-nav button.trace-next { background: var(--green); color: var(--white); }
+.trace-nav button:disabled { opacity: 0.4; cursor: default; }
+.trace-count { margin-left: auto; color: var(--gray); font-size: 14px; }
+@media (max-width: 720px) { .trace-body { grid-template-columns: 1fr; } }
+
+
+/* ===== 差分 ===== */
+
+pre.diff { margin: 10px 0; padding: 10px 0; border-radius: 10px; border: 1px solid var(--line); background: var(--white); font-size: 13px; line-height: 1.7; overflow-x: auto; }
+.diff-line { display: block; padding: 0 14px; white-space: pre; }
+.diff-line.is-add { background: #E6F6EE; color: #0B5A3A; }
+.diff-line.is-del { background: #FDECEA; color: #8C2A12; }
+.diff-line.is-at { background: #EEF3FF; color: var(--blue-dark); }
+
+
+/* ===== 練習問題 ===== */
+
+.practice { border-top: 6px solid var(--blue); }
+.practice h3 { margin: 22px 0 8px; font-size: 18px; }
+.practice h3:first-of-type { margin-top: 0; }
+.io { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 8px 0; }
+.io div { border-radius: 8px; background: var(--background); }
+.io b { display: block; padding: 4px 12px 0; color: var(--gray); font-size: 12px; }
+.io pre { margin: 0; padding: 2px 12px 10px; font-size: 14px; white-space: pre; overflow-x: auto; }
+.judge { margin: 12px 0 20px; }
+.judge-editor { border-radius: 10px; overflow: hidden; border: 2px solid #1E2A32; }
+.judge-bar { display: flex; justify-content: space-between; align-items: center; padding: 4px 6px 4px 14px; background: #1E2A32; color: #B8C7C0; font-size: 12px; font-weight: bold; }
+.judge-bar button { padding: 2px 10px; border: 1px solid #5B6A72; border-radius: 6px; background: transparent; color: #B8C7C0; font-size: 12px; cursor: pointer; }
+.judge textarea {
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  border: none;
+  background: #FBFCFB;
+  color: var(--text);
+  font-family: "Consolas", "Menlo", monospace;
+  font-size: 15px;
+  line-height: 1.7;
+  tab-size: 4;
+  resize: vertical;
+  white-space: pre;
+}
+.judge textarea:focus { outline: none; background: var(--white); }
+.judge-actions { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+.judge-run { padding: 10px 22px; border: none; border-radius: 10px; background: var(--blue); color: var(--white); font-size: 16px; font-weight: bold; cursor: pointer; }
+.judge-run:disabled { opacity: 0.5; cursor: wait; }
+.judge-status { color: var(--gray); font-size: 14px; }
+.judge-result { margin-top: 12px; padding: 12px 14px; border-radius: 10px; }
+.judge-result.is-pass { background: var(--green-light); }
+.judge-result.is-fail { background: var(--yellow-light); }
+.judge-summary { margin: 0 0 8px; font-size: 17px; font-weight: bold; }
+.judge-result.is-pass .judge-summary { color: var(--green); }
+.judge-result table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.judge-result th { color: var(--gray); font-weight: normal; text-align: left; font-size: 12px; padding: 2px 6px; }
+.judge-result td { padding: 4px 6px; border-top: 1px solid rgba(0, 0, 0, 0.08); vertical-align: top; }
+.judge-result td pre { margin: 0; font-size: 13px; white-space: pre-wrap; word-break: break-all; }
+.mark-pass { color: var(--green); font-weight: bold; font-size: 16px; }
+.mark-fail { color: var(--orange); font-weight: bold; font-size: 16px; }
+.judge-error { margin-top: 10px; padding: 8px 12px; border-radius: 8px; background: var(--white); }
+.judge-error pre { margin: 4px 0; font-size: 12px; white-space: pre-wrap; color: #8C2A12; }
+.judge-error p { margin: 0; font-weight: bold; }
+@media (max-width: 720px) { .io { grid-template-columns: 1fr; } }
+
+
+/* ===== 書く欄 ===== */
+
+textarea.note {
+  display: block;
+  width: 100%;
+  min-height: 90px;
+  margin: 6px 0 14px;
+  padding: 10px 12px;
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  font: inherit;
+  line-height: 1.7;
+  resize: vertical;
+}
+textarea.note:focus { outline: none; border-color: var(--blue); }
+.note-label { display: block; font-weight: bold; }
+.print { padding: 10px 22px; border: 2px solid var(--green); border-radius: 10px; background: var(--white); color: var(--green); font-size: 15px; font-weight: bold; cursor: pointer; }
+
+
+/* ===== GitHub の画面の見本 ===== */
+
+.gh { margin: 12px 0; border: 1px solid #D0D7DE; border-radius: 10px; overflow: hidden; background: var(--white); font-family: -apple-system, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif; font-size: 14px; line-height: 1.6; }
+.gh-bar { padding: 6px 14px; background: #F6F8FA; border-bottom: 1px solid #D0D7DE; color: #57606A; font-size: 12px; }
+.gh-body { padding: 14px; }
+.gh-title { margin: 0 0 6px; font-size: 18px; font-weight: 600; }
+.gh-state { display: inline-block; padding: 2px 12px; border-radius: 999px; color: var(--white); font-size: 13px; font-weight: 600; }
+.gh-state.open { background: #1F883D; }
+.gh-state.merged { background: #8250DF; }
+.gh-state.closed { background: #CF222E; }
+.gh-btn { display: inline-block; padding: 4px 14px; border: 1px solid rgba(31, 35, 40, 0.15); border-radius: 6px; background: #F6F8FA; color: #24292F; font-size: 13px; font-weight: 600; }
+.gh-btn.primary { background: #1F883D; color: var(--white); }
+.gh-btn.is-target { outline: 3px solid var(--orange); outline-offset: 2px; }
+.gh-input { padding: 6px 10px; border: 1px solid #D0D7DE; border-radius: 6px; background: #F6F8FA; color: #57606A; }
+.gh-tabs { display: flex; gap: 18px; padding: 0 14px; border-bottom: 1px solid #D0D7DE; font-size: 13px; }
+.gh-tabs span { padding: 8px 0; color: #57606A; }
+.gh-tabs span.on { border-bottom: 2px solid #FD8C73; color: #24292F; font-weight: 600; }
+.gh-warn { padding: 10px 14px; border: 1px solid #D4A72C; border-radius: 6px; background: #FFF8C5; }
+.gh-ok { padding: 10px 14px; border: 1px solid #1F883D; border-radius: 6px; background: #DAFBE1; }
+
+
+/* ===== 印刷（書いた内容を PDF に保存するとき） ===== */
+
+@media print {
+  .topbar, .hero, .progress, .memo, .finish, .no-print, .check-row, details, .print { display: none !important; }
+  body { background: var(--white); }
+  .card { box-shadow: none; border: 1px solid var(--line); break-inside: avoid; }
+  .card:not(.printable) { display: none; }
+  textarea.note { border: 1px solid #999; min-height: 0; height: auto; }
+}
+
+/* 実行する画面の札：ブラウザ・GitHub */
+.where.br { background: var(--gray); }
+.where.gh-where { background: #24292F; }
+
+/* 複数行をそのままコピーする欄（Issue の型など） */
+.cmd.block code { white-space: pre; line-height: 1.7; }
+.cmd.block .copy { align-self: stretch; }
+.term-row > code { overflow-wrap: anywhere; }
+
+/* ===== 編集の前と後 ===== */
+
+.before-after { display: grid; grid-template-columns: 2.4em 1fr; gap: 6px 8px; align-items: start; margin: 8px 0; }
+.before-after .code { margin: 0; padding: 8px 0; font-size: 13px; }
+.ba-label { margin-top: 6px; padding: 1px 0; border-radius: 6px; background: var(--background); color: var(--gray); font-size: 12px; font-weight: bold; text-align: center; }
+.ba-label.is-after { background: var(--green-light); color: var(--green); }
+.code .hl { background: rgba(3, 175, 122, 0.35); border-radius: 3px; }
+.code .sel { outline: 2px solid var(--yellow); outline-offset: 1px; border-radius: 2px; }
+.code .line.sel-line { background: rgba(255, 241, 0, 0.18); }
+.code .line.hl-line { background: rgba(3, 175, 122, 0.28); }
+
+/* ===== メンター待ち ===== */
+
+.wait-mentor { display: flex; align-items: center; gap: 10px; margin: 8px 0; padding: 10px 14px; border-radius: 10px; border: 2px dashed var(--blue); background: #EEF3FF; font-weight: bold; }
+.wait-mentor::before { content: "メンター待ち"; flex-shrink: 0; padding: 2px 10px; border-radius: 999px; background: var(--blue); color: var(--white); font-size: 12px; }
+
+/* ===== VS Code の画面の見本 ===== */
+
+.vsc { margin: 10px 0; border-radius: 10px; overflow: hidden; border: 1px solid #333; background: #1F1F1F; color: #CCC; font-family: "Consolas", "Menlo", monospace; font-size: 12px; line-height: 1.6; }
+.vsc-bar { padding: 3px 10px; background: #2B2B2B; color: #BBB; font-family: "Hiragino Sans", "Yu Gothic UI", sans-serif; }
+.vsc-main { display: grid; grid-template-columns: 34px 120px 1fr; min-height: 90px; }
+.vsc-icons { display: flex; flex-direction: column; align-items: center; gap: 8px; padding-top: 8px; background: #181818; color: #888; font-size: 14px; }
+.vsc-icons .on { color: var(--white); }
+.vsc-side { padding: 6px 8px; background: #181818; border-left: 1px solid #2B2B2B; color: #BBB; }
+.vsc-editor { padding: 6px 10px; }
+.vsc-term { border-top: 1px solid #333; }
+.vsc-term-bar { display: flex; justify-content: space-between; padding: 3px 10px; background: #1F1F1F; color: #BBB; font-family: "Hiragino Sans", "Yu Gothic UI", sans-serif; }
+.vsc-term-body { display: grid; grid-template-columns: 1fr 110px; }
+.vsc-term-body .out { margin: 0; padding: 6px 10px; background: transparent; color: #CCC; font-size: 12px; }
+.vsc-tabs { border-left: 1px solid #333; padding: 6px 8px; color: #BBB; }
+.vsc-tabs .on { color: var(--white); background: #37373D; border-radius: 3px; padding: 0 4px; }
+.vsc-status { padding: 2px 10px; background: #16825D; color: var(--white); font-family: "Hiragino Sans", "Yu Gothic UI", sans-serif; }
+.vsc .mark { outline: 2px solid var(--yellow); outline-offset: 1px; border-radius: 3px; color: var(--white); }
+.vsc .cl { color: #9D9D9D; font-family: "Hiragino Sans", "Yu Gothic UI", sans-serif; font-size: 12px; }
+.vsc .cur { background: rgba(45, 164, 78, 0.25); display: block; }
+.vsc .inc { background: rgba(56, 139, 253, 0.25); display: block; }
+.mark-time { padding: 1px 6px; outline: 2px solid var(--orange); border-radius: 4px; color: var(--gray); }

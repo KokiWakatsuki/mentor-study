@@ -28,7 +28,7 @@ const finishCard = document.getElementById("finish");
 
 // コマンドをコピーし，ボタンの表示で結果を知らせる
 async function copyCommand(button) {
-  const command = button.parentElement.querySelector("code").textContent;
+  const command = button.dataset.text ?? button.parentElement.querySelector("code").textContent;  // data-text があれば，表示と別の文をコピー
   try {
     await navigator.clipboard.writeText(command);
     button.textContent = "✓ コピー済";
