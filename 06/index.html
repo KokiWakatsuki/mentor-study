@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>第6回 園主からの相談 | メンター勉強会</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../lesson.css">
+</head>
+<body data-lesson="06">
+  <header class="topbar">
+    <a class="brand" href="../">メンター勉強会</a>
+  </header>
+
+  <section class="hero">
+    <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="ひだまり農園のビニールハウス">
+    <div class="hero-text">
+      <h1>第6回　園主からの相談</h1>
+      <p>チームに参加し，相談を記録に残す</p>
+    </div>
+  </section>
+
+  <nav class="progress" aria-label="進捗">
+    <div class="progress-groups">
+      <div class="progress-group"><span>GitHub</span>
+        <div class="progress-dots"><button class="dot" data-step="1">1</button><button class="dot" data-step="2">2</button><button class="dot" data-step="3">3</button></div>
+      </div>
+      <div class="progress-group"><span>相談</span>
+        <div class="progress-dots"><button class="dot" data-step="4">4</button><button class="dot" data-step="5">5</button></div>
+      </div>
+      <div class="progress-group"><span>振り返り</span>
+        <div class="progress-dots"><button class="dot" data-step="6">6</button></div>
+      </div>
+    </div>
+    <div class="progress-count" id="progress-count"></div>
+  </nav>
+
+  <main class="page">
+
+    <section class="card">
+      <h2>今回の目標</h2>
+      <ul class="goal">
+        <li>チームのリポジトリに参加</li>
+        <li>相談を聞き取り，Issue に記録</li>
+        <li>「直ったと言える条件」を決める</li>
+      </ul>
+    </section>
+
+    <aside class="memo">
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="">
+      <div><b>先輩メモ｜チームのリポジトリ</b><p>今回から，チーム専用のリポジトリで作業．<br>Issue も変更の提案も，そこに残す．</p></div>
+    </aside>
+
+    <!-- ===== ① アカウント ===== -->
+    <section class="card" id="step-1">
+      <div class="step-head">
+        <span class="step-num">1</span>
+        <h2>GitHub のアカウント</h2>
+        <span class="where br">ブラウザ</span>
+      </div>
+      <p class="hint">アカウントがある人は，3 だけ</p>
+      <ol class="actions" style="--step: '1'">
+        <li>
+          <p><a href="https://github.com/signup" target="_blank">github.com/signup</a> で作成</p>
+          <p class="hint">メール → パスワード → <span data-tip="英数字とハイフン．あとから変えにくい／本名でなくてよい" data-tip-head="入力｜Username">ユーザー名</span> → メールに届く数字を入力</p>
+        </li>
+        <li>
+          <p><span data-tip="パスワードに加えて，スマホなどでもう1段確認する仕組み" data-tip-head="用語｜2段階認証">2段階認証</span>の設定<span class="when">求められたら</span></p>
+          <p class="hint">スマホの認証アプリ（Google Authenticator など）で QR を読む</p>
+          <p class="caution">回復コード（recovery codes）は必ず保存<br>スマホをなくしたときの唯一の入口</p>
+        </li>
+        <li>
+          <p>ユーザー名をメンターに伝える</p>
+          <div class="wait-mentor">チームのリポジトリに招待．メールが届いたら <span style="white-space:nowrap">3-1 で承諾</span></div>
+        </li>
+      </ol>
+      <div class="check-row">
+        <p class="done">GitHub にログインできる<br>ユーザー名をメンターに連絡済み</p>
+        <label class="check"><input type="checkbox" data-step="1"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ② Ubuntu と GitHub の接続 ===== -->
+    <section class="card" id="step-2">
+      <div class="step-head">
+        <span class="step-num">2</span>
+        <h2>Ubuntu と GitHub の接続</h2>
+        <span class="where ub">Ubuntu</span>
+      </div>
+      <p class="hint">Windows キー →「ubuntu」→ Enter．貼り付けは画面の中で右クリック</p>
+      <ol class="actions" style="--step: '2'">
+        <li>
+          <p><span data-tip="GitHub をコマンドで操作する道具" data-tip-head="用語｜gh">gh</span> のインストール</p>
+          <div class="cmd"><code data-tip="GitHub の道具（gh）をインストール">sudo apt install -y gh</code><button class="copy">コピー</button></div>
+          <p class="hint">パスワード → Ubuntu 用（Windows 用とは別）</p>
+        </li>
+        <li>
+          <p>ログイン</p>
+          <div class="cmd"><code data-tip="ブラウザで GitHub にログインし，この Ubuntu から使えるようにする">gh auth login --hostname github.com --git-protocol https --web</code><button class="copy">コピー</button></div>
+          <details open>
+            <summary>表示と操作</summary>
+            <div class="detail-body">
+              <p><span class="where ub">Ubuntu</span></p>
+              <ol>
+                <li><code>Authenticate Git with your GitHub credentials?</code> → Y → Enter</li>
+                <li><code>First copy your one-time code: ABCD-1234</code><br>→ この8文字を控える → Enter</li>
+              </ol>
+              <p><span class="where br">ブラウザ</span></p>
+              <ol>
+                <li>自動で開かない → <a href="https://github.com/login/device" target="_blank">github.com/login/device</a> を開く</li>
+                <li>8文字を入力 → Continue → Authorize</li>
+              </ol>
+              <p><span class="where ub">Ubuntu</span>に戻る</p>
+              <ol>
+                <li><code>✓ Logged in as あなたのユーザー名</code> → 完了</li>
+              </ol>
+              <p class="hint">8文字のコードは，2段階認証の数字とは別物</p>
+            </div>
+          </details>
+        </li>
+        <li>
+          <p>変更の記録（コミット）に付ける，名前とメールの設定</p>
+          <div class="cmd"><code data-tip="git の記録に残す名前を GitHub のユーザー名に／メールは本当のアドレスを出さない GitHub 専用のもの">curl -fsSL https://kokiwakatsuki.github.io/mentor-study/ubuntu/git-setup.sh | bash</code><button class="copy">コピー</button></div>
+<pre class="out">○ 設定完了
+  名前：あなたのユーザー名
+  メール：数字+あなたのユーザー名@users.noreply.github.com</pre>
+        </li>
+      </ol>
+      <details>
+        <summary>うまくいかないとき</summary>
+        <div class="detail-body">
+          <p><b>Unable to locate package gh</b><br>→ 次を実行して，2-1 をもう一度</p>
+          <div class="cmd"><code data-tip="インストールできる道具の一覧を更新">sudo apt update</code><button class="copy">コピー</button></div>
+          <p><b>× GitHub に未ログイン</b> → 2-2 をもう一度</p>
+        </div>
+      </details>
+      <div class="check-row">
+        <p class="done"><code>Logged in as</code> と「○ 設定完了」</p>
+        <label class="check"><input type="checkbox" data-step="2"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ③ チームのリポジトリ ===== -->
+    <section class="card" id="step-3">
+      <div class="step-head">
+        <span class="step-num">3</span>
+        <h2>チームのリポジトリに参加</h2>
+        <span class="where vs">VS Code</span>
+      </div>
+      <ol class="actions" style="--step: '3'">
+        <li>
+          <p>招待の承諾<span class="where br" style="margin-left:6px;">ブラウザ</span></p>
+          <p><a data-team href="https://github.com/{team}/invitations" target="_blank">github.com/{team}/invitations</a> → Accept invitation</p>
+        </li>
+        <li>
+          <p>VS Code でアプリを開く</p>
+          <p class="hint">Ubuntu で実行</p>
+          <div class="cmd"><code data-tip="アプリのフォルダに移動し，VS Code で開く">cd ~/berry-watch && code .</code><button class="copy">コピー</button></div>
+        </li>
+        <li>
+          <p>取得・送信先をチームのリポジトリに変更</p>
+          <p class="hint">VS Code のメニュー「ターミナル」→「新しいターミナル」</p>
+          <div class="cmd"><code data-team data-tip="今後の取得・送信の先（origin）をチームのリポジトリに">git remote set-url origin https://github.com/{team}.git</code><button class="copy">コピー</button></div>
+        </li>
+        <li>
+          <p>チームの最新を取得</p>
+          <div class="cmd"><code data-tip="チームのリポジトリから，新しい変更を取得して反映">git pull</code><button class="copy">コピー</button></div>
+          <p class="hint">左の一覧に <code>sample_data.py</code> が増える<br>Git Graph の一番上に，先輩のコミット</p>
+        </li>
+      </ol>
+      <div class="gh">
+        <div class="gh-bar">Git Graph（一番上）</div>
+        <div class="gh-body" style="font-family: Consolas, Menlo, monospace; font-size: 13px;">● 障害の再現用に，本番と同じ件数の試験データを作るプログラムを追加</div>
+      </div>
+      <details>
+        <summary>うまくいかないとき</summary>
+        <div class="detail-body">
+          <p><b>Repository not found</b><br>→ 3-1 の承諾を確認．まだならメンターに招待を依頼</p>
+          <p><b>Not possible to fast-forward</b> / <b>would be overwritten</b><br>→ 自分の変更が残っている．メンターと確認</p>
+        </div>
+      </details>
+      <div class="check-row">
+        <p class="done">左の一覧に <code>sample_data.py</code></p>
+        <label class="check"><input type="checkbox" data-step="3"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <aside class="memo">
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="">
+      <div><b>園主より｜電話</b><p>朝いちばんに一覧を開くと，なかなか出てこない．<br>来週は寒波．その前に何とかしてほしい．</p></div>
+    </aside>
+
+    <!-- ===== ④ 聞き取り ===== -->
+    <section class="card" id="step-4">
+      <div class="step-head">
+        <span class="step-num">4</span>
+        <h2>相談の聞き取り</h2>
+      </div>
+      <p>メンターが園主の役．3人で質問</p>
+      <div class="terms">
+        <div class="term-row"><code>聞くこと</code><span>何が・いつから・どのくらい・何に困る・いつまでに</span></div>
+        <div class="term-row"><code>分けること</code><span>園主の言葉と，自分の推測</span></div>
+        <div class="term-row"><code>数で聞く</code><span>「遅い」→ 何秒？　「最近」→ いつから？</span></div>
+      </div>
+      <details>
+        <summary>質問の例</summary>
+        <div class="detail-body">
+          <ul>
+            <li>どの画面で遅いですか？　ほかの画面は？</li>
+            <li>いつ頃から？　急に？　だんだん？</li>
+            <li>何秒くらい待ちますか？</li>
+            <li>遅いと，何に困りますか？</li>
+            <li>最近，何か変えたことはありますか？</li>
+            <li>いつまでに直れば助かりますか？</li>
+          </ul>
+        </div>
+      </details>
+      <label class="note-label" for="hearing">聞き取りのメモ</label>
+      <textarea class="note" data-id="hearing" id="hearing" style="min-height:160px;" placeholder="園主の言葉は「 」で．推測には（推測）と付ける"></textarea>
+      <div class="check-row">
+        <p class="done">5つの「聞くこと」をメモ</p>
+        <label class="check"><input type="checkbox" data-step="4"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑤ Issue ===== -->
+    <section class="card" id="step-5">
+      <div class="step-head">
+        <span class="step-num">5</span>
+        <h2>Issue に記録</h2>
+        <span class="where gh-where">GitHub</span>
+      </div>
+      <ol class="actions" style="--step: '5'">
+        <li>
+          <p><b>代表1人</b>　3人のメモを合わせて作成</p>
+          <p><a data-team href="https://github.com/{team}/issues/new" target="_blank">github.com/{team}/issues/new</a></p>
+          <p class="hint">Title：一覧の表示が遅い（園主より）<br>本文：下の型をコピーして埋める</p>
+          <div class="cmd block"><code>## 相談の内容（園主の言葉）
+
+
+## 分かったこと
+- 画面：
+- いつから：
+- どのくらい：
+- 何に困る：
+- 最近の変更：
+
+## まだ分からないこと
+
+
+## 期限
+
+
+## 受入基準（直ったと言える条件）
+- [ ] </code><button class="copy">コピー</button></div>
+          <p class="hint">→ 右下の「Create」</p>
+        </li>
+        <li>
+          <p>受入基準を，全員と園主で決める</p>
+          <p class="hint">例：自分の PC で，一覧の表示時間が 1秒未満<br>例：温度・最高・最低・札の表示は，直す前と同じ</p>
+        </li>
+        <li>
+          <p><b>ほかの2人</b>　Issue に足りない情報をコメント</p>
+          <p class="hint">Issue の一番下の欄 → 書く →「Comment」<br>例：「棟ごとの画面は速い，とも言っていました」</p>
+        </li>
+      </ol>
+      <div class="check-row">
+        <p class="done">Issue に受入基準まで記入<br>3人とも書き込み済み</p>
+        <label class="check"><input type="checkbox" data-step="5"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑦ 手応えメモ ===== -->
+    <section class="card" id="step-6">
+      <div class="step-head">
+        <span class="step-num">6</span>
+        <h2>手応えメモ</h2>
+      </div>
+      <p class="hint">このブラウザに保存．第11回で並べて振り返る</p>
+      <label class="note-label" for="memo-done">自分でできた所</label>
+      <textarea class="note" data-id="memo-done" id="memo-done"></textarea>
+      <label class="note-label" for="memo-help">手伝ってもらった所</label>
+      <textarea class="note" data-id="memo-help" id="memo-help"></textarea>
+      <label class="note-label" for="memo-again">もう一度やりたい所・もっと知りたい所</label>
+      <textarea class="note" data-id="memo-again" id="memo-again"></textarea>
+      <div class="check-row">
+        <p class="done">3つとも記入</p>
+        <label class="check"><input type="checkbox" data-step="6"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <section class="card finish" id="finish" hidden>
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="">
+      <span class="stamp">第6回 完了</span>
+      <h2>相談を記録に残せた</h2>
+      <ul class="goal">
+        <li>チームのリポジトリへの参加</li>
+        <li>聞き取りと Issue</li>
+        <li>受入基準</li>
+      </ul>
+      <p style="margin-top: 16px;">次回は，遅さを再現して原因を探す</p>
+    </section>
+
+    <section class="card">
+      <h2>終了</h2>
+      <p class="closable">VS Code・ブラウザ・Ubuntu を閉じる</p>
+    </section>
+
+  </main>
+
+  <script src="../config.js"></script>
+  <script src="../tip.js"></script>
+  <script src="../page.js"></script>
+  <script src="../lesson.js"></script>
+</body>
+</html>
