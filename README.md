@@ -17,7 +17,8 @@ tip.js            用語の吹き出し
 page.js           コピーボタン・確認済のチェック・進捗
 lesson.js         第3回以降の部品の動き
 judge-worker.js   練習問題の Python をブラウザ内で実行（Pyodide）
-config.js         期ごとの設定（チームのリポジトリ名）
+config.js         期ごとの設定（チームのリポジトリ名・公開する回）
+gate.js           公開前の回を「準備中」にする（確認は URL に ?preview）
 ubuntu/git-setup.sh  git の名前とメールの設定
 win/pc.txt        Windows の PC 確認スクリプト（PowerShell）
 win/tools.txt     Windows の道具確認スクリプト（PowerShell）
