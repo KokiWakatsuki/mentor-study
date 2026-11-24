@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>第9回 AI の提案を読む | メンター勉強会</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../lesson.css">
+</head>
+<body data-lesson="09">
+  <header class="topbar">
+    <a class="brand" href="../">メンター勉強会</a>
+  </header>
+
+  <section class="hero">
+    <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="ひだまり農園のビニールハウス">
+    <div class="hero-text">
+      <h1>第9回　AI の提案を読む</h1>
+      <p>差分を読み，確かめ，指示し直す</p>
+    </div>
+  </section>
+
+  <nav class="progress" aria-label="進捗">
+    <div class="progress-groups">
+      <div class="progress-group"><span>準備</span>
+        <div class="progress-dots"><button class="dot" data-step="1">1</button><button class="dot" data-step="2">2</button></div>
+      </div>
+      <div class="progress-group"><span>読む・確かめる</span>
+        <div class="progress-dots"><button class="dot" data-step="3">3</button><button class="dot" data-step="4">4</button></div>
+      </div>
+      <div class="progress-group"><span>直す</span>
+        <div class="progress-dots"><button class="dot" data-step="5">5</button></div>
+      </div>
+      <div class="progress-group"><span>書く</span>
+        <div class="progress-dots"><button class="dot" data-step="6">6</button><button class="dot" data-step="7">7</button></div>
+      </div>
+    </div>
+    <div class="progress-count" id="progress-count"></div>
+  </nav>
+
+  <main class="page">
+
+    <section class="card">
+      <h2>今回の目標</h2>
+      <ul class="goal">
+        <li>差分を読み，何を変えたかを説明</li>
+        <li>先に決めた動作で，提案を確認</li>
+        <li>足りない所を，AI に指示し直す</li>
+      </ul>
+    </section>
+
+    <aside class="memo">
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="">
+      <div><b>園主より｜次の要望</b><p>一覧が速くなって助かった．<br>次は，今日何回冷えたかもカードに出してほしい．</p></div>
+    </aside>
+
+    <!-- ===== ① 起動 ===== -->
+    <section class="card" id="step-1">
+      <div class="step-head">
+        <span class="step-num">1</span>
+        <h2>アプリの起動</h2>
+        <span class="where ub">Ubuntu</span>
+      </div>
+      <p class="hint">今回から，サーバーとセンサーは VS Code の中のターミナルで実行<br>画面が1つで済む</p>
+      <ol class="actions" style="--step: '1'">
+        <li>
+          <p>VS Code でアプリを開く</p>
+          <p class="hint">Windows キー →「ubuntu」→ Enter</p>
+          <div class="cmd"><code data-tip="アプリのフォルダに移動し，VS Code で開く">cd ~/berry-watch && code .</code><button class="copy">コピー</button></div>
+          <p class="hint">VS Code が開いたら，Ubuntu の画面は終了可</p>
+        </li>
+        <li>
+          <p>サーバーの起動<span class="where vs" style="margin-left:6px;">VS Code</span></p>
+          <p class="hint">上部のメニュー「ターミナル」→「新しいターミナル」<br>→ 下に開いた画面に貼り付け（Ctrl + V）→ Enter</p>
+          <div class="cmd"><code data-tip="アプリを起動">docker compose up</code><button class="copy">コピー</button></div>
+          <p class="hint"><code>Application startup complete.</code> → 起動完了</p>
+        </li>
+        <li>
+          <p>センサーの代わりを実行<span class="where vs" style="margin-left:6px;">VS Code</span></p>
+          <p class="hint">ターミナルの右上の「＋」→ 2つ目のターミナル</p>
+          <div class="cmd"><code data-tip="センサーの代わりを起動">python3 sensor.py</code><button class="copy">コピー</button></div>
+          <p class="hint">ターミナルの切り替え：右側の一覧（bash が2つ）</p>
+        </li>
+        <li>
+          <p>ブラウザで <a href="http://localhost:8000" target="_blank">http://localhost:8000</a></p>
+        </li>
+      </ol>
+      <details>
+        <summary>うまくいかないとき</summary>
+        <div class="detail-body">
+          <p><b>No such file or directory</b><br>→ アプリが未取得．第2回の「アプリの取得」から</p>
+          <p><b>左下に「WSL: Ubuntu」が出ない</b><br>→ VS Code を閉じて，1-1 をもう一度</p>
+          <p><b>permission denied</b>（docker）<br>→ メンターと確認</p>
+        </div>
+      </details>
+      <div class="check-row">
+        <p class="done">8棟の温度の表示<br>VS Code にファイル一覧</p>
+        <label class="check"><input type="checkbox" data-step="1"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ② 先に決める ===== -->
+    <section class="card" id="step-2">
+      <div class="step-head">
+        <span class="step-num">2</span>
+        <h2>期待する動作を先に決める</h2>
+      </div>
+      <p>提案を見る前に「正しい」を決める．見た後だと，提案に引っ張られる</p>
+      <div class="terms">
+        <div class="term-row"><code>表示</code><span>カードに「低温の回数　〇回」</span></div>
+        <div class="term-row"><code>数える記録</code><span>本日の記録のうち，低温のもの</span></div>
+        <div class="term-row"><code>記録なし</code><span>「－」</span></div>
+      </div>
+      <div class="predict">
+        <p class="predict-q">8.0℃ ちょうどの記録は，数に入る？</p>
+        <div class="predict-options">
+          <button type="button">入る</button>
+          <button type="button" data-right>入らない</button>
+        </div>
+        <div class="predict-answer" hidden><b>入らない</b>　アプリの低温は「8℃ 未満」（<code>&lt; COLD_LIMIT</code>）<br>札とそろえないと，札は正常なのに回数だけ増える</div>
+      </div>
+      <div class="terms">
+        <div class="term-row"><code>7.9℃ を送る</code><span>回数が 1 増える</span></div>
+        <div class="term-row"><code>8.0℃ を送る</code><span>回数は変わらない</span></div>
+      </div>
+      <div class="check-row">
+        <p class="done">確認に使う2つの動作を決定</p>
+        <label class="check"><input type="checkbox" data-step="2"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ③ 読む ===== -->
+    <section class="card" id="step-3">
+      <div class="step-head">
+        <span class="step-num">3</span>
+        <h2>AI の提案を読む</h2>
+        <span class="where gh-where">GitHub</span>
+      </div>
+      <p><a data-team href="https://github.com/{team}/pulls" target="_blank">github.com/{team}/pulls</a> →「【AI の提案】一覧のカードに，本日の低温の回数を表示」→ Files changed</p>
+      <p class="hint">練習用に用意した AI の提案（メンターが作成）</p>
+<pre class="diff">
+@ app.py（today_summary）
+             lowest = row["temperature"]
+
++    # 4. 本日の低温の回数を数える
++    cold_count = 0
++    for row in today_rows:
++        if row["temperature"] <= COLD_LIMIT:
++            cold_count = cold_count + 1
++
+-    # 4. 集計結果を返す
++    # 5. 集計結果を返す
+     return {
+@ （中略）
+         "is_cold": latest["temperature"] < COLD_LIMIT,
++        "cold_count": cold_count,
+     }
+@ static/list.js（makeCard）
+   let humidityText = "－";
++  let coldCountText = "－";
+   let timeText = "本日の記録なし";
+   if (today.has_data) {
+     humidityText = `${today.humidity}%`;
++    coldCountText = `${today.cold_count}回`;
+@ （中略）
++  card.querySelector(".card-cold-count").textContent = coldCountText;
+@ static/index.html（カードのひな形）
+           &lt;div&gt;&lt;dt&gt;本日最低&lt;/dt&gt;&lt;dd class="card-min"&gt;&lt;/dd&gt;&lt;/div&gt;
++          &lt;div&gt;&lt;dt&gt;低温の回数&lt;/dt&gt;&lt;dd class="card-cold-count"&gt;&lt;/dd&gt;&lt;/div&gt;
+</pre>
+      <div class="terms">
+        <div class="term-row"><code>app.py</code><span>回数を数える（<code>cold_count + 1</code>）→ 返事に cold_count を追加</span></div>
+        <div class="term-row"><code>list.js</code><span>返事の cold_count を「〇回」にしてカードへ</span></div>
+        <div class="term-row"><code>index.html</code><span>カードに「低温の回数」の欄を追加</span></div>
+      </div>
+      <label class="note-label" for="read">4つの点で説明（入力・出力・数える条件・変えない所）</label>
+      <textarea class="note" data-id="read" id="read" style="min-height:110px;" placeholder="入力：本日の記録&#10;出力：……&#10;数える条件：……&#10;変えない所：……"></textarea>
+      <div class="check-row">
+        <p class="done">4つの点を記入</p>
+        <label class="check"><input type="checkbox" data-step="3"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ④ 確かめる ===== -->
+    <section class="card" id="step-4">
+      <div class="step-head">
+        <span class="step-num">4</span>
+        <h2>動かして確認</h2>
+        <span class="where vs">VS Code</span>
+        <span class="where br">ブラウザ</span>
+      </div>
+      <ol class="actions" style="--step: '4'">
+        <li>
+          <p>センサーを止める（2つ目のターミナルで Ctrl + C）</p>
+          <p class="hint">理由：自分で送る記録だけで，数の増え方を見るため</p>
+        </li>
+        <li>
+          <p>提案の枝に移動<span class="where vs" style="margin-left:6px;">3つ目のターミナル</span></p>
+          <div class="cmd"><code data-tip="チームの最新の枝の一覧を取得し，提案の枝に移動">git fetch && git switch ai/cold-count</code><button class="copy">コピー</button></div>
+        </li>
+        <li>
+          <p>一覧を「更新」→ 3号棟の「低温の回数」を控える</p>
+        </li>
+        <li>
+          <p>API の試験画面で，3号棟に 7.9℃ を送る</p>
+          <p><a href="http://localhost:8000/docs" target="_blank">http://localhost:8000/docs</a> →「POST /api/readings」→「Try it out」<br>→ Request body を次に置き換え →「Execute」</p>
+          <div class="cmd"><code>{"house_id": 3, "temperature": 7.9, "humidity": 70}</code><button class="copy">コピー</button></div>
+          <p class="hint">下に <code>200</code> と <code>{"ok": true}</code> → 送信成功<br>→ 一覧を「更新」→ 3号棟の回数</p>
+        </li>
+        <li>
+          <p>同じ手順で 8.0℃ を送る</p>
+          <div class="cmd"><code>{"house_id": 3, "temperature": 8.0, "humidity": 70}</code><button class="copy">コピー</button></div>
+        </li>
+      </ol>
+      <div class="predict">
+        <p class="predict-q">8.0℃ を送った後の回数は，② で決めた動作どおり？</p>
+        <div class="predict-options">
+          <button type="button">どおり（変わらない）</button>
+          <button type="button" data-right>違う（1 増えた）</button>
+        </div>
+        <div class="predict-answer" hidden><b>違う</b>　札は「正常」なのに，回数は増える<br>原因：<code>&lt;=</code>（以下）．低温の判定は <code>&lt;</code>（未満）</div>
+      </div>
+      <div class="check-row">
+        <p class="done">7.9℃ で +1，8.0℃ でも +1（期待と違う）</p>
+        <label class="check"><input type="checkbox" data-step="4"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑤ 指示し直す・直す ===== -->
+    <section class="card" id="step-5">
+      <div class="step-head">
+        <span class="step-num">5</span>
+        <h2>指示し直して，直す</h2>
+      </div>
+      <label class="note-label" for="order">AI への指示（何が・どう違い・どうしてほしいか）</label>
+      <textarea class="note" data-id="order" id="order" style="min-height:90px;" placeholder="例：8.0℃ ちょうどの記録も数えています．低温の札は 8℃ 未満なので，……"></textarea>
+      <ol class="actions" style="--step: '5'">
+        <li>
+          <p>提案の Pull request に，指示をコメント<span class="where gh-where" style="margin-left:6px;">GitHub</span></p>
+          <p class="hint">Conversation の下の欄 → 書く →「Comment」</p>
+        </li>
+        <li>
+          <p>自分の枝を作る<span class="where vs" style="margin-left:6px;">VS Code</span></p>
+          <div class="cmd"><code data-tip="提案の枝をもとに，「cold-count-ユーザー名」の枝を作って移動">git switch -c "cold-count-$(git config user.name)"</code><button class="copy">コピー</button></div>
+        </li>
+        <li>
+          <p><code>app.py</code> の <code>&lt;=</code> を <code>&lt;</code> に → Ctrl + S</p>
+          <p class="hint">Ctrl + F →「&lt;= COLD」</p>
+        </li>
+        <li>
+          <p>8.0℃ をもう一度送る → 回数が変わらないことを確認</p>
+        </li>
+        <li>
+          <p>記録して送信</p>
+          <div class="cmd"><code data-tip="変更を記録し，チームのリポジトリに送る">git commit -am "低温の回数を，低温の判定と同じ「8℃ 未満」で数える" && git push -u origin HEAD</code><button class="copy">コピー</button></div>
+        </li>
+        <li>
+          <p>Pull request の作成<span class="where gh-where" style="margin-left:6px;">GitHub</span></p>
+          <p class="hint">黄色の帯の「Compare &amp; pull request」→ 本文に確かめたこと → Create</p>
+        </li>
+      </ol>
+      <details>
+        <summary>続き｜自分の AI でも試す</summary>
+        <div class="detail-body"><p>ChatGPT・Claude・Gemini などに，上の指示と <code>today_summary</code> を渡す<br>返ってきた差分を，② の動作で確認．毎回同じ答えとは限らない</p></div>
+      </details>
+      <div class="check-row">
+        <p class="done">8.0℃ で回数が変わらない<br>自分の Pull request が Open</p>
+        <label class="check"><input type="checkbox" data-step="5"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑥ 練習 ===== -->
+    <section class="card practice" id="step-6">
+      <div class="step-head">
+        <span class="step-num">6</span>
+        <h2>急な冷え込みの検出</h2>
+      </div>
+      <p class="hint">初めて見る形の問題．ヒントを開く前に，まず5分</p>
+
+      <h3>問1　急な冷え込み</h3>
+      <p>10分ごとの記録（古い順）で，1つ前より 3.0℃ 以上下がった最初の時刻を出力．なければ <code>なし</code></p>
+      <div class="io">
+        <div><b>入力例</b><pre>4
+02:00 11.0
+02:10 10.5
+02:20 7.4
+02:30 7.0</pre></div>
+        <div><b>出力例</b><pre>02:20</pre></div>
+      </div>
+      <div class="judge" data-id="09-1">
+        <script type="text/plain" class="starter">n = int(input())
+records = []
+for i in range(n):
+    time, temperature = input().split()
+    records.append({"time": time, "temperature": float(temperature)})
+
+</script>
+        <script type="application/json" class="tests">[
+          {"in": "4\n02:00 11.0\n02:10 10.5\n02:20 7.4\n02:30 7.0", "out": "02:20"},
+          {"in": "3\n01:00 9.0\n01:10 7.0\n01:20 5.0", "out": "なし"},
+          {"in": "3\n03:00 12.0\n03:10 9.0\n03:20 5.0", "out": "03:10"},
+          {"in": "1\n04:00 8.0", "out": "なし"}
+        ]</script>
+      </div>
+      <details>
+        <summary>ヒント</summary>
+        <div class="detail-body"><p>「1つ前」と比べる → 番号で回す <code>for i in range(1, n):</code><br><code>records[i - 1]</code> が1つ前．下がった幅 ＝ 前 − 今</p></div>
+      </details>
+      <details>
+        <summary>解答例</summary>
+        <div class="detail-body">
+<div class="code"><span class="line">answer = <span class="s">"なし"</span></span><span class="line"><span class="k">for</span> i <span class="k">in</span> range(1, n):</span><span class="line">    drop = records[i - 1][<span class="s">"temperature"</span>] - records[i][<span class="s">"temperature"</span>]</span><span class="line">    <span class="k">if</span> drop &gt;= 3.0:</span><span class="line">        answer = records[i][<span class="s">"time"</span>]</span><span class="line">        <span class="k">break</span></span><span class="line">print(answer)</span></div>
+        </div>
+      </details>
+      <div class="check-row">
+        <p class="done">問1 が全問正解</p>
+        <label class="check"><input type="checkbox" data-step="6"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑦ 手応えメモ ===== -->
+    <section class="card" id="step-7">
+      <div class="step-head">
+        <span class="step-num">7</span>
+        <h2>手応えメモ</h2>
+      </div>
+      <p class="hint">このブラウザに保存．第11回で並べて振り返る</p>
+      <label class="note-label" for="memo-done">自分でできた所</label>
+      <textarea class="note" data-id="memo-done" id="memo-done"></textarea>
+      <label class="note-label" for="memo-help">手伝ってもらった所</label>
+      <textarea class="note" data-id="memo-help" id="memo-help"></textarea>
+      <label class="note-label" for="memo-again">もう一度やりたい所・もっと知りたい所</label>
+      <textarea class="note" data-id="memo-again" id="memo-again"></textarea>
+      <div class="check-row">
+        <p class="done">3つとも記入</p>
+        <label class="check"><input type="checkbox" data-step="7"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <section class="card finish" id="finish" hidden>
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="">
+      <span class="stamp">第9回 完了</span>
+      <h2>AI の提案を確かめて直せた</h2>
+      <ul class="goal">
+        <li>差分の読み方と説明</li>
+        <li>先に決めた動作での確認</li>
+        <li>指示し直しと修正</li>
+      </ul>
+      <p style="margin-top: 16px;">次回は，レビューと再納品</p>
+    </section>
+
+    <section class="card">
+      <h2>終了</h2>
+      <p class="closable">サーバーのターミナルで Ctrl + C<br>入力待ち（$）に戻ったら，VS Code・ブラウザを閉じる</p>
+    </section>
+
+  </main>
+
+  <script src="../config.js"></script>
+  <script src="../tip.js"></script>
+  <script src="../page.js"></script>
+  <script src="../lesson.js"></script>
+</body>
+</html>
