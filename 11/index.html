@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>第11回 振り返りと次の相談 | メンター勉強会</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../lesson.css">
+  <style>
+    .timeline { margin: 0; padding: 0; list-style: none; border-left: 3px solid var(--line); }
+    .timeline li { position: relative; margin: 0 0 14px; padding-left: 20px; }
+    .timeline li::before { content: ""; position: absolute; left: -8px; top: 9px; width: 13px; height: 13px; border-radius: 50%; background: var(--white); border: 3px solid var(--green); }
+    .timeline li.is-key::before { background: var(--orange); border-color: var(--orange); }
+    .timeline b { display: inline-block; min-width: 7.5em; color: var(--green); }
+    .memo-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .memo-table th, .memo-table td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; white-space: pre-wrap; }
+    .memo-table th { color: var(--gray); font-size: 12px; font-weight: normal; }
+    .memo-table td:first-child { white-space: nowrap; font-weight: bold; color: var(--green); }
+    .parts-check { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0; }
+    .parts-check label { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border: 2px solid var(--line); border-radius: 10px; cursor: pointer; }
+    .parts-check label:has(input:checked) { border-color: var(--green); background: var(--green-light); }
+    .skills label { display: block; padding: 6px 0; }
+  </style>
+</head>
+<body data-lesson="11">
+  <header class="topbar">
+    <a class="brand" href="../">メンター勉強会</a>
+  </header>
+
+  <section class="hero">
+    <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="ひだまり農園のビニールハウス">
+    <div class="hero-text">
+      <h1>第11回　振り返りと次の相談</h1>
+      <p>やってきたことを並べ，次の相談を考える</p>
+    </div>
+  </section>
+
+  <nav class="progress" aria-label="進捗">
+    <div class="progress-groups">
+      <div class="progress-group"><span>振り返り</span>
+        <div class="progress-dots"><button class="dot" data-step="1">1</button><button class="dot" data-step="2">2</button></div>
+      </div>
+      <div class="progress-group"><span>次の相談</span>
+        <div class="progress-dots"><button class="dot" data-step="3">3</button></div>
+      </div>
+      <div class="progress-group"><span>まとめ</span>
+        <div class="progress-dots"><button class="dot" data-step="4">4</button></div>
+      </div>
+    </div>
+    <div class="progress-count" id="progress-count"></div>
+  </nav>
+
+  <main class="page">
+
+    <aside class="memo">
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="">
+      <div><b>園主より｜寒波の後</b><p>寒波の夜も，すぐ一覧が出て助かった．<br>実は，もう1つ相談があって……</p></div>
+    </aside>
+
+    <!-- ===== ① 話の振り返り ===== -->
+    <section class="card printable" id="step-1">
+      <div class="step-head">
+        <span class="step-num">1</span>
+        <h2>何が起きていたか</h2>
+      </div>
+      <ul class="timeline">
+        <li><b>2025年2月</b>ベリーウォッチを納品．10分ごとの記録</li>
+        <li class="is-key"><b>2026年9月</b>園主の要望で，1分ごとに（Issue #1）</li>
+        <li><b>11月</b>一覧が遅い．記録が10倍の速さで増えていた</li>
+        <li><b>第7回</b>再現・測定・見積もりで原因を特定</li>
+        <li><b>第8回</b>今日の分だけ＋索引．寒波の前に納品</li>
+        <li><b>第9〜10回</b>低温の回数．AI の提案を確かめ，再納品</li>
+      </ul>
+      <div class="predict">
+        <p class="predict-q">9月に園主が本当に欲しかったのは？</p>
+        <div class="predict-options">
+          <button type="button">1分ごとの記録</button>
+          <button type="button" data-right>冷え込みに早く気づくこと</button>
+        </div>
+        <div class="predict-answer" hidden><b>冷え込みに早く気づくこと</b>　1分ごとは，そのための手段の1つ<br>「それはつまり，急に冷えたらすぐ知りたい，ということですか？」と聞き返せば，別の作り方もありえた</div>
+      </div>
+      <label class="note-label" for="september">9月の変更のとき，何をしていれば防げた？</label>
+      <textarea class="note" data-id="september" id="september" placeholder="例：記録の数を見積もる／……"></textarea>
+      <div class="check-row">
+        <p class="done">防ぐ方法を記入</p>
+        <label class="check"><input type="checkbox" data-step="1"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ② 手応えメモ ===== -->
+    <section class="card printable" id="step-2">
+      <div class="step-head">
+        <span class="step-num">2</span>
+        <h2>手応えメモを並べる</h2>
+      </div>
+      <p class="hint">各回の最後に書いたメモ（このブラウザに保存した分）</p>
+      <div style="overflow-x:auto;">
+        <table class="memo-table">
+          <thead><tr><th>回</th><th>自分でできた所</th><th>手伝ってもらった所</th><th>もう一度・もっと</th></tr></thead>
+          <tbody id="memo-rows"></tbody>
+        </table>
+      </div>
+      <p class="hint" id="memo-empty" hidden>保存されたメモなし（別の PC・ブラウザで書いた場合）</p>
+      <label class="note-label" for="strength" style="margin-top:14px;">並べて見ると，楽しかった・得意そうな作業は？</label>
+      <textarea class="note" data-id="strength" id="strength" placeholder="例：原因を測って絞る作業．……"></textarea>
+      <div class="check-row">
+        <p class="done">得意そうな作業を記入</p>
+        <label class="check"><input type="checkbox" data-step="2"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ③ 次の相談 ===== -->
+    <section class="card printable" id="step-3">
+      <div class="step-head">
+        <span class="step-num">3</span>
+        <h2>次の相談「土の水分も測りたい」</h2>
+      </div>
+      <p>メンターが園主の役．まず聞き取り（何が・いつから・どのくらい・何に困る・いつまでに）</p>
+      <p>変わりそうな部品は？（当てはまるものを全部）</p>
+      <div class="parts-check">
+        <label><input type="checkbox">センサー</label>
+        <label><input type="checkbox">データベースの表</label>
+        <label><input type="checkbox">サーバー</label>
+        <label><input type="checkbox">画面</label>
+      </div>
+      <details>
+        <summary>答えの例</summary>
+        <div class="detail-body">
+          <div class="terms">
+            <div class="term-row"><code>センサー</code><span>土の水分を測って送る（sensor.py の送る値）</span></div>
+            <div class="term-row"><code>データベースの表</code><span>readings に「土の水分」の列（schema.sql）</span></div>
+            <div class="term-row"><code>サーバー</code><span>受け取る値・返す値に追加（app.py の Reading と返事）</span></div>
+            <div class="term-row"><code>画面</code><span>カードに表示（index.html・list.js）</span></div>
+          </div>
+          <p>全部．「低温の回数」を足したときと同じく，部品を順にたどる<br>記録の数は増えない（同じ1件に列が増えるだけ）？ → これも確認</p>
+        </div>
+      </details>
+      <label class="note-label" for="consult">相談のまとめ（何が問題か・根拠・まだ分からないこと・次にすること）</label>
+      <textarea class="note" data-id="consult" id="consult" style="min-height:140px;" placeholder="何が問題か：&#10;根拠：&#10;まだ分からないこと：&#10;次にすること："></textarea>
+      <label class="note-label" for="question">園主に確かめる質問（1つ）</label>
+      <textarea class="note" data-id="question" id="question" style="min-height:60px;" placeholder="例：水分が分かったら，何を判断したいですか？"></textarea>
+      <div class="check-row">
+        <p class="done">まとめと質問を記入</p>
+        <label class="check"><input type="checkbox" data-step="3"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ④ できるようになったこと ===== -->
+    <section class="card printable" id="step-4">
+      <div class="step-head">
+        <span class="step-num">4</span>
+        <h2>できるようになったこと</h2>
+      </div>
+      <div class="skills">
+        <label><input type="checkbox" data-skill="1"> 変数・if・for・リスト・辞書のコードを読める</label>
+        <label><input type="checkbox" data-skill="2"> 入力を受け取り，答えを出すプログラムを書ける</label>
+        <label><input type="checkbox" data-skill="3"> 遅さを再現し，測って原因を絞れる</label>
+        <label><input type="checkbox" data-skill="4"> 差分を読み，何を変えたかを説明できる</label>
+        <label><input type="checkbox" data-skill="5"> ブランチ・コミット・Pull request で変更を提案できる</label>
+        <label><input type="checkbox" data-skill="6"> コンフリクトを，両方の意図で解消できる</label>
+        <label><input type="checkbox" data-skill="7"> 相談を聞き取り，Issue と受入基準にできる</label>
+      </div>
+      <label class="note-label" for="next" style="margin-top:12px;">この先，自分で伸ばしたいこと</label>
+      <textarea class="note" data-id="next" id="next" placeholder="例：アルゴリズムの問題を週に〇問．……"></textarea>
+      <p class="hint">伸ばし方：自分で考える・仲間と議論する・得意な人に聞く</p>
+      <button type="button" class="print no-print">PDF に保存（印刷 → PDF に保存）</button>
+      <div class="check-row">
+        <p class="done">チェックと記入をして，PDF に保存</p>
+        <label class="check"><input type="checkbox" data-step="4"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <section class="card finish" id="finish" hidden>
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="">
+      <span class="stamp">全11回 完了</span>
+      <h2>おつかれさまでした</h2>
+      <ul class="goal">
+        <li>アプリを動かし，読み，直し，届けた</li>
+        <li>園主の相談を，記録と基準にした</li>
+        <li>自分の得意の手がかり</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <script>
+    // 第3〜10回の手応えメモを，このブラウザの保存から集めて表に並べる
+    const LESSONS = ["03", "04", "05", "06", "07", "08", "09", "10"];
+    const FIELDS = ["memo-done", "memo-help", "memo-again"];
+    const rows = document.getElementById("memo-rows");
+    let found = 0;
+    for (const lesson of LESSONS) {
+      const values = FIELDS.map((field) => localStorage.getItem(`mentor-study-note-${lesson}-${field}`) || "");
+      if (values.every((value) => value === "")) continue;
+      found = found + 1;
+      const row = document.createElement("tr");
+      row.innerHTML = "<td></td><td></td><td></td><td></td>";
+      row.children[0].textContent = `第${Number(lesson)}回`;
+      values.forEach((value, i) => { row.children[i + 1].textContent = value; });
+      rows.appendChild(row);
+    }
+    document.getElementById("memo-empty").hidden = found > 0;
+
+    // できるようになったことのチェックも保存する
+    for (const box of document.querySelectorAll("[data-skill], .parts-check input")) {
+      const key = `mentor-study-11-${box.dataset.skill || box.parentElement.textContent.trim()}`;
+      box.checked = localStorage.getItem(key) === "1";
+      box.addEventListener("change", () => localStorage.setItem(key, box.checked ? "1" : "0"));
+    }
+  </script>
+  <script src="../tip.js"></script>
+  <script src="../page.js"></script>
+  <script src="../lesson.js"></script>
+</body>
+</html>
