@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>第4回 本日の最高・最低 | メンター勉強会</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../lesson.css">
+</head>
+<body data-lesson="04">
+  <header class="topbar">
+    <a class="brand" href="../">メンター勉強会</a>
+  </header>
+
+  <section class="hero">
+    <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="ひだまり農園のビニールハウス">
+    <div class="hero-text">
+      <h1>第4回　本日の最高・最低</h1>
+      <p>たくさんの記録から，1つの答えを出す</p>
+    </div>
+  </section>
+
+  <nav class="progress" aria-label="進捗">
+    <div class="progress-groups">
+      <div class="progress-group"><span>準備</span>
+        <div class="progress-dots"><button class="dot" data-step="1">1</button></div>
+      </div>
+      <div class="progress-group"><span>読む</span>
+        <div class="progress-dots"><button class="dot" data-step="2">2</button><button class="dot" data-step="3">3</button><button class="dot" data-step="4">4</button></div>
+      </div>
+      <div class="progress-group"><span>書く</span>
+        <div class="progress-dots"><button class="dot" data-step="5">5</button><button class="dot" data-step="6">6</button></div>
+      </div>
+    </div>
+    <div class="progress-count" id="progress-count"></div>
+  </nav>
+
+  <main class="page">
+
+    <section class="card">
+      <h2>今回の目標</h2>
+      <ul class="goal">
+        <li>リストと for を読める</li>
+        <li>最高を求める流れを1行ずつ追える</li>
+        <li>最高を求めるプログラムを自分で書く</li>
+      </ul>
+    </section>
+
+    <aside class="memo">
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/strawberry.jpg" alt="">
+      <div><b>先輩メモ｜引き継ぎ 2</b><p>カードの「本日最高・本日最低」．<br>1日分の記録から1つを選ぶ処理．</p></div>
+    </aside>
+
+    <!-- ===== ① 起動 ===== -->
+    <section class="card" id="step-1">
+      <div class="step-head">
+        <span class="step-num">1</span>
+        <h2>アプリの起動</h2>
+        <span class="where ub">Ubuntu</span>
+      </div>
+      <p class="hint">今回から，サーバーとセンサーは VS Code の中のターミナルで実行<br>画面が1つで済む</p>
+      <ol class="actions" style="--step: '1'">
+        <li>
+          <p>VS Code でアプリを開く</p>
+          <p class="hint">Windows キー →「ubuntu」→ Enter</p>
+          <div class="cmd"><code data-tip="アプリのフォルダに移動し，VS Code で開く">cd ~/berry-watch && code .</code><button class="copy">コピー</button></div>
+          <p class="hint">VS Code が開いたら，Ubuntu の画面は終了可</p>
+        </li>
+        <li>
+          <p>サーバーの起動<span class="where vs" style="margin-left:6px;">VS Code</span></p>
+          <p class="hint">上部のメニュー「ターミナル」→「新しいターミナル」<br>→ 下に開いた画面に貼り付け（Ctrl + V）→ Enter</p>
+          <div class="cmd"><code data-tip="アプリを起動">docker compose up</code><button class="copy">コピー</button></div>
+          <p class="hint"><code>Application startup complete.</code> → 起動完了</p>
+        </li>
+        <li>
+          <p>センサーの代わりを実行<span class="where vs" style="margin-left:6px;">VS Code</span></p>
+          <p class="hint">ターミナルの右上の「＋」→ 2つ目のターミナル</p>
+          <div class="cmd"><code data-tip="センサーの代わりを起動">python3 sensor.py</code><button class="copy">コピー</button></div>
+          <p class="hint">ターミナルの切り替え：右側の一覧（bash が2つ）</p>
+        </li>
+        <li>
+          <p>ブラウザで <a href="http://localhost:8000" target="_blank">http://localhost:8000</a></p>
+        </li>
+      </ol>
+      <details>
+        <summary>うまくいかないとき</summary>
+        <div class="detail-body">
+          <p><b>No such file or directory</b><br>→ アプリが未取得．第2回の「アプリの取得」から</p>
+          <p><b>左下に「WSL: Ubuntu」が出ない</b><br>→ VS Code を閉じて，1-1 をもう一度</p>
+          <p><b>permission denied</b>（docker）<br>→ メンターと確認</p>
+        </div>
+      </details>
+      <div class="check-row">
+        <p class="done">8棟の温度の表示<br>VS Code にファイル一覧</p>
+        <label class="check"><input type="checkbox" data-step="1"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ② リスト ===== -->
+    <section class="card" id="step-2">
+      <div class="step-head">
+        <span class="step-num">2</span>
+        <h2>リスト</h2>
+      </div>
+      <p>今朝の3号棟の温度（3回分）</p>
+<div class="code"><span class="line">temperatures = [9.0, 7.0, 11.0]</span><span class="line">print(temperatures[0])</span><span class="line">print(len(temperatures))</span></div>
+      <div class="terms">
+        <div class="term-row"><code>[9.0, 7.0, 11.0]</code><span><span data-tip="複数の値を順番に並べて，1つの変数に入れたもの" data-tip-head="用語｜リスト">リスト</span>．値を順番に並べたもの</span></div>
+        <div class="term-row"><code>temperatures[0]</code><span>先頭の値．番号は 0 から</span></div>
+        <div class="term-row"><code>len( )</code><span>リストの長さ（値の数）</span></div>
+      </div>
+      <div class="predict">
+        <p class="predict-q">出力の2行は？</p>
+        <div class="predict-options">
+          <button type="button">9.0 と 2</button>
+          <button type="button" data-right>9.0 と 3</button>
+          <button type="button">7.0 と 3</button>
+        </div>
+        <div class="predict-answer" hidden><b>9.0 と 3</b>　番号 0 が先頭の 9.0．値は3つ</div>
+      </div>
+      <div class="check-row">
+        <p class="done">答えを確認</p>
+        <label class="check"><input type="checkbox" data-step="2"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ③ for ===== -->
+    <section class="card" id="step-3">
+      <div class="step-head">
+        <span class="step-num">3</span>
+        <h2>for で1つずつ調べる</h2>
+      </div>
+      <p>最高を求めるコード．「次へ」で1行ずつ</p>
+      <div class="trace">
+        <div class="trace-body">
+          <div class="code trace-code"><span class="line">temperatures = [9.0, 7.0, 11.0]</span><span class="line">highest = temperatures[0]</span><span class="line"><span class="k">for</span> t <span class="k">in</span> temperatures:</span><span class="line">    <span class="k">if</span> t &gt; highest:</span><span class="line">        highest = t</span><span class="line">print(highest)</span></div>
+          <div class="trace-side">
+            <h4>変数の中身</h4>
+            <div class="trace-vars"></div>
+          </div>
+        </div>
+        <p class="trace-note"></p>
+        <div class="trace-nav">
+          <button type="button" class="trace-prev">前へ</button>
+          <button type="button" class="trace-next">次へ</button>
+          <button type="button" class="trace-restart">⟲ 最初から</button>
+          <span class="trace-count"></span>
+        </div>
+        <script type="application/json" class="trace-steps">[
+          {"line": 1, "vars": {"temperatures": "[9.0, 7.0, 11.0]"}, "changed": ["temperatures"], "note": "3つの温度をリストに"},
+          {"line": 2, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0"}, "changed": ["highest"], "note": "ひとまず先頭の 9.0 を最高とする"},
+          {"line": 3, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0", "t": "9.0"}, "changed": ["t"], "note": "1回目：先頭の 9.0 を t に"},
+          {"line": 4, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0", "t": "9.0"}, "note": "9.0 > 9.0 → False．5行目は飛ばす"},
+          {"line": 3, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0", "t": "7.0"}, "changed": ["t"], "note": "2回目：次の 7.0 を t に"},
+          {"line": 4, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0", "t": "7.0"}, "note": "7.0 > 9.0 → False．飛ばす"},
+          {"line": 3, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0", "t": "11.0"}, "changed": ["t"], "note": "3回目：最後の 11.0 を t に"},
+          {"line": 4, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0", "t": "11.0"}, "note": "11.0 > 9.0 → True．5行目へ"},
+          {"line": 5, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "11.0", "t": "11.0"}, "changed": ["highest"], "note": "最高を 11.0 に更新"},
+          {"line": 6, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "11.0", "t": "11.0"}, "note": "リストの最後まで調べた → for を抜けて 11.0 を出力"}
+        ]</script>
+      </div>
+      <div class="terms">
+        <div class="term-row"><code>for t in リスト:</code><span>リストの値を先頭から1つずつ t に入れ，<br>字下げした行をくり返す</span></div>
+      </div>
+      <div class="predict">
+        <p class="predict-q">4行目の <code>&gt;</code> を <code>&lt;</code> にすると，出力は？</p>
+        <div class="predict-options">
+          <button type="button">11.0</button>
+          <button type="button" data-right>7.0</button>
+          <button type="button">9.0</button>
+        </div>
+        <div class="predict-answer" hidden><b>7.0</b>　小さい値で更新 → 最低になる<br>変数の名前は highest のまま．名前と中身がずれるので，本物では lowest に</div>
+      </div>
+      <div class="check-row">
+        <p class="done">最後まで追って，答えを確認</p>
+        <label class="check"><input type="checkbox" data-step="3"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ④ アプリの中 ===== -->
+    <section class="card" id="step-4">
+      <div class="step-head">
+        <span class="step-num">4</span>
+        <h2>アプリの中の最高・最低</h2>
+        <span class="where vs">VS Code</span>
+      </div>
+      <p><code>app.py</code> で Ctrl + F →「highest」</p>
+<span class="code-file">app.py（today_summary の中）</span>
+<div class="code"><span class="line">    latest = today_rows[-1]</span><span class="line is-mark">    highest = today_rows[0][<span class="s">"temperature"</span>]</span><span class="line">    lowest = today_rows[0][<span class="s">"temperature"</span>]</span><span class="line is-mark">    <span class="k">for</span> row <span class="k">in</span> today_rows:</span><span class="line is-mark">        <span class="k">if</span> row[<span class="s">"temperature"</span>] &gt; highest:</span><span class="line is-mark">            highest = row[<span class="s">"temperature"</span>]</span><span class="line">        <span class="k">if</span> row[<span class="s">"temperature"</span>] &lt; lowest:</span><span class="line">            lowest = row[<span class="s">"temperature"</span>]</span></div>
+      <div class="terms">
+        <div class="term-row"><code>today_rows</code><span>本日の記録のリスト（1件＝温度・湿度・時刻）</span></div>
+        <div class="term-row"><code>row["temperature"]</code><span>その記録の温度<br>（記録の中から温度を取り出す書き方．次回）</span></div>
+        <div class="term-row"><code>today_rows[-1]</code><span>最後（最新）の記録．-1 は後ろから1つ目</span></div>
+      </div>
+      <p>黄色の4行は，③ と同じ形<br>下の2行は <code>&lt;</code> で最低．1回の for で最高と最低を同時に</p>
+      <p class="hint">結果はカードの「本日最高」「本日最低」に表示</p>
+      <div class="check-row">
+        <p class="done">③ と同じ形の4行を発見</p>
+        <label class="check"><input type="checkbox" data-step="4"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑤ 練習 ===== -->
+    <section class="card practice" id="step-5">
+      <div class="step-head">
+        <span class="step-num">5</span>
+        <h2>最高を求める</h2>
+      </div>
+      <p class="hint">入力は受け取り済み（temperatures にリストで）．続きを書く</p>
+
+      <h3>問1　本日の最高</h3>
+      <p>温度のリストから最高を出力．<code>max( )</code> は使わない</p>
+      <div class="io">
+        <div><b>入力例（1行目は記録の数）</b><pre>3
+9.0
+7.0
+11.0</pre></div>
+        <div><b>出力例</b><pre>11.0</pre></div>
+      </div>
+      <div class="judge" data-id="04-1">
+        <script type="text/plain" class="starter">n = int(input())                           # 記録の数
+temperatures = []
+for i in range(n):
+    temperatures.append(float(input()))    # 温度を1つずつリストに追加
+
+# ここから書く（max は使わない）
+</script>
+        <script type="application/json" class="tests">[
+          {"in": "3\n9.0\n7.0\n11.0", "out": "11.0"},
+          {"in": "1\n5.5", "out": "5.5"},
+          {"in": "4\n-2.0\n-5.0\n-1.0\n-3.0", "out": "-1.0"},
+          {"in": "5\n12.4\n8.0\n15.1\n15.1\n9.9", "out": "15.1"}
+        ]</script>
+      </div>
+      <details>
+        <summary>ヒント</summary>
+        <div class="detail-body"><p>③ のコードの2〜6行目と同じ形<br>最初の最高を 0 にすると，全部マイナスのときに失敗</p></div>
+      </details>
+      <details>
+        <summary>解答例</summary>
+        <div class="detail-body">
+<div class="code"><span class="line">highest = temperatures[0]</span><span class="line"><span class="k">for</span> t <span class="k">in</span> temperatures:</span><span class="line">    <span class="k">if</span> t &gt; highest:</span><span class="line">        highest = t</span><span class="line">print(highest)</span></div>
+        </div>
+      </details>
+
+      <h3>問2　最低と低温の回数（続き）</h3>
+      <p>1行目に最低，2行目に 8.0 未満の回数を出力</p>
+      <div class="io">
+        <div><b>入力例</b><pre>4
+9.0
+7.0
+11.0
+7.5</pre></div>
+        <div><b>出力例</b><pre>7.0
+2</pre></div>
+      </div>
+      <div class="judge" data-id="04-2">
+        <script type="text/plain" class="starter">n = int(input())
+temperatures = []
+for i in range(n):
+    temperatures.append(float(input()))
+
+</script>
+        <script type="application/json" class="tests">[
+          {"in": "4\n9.0\n7.0\n11.0\n7.5", "out": "7.0\n2"},
+          {"in": "3\n12.0\n10.5\n9.0", "out": "9.0\n0"},
+          {"in": "3\n8.0\n7.9\n8.1", "out": "7.9\n1"}
+        ]</script>
+      </div>
+      <details>
+        <summary>ヒント</summary>
+        <div class="detail-body"><p>回数は <code>count = 0</code> から始め，低温のたびに <code>count = count + 1</code></p></div>
+      </details>
+      <details>
+        <summary>解答例</summary>
+        <div class="detail-body">
+<div class="code"><span class="line">lowest = temperatures[0]</span><span class="line">count = 0</span><span class="line"><span class="k">for</span> t <span class="k">in</span> temperatures:</span><span class="line">    <span class="k">if</span> t &lt; lowest:</span><span class="line">        lowest = t</span><span class="line">    <span class="k">if</span> t &lt; 8.0:</span><span class="line">        count = count + 1</span><span class="line">print(lowest)</span><span class="line">print(count)</span></div>
+        </div>
+      </details>
+      <div class="check-row">
+        <p class="done">問1 が全問正解（問2 は続き）</p>
+        <label class="check"><input type="checkbox" data-step="5"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑦ 手応えメモ ===== -->
+    <section class="card" id="step-6">
+      <div class="step-head">
+        <span class="step-num">6</span>
+        <h2>手応えメモ</h2>
+      </div>
+      <p class="hint">このブラウザに保存．第11回で並べて振り返る</p>
+      <label class="note-label" for="memo-done">自分でできた所</label>
+      <textarea class="note" data-id="memo-done" id="memo-done"></textarea>
+      <label class="note-label" for="memo-help">手伝ってもらった所</label>
+      <textarea class="note" data-id="memo-help" id="memo-help"></textarea>
+      <label class="note-label" for="memo-again">もう一度やりたい所・もっと知りたい所</label>
+      <textarea class="note" data-id="memo-again" id="memo-again"></textarea>
+      <div class="check-row">
+        <p class="done">3つとも記入</p>
+        <label class="check"><input type="checkbox" data-step="6"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <section class="card finish" id="finish" hidden>
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="">
+      <span class="stamp">第4回 完了</span>
+      <h2>最高・最低を読めた</h2>
+      <ul class="goal">
+        <li>リストと for</li>
+        <li>1行ずつ追う読み方</li>
+        <li>最高を求めるプログラム</li>
+      </ul>
+      <p style="margin-top: 16px;">次回は，記録1件の形と，前任者の変更の履歴</p>
+    </section>
+
+    <section class="card">
+      <h2>終了</h2>
+      <p class="closable">センサー → サーバーの順に，各ターミナルで Ctrl + C<br>入力待ち（$）に戻ったら，VS Code・ブラウザを閉じる</p>
+    </section>
+
+  </main>
+
+  <script src="../tip.js"></script>
+  <script src="../page.js"></script>
+  <script src="../lesson.js"></script>
+</body>
+</html>
