@@ -3,7 +3,7 @@
 # 「次の作業」の列の番号は，第2回のページの見出しの番号を指す．
 # 使い方（PowerShell）：
 #   [Net.ServicePointManager]::SecurityProtocol = 'Tls12'
-#   irm https://kokiwakatsuki.github.io/berry-watch-course/win/tools.txt | iex
+#   irm https://kokiwakatsuki.github.io/mentor-study/win/tools.txt | iex
 
 # 全角の字は2文字分の幅として，列をそろえる
 function Pad($text, $width) { $w = 0; foreach ($c in $text.ToCharArray()) { $w += $(if ([int]$c -gt 255) { 2 } else { 1 }) }; $text + (' ' * [Math]::Max(1, $width - $w)) }
@@ -28,9 +28,9 @@ $linux = @(Get-ChildItem $lxss -ErrorAction SilentlyContinue | ForEach-Object { 
 $main  = (Get-ItemProperty $lxss -ErrorAction SilentlyContinue).DefaultDistribution
 
 # systemd（docker を自動起動する仕組み）には 0.67.6 以上の版が必要
-if ($wsl -and [version]$wsl.Version -lt [version]'0.67.6') { Row '※' 'WSL' '③（wsl --update）' ('版が古い ' + $wsl.Version) }
-elseif ($wsl) { Row '○' 'WSL' '不要' ('新しい版 ' + $wsl.Version) }
-elseif ($linux.Count -gt 0) { Row '※' 'WSL' '③（wsl --update）' '古い版' }
+if ($wsl -and [version]$wsl.Version -lt [version]'0.67.6') { Row '※' 'WSL' '③の1' ('版が古い ' + $wsl.Version) }
+elseif ($wsl) { Row '○' 'WSL' '③の1 のみ' ('新しい版 ' + $wsl.Version) }
+elseif ($linux.Count -gt 0) { Row '※' 'WSL' '③の1' '古い版' }
 else { Row '×' 'WSL' '③' '' }
 
 # Linux：WSL がレジストリに書く一覧から読む（Version 2 が WSL2）
@@ -39,11 +39,11 @@ foreach ($d in $linux) {
   $isWsl2 = $d.Version -eq 2
   $label  = $d.DistributionName + $(if ($isWsl2) { ' / WSL2' } else { ' / WSL1' }) + $(if ($d.PSChildName -eq $main) { '（いつも使う）' } else { '' })
   if ($d.DistributionName -notlike 'Ubuntu*') { Row '・' 'Linux' '不要（講義では使わない）' $label }
-  elseif ($isWsl2) { Row '○' 'Linux' '不要' $label }
-  else { Row '※' 'Linux' 'メンターと確認' ('wsl --set-version ' + $d.DistributionName + ' 2') }
+  elseif ($isWsl2) { Row '○' 'Ubuntu' '不要' $label }
+  else { Row '※' 'Ubuntu' 'メンターと確認' ('wsl --set-version ' + $d.DistributionName + ' 2') }
 }
-if (-not $ubuntu -and $wsl) { Row '×' 'Linux' '③' 'Ubuntu がない' }
-elseif (-not $ubuntu -and $linux.Count -gt 0) { Row '×' 'Linux' '③' 'Ubuntu がない' }
+# Ubuntu がない場合は，WSL の有無にかかわらず表示する（③の2 が必要かの判断に使う）
+if (-not $ubuntu) { Row '×' 'Ubuntu' '③' '' }
 
 # VS Code：アプリがあっても，code コマンドが呼び出せないとターミナルから開けない
 $x = Find 'code'
@@ -54,7 +54,10 @@ $other = @(Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uni
   Where-Object { $_.DisplayName -like 'Microsoft Visual Studio Code*' -and $_.InstallLocation } | ForEach-Object { $_.InstallLocation.TrimEnd('\') }) +
   @(Get-ChildItem "$env:USERPROFILE\Downloads", "$env:USERPROFILE\Desktop" -Filter Code.exe -Recurse -Depth 3 -ErrorAction SilentlyContinue | ForEach-Object { $_.DirectoryName }) |
   Where-Object { $_ -and $_ -ne $app } | Select-Object -First 1
-if ($x) { Row '○' 'VS Code' '不要' $x }
+# 拡張機能（Container Tools）は新しい VS Code が必要．古い版は更新を案内する
+$ver = if ($x) { try { [version]((& $x --version 2>$null) | Select-Object -First 1) } catch { $null } }
+if ($x -and $ver -and $ver -lt [version]'1.109') { Row '△' 'VS Code' 'VS Code を更新' ('版が古い ' + $ver) }
+elseif ($x) { Row '○' 'VS Code' '④の3 のみ' $(if ($ver) { "版 $ver" } else { $x }) }
 elseif ($app -and $savedPath.ToLower().Contains("$app\bin".ToLower())) { Row '△' 'VS Code' 'PowerShell を再起動' $app }
 elseif ($app) { Row '※' 'VS Code' 'メンターと確認' ('code コマンドがない：' + $app) }
 elseif ($other) { Row '※' 'VS Code' 'メンターと確認' ('標準とは別の場所：' + $other) }
@@ -65,5 +68,5 @@ $dd = @("$env:ProgramFiles\Docker\Docker", "$env:LOCALAPPDATA\Programs\DockerDes
 if ($dd) { Row '※' 'Docker Desktop' 'メンターと確認' 'Windows 側の Docker Desktop．講義では Ubuntu 側の docker を使う' }
 
 ''
-'○ 使用可　△ 未設定　× 未インストール　※ 要確認　・ 参考'
+'○ 使用可　△ 未設定・更新が必要　× 未インストール　※ 要確認　・ 参考'
 ''

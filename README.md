@@ -1,8 +1,9 @@
-# ベリーウォッチ講座
+# メンター勉強会
 
-架空の農園のアプリ「ベリーウォッチ」を題材にした Web 開発入門の講義資料．
+アプリの障害を解決し，再納品するまでを体験する勉強会の講義資料．
+題材は架空のいちご農園の温度監視アプリ「ベリーウォッチ」．
 
-- 公開ページ：https://kokiwakatsuki.github.io/berry-watch-course/
+- 公開ページ：https://kokiwakatsuki.github.io/mentor-study/
 - 教材のアプリ：https://github.com/KokiWakatsuki/berry-watch
 
 ## ファイル構成

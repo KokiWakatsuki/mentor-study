@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>第2回 アプリの起動 | ベリーウォッチ講座</title>
+  <title>第2回 アプリの起動 | メンター勉強会</title>
   <link rel="stylesheet" href="../style.css">
 </head>
 <body data-lesson="02">
   <header class="topbar">
-    <a class="brand" href="../">ベリーウォッチ講座</a>
+    <a class="brand" href="../">メンター勉強会</a>
   </header>
 
   <section class="hero">
@@ -67,42 +67,56 @@
     <section class="card">
       <h2>今日使う画面</h2>
       <div class="screens">
-        <div>
+        <div class="screen">
           <div class="window ps">
             <div class="window-bar">Windows PowerShell</div>
             <div class="window-body">PS C:\Users\名前&gt;</div>
           </div>
-          <div class="window-label"><span data-tip="コマンドを入力する画面" data-tip-head="用語｜PowerShell">PowerShell</span></div>
+          <div class="window-label"><span data-tip="コマンドを入力する画面" data-tip-head="用語｜PowerShell">PowerShell</span><small>①・②・④ で使用</small></div>
+          <dl class="how">
+            <dt>開く</dt><dd>Windows キー →「powershell」<br>→ Enter</dd>
+            <dt>貼り付け</dt><dd>Ctrl + V</dd>
+          </dl>
         </div>
-        <div>
+        <div class="screen">
           <div class="window ps">
             <div class="window-bar"><span class="mark-admin">管理者</span>: Windows PowerShell</div>
             <div class="window-body">PS C:\WINDOWS\system32&gt;</div>
           </div>
-          <div class="window-label">PowerShell（管理者）<small>上部に「管理者」の表示</small></div>
+          <div class="window-label">PowerShell（管理者）<small>③ だけで使用．上部に「管理者」</small></div>
+          <dl class="how">
+            <dt>開く</dt><dd>Windows キー →「powershell」<br>→ 検索結果を右クリック<br>→「管理者として実行」→「はい」<br><small class="note">パスワードを聞かれたらメンターと確認</small></dd>
+            <dt>貼り付け</dt><dd>Ctrl + V</dd>
+          </dl>
         </div>
-        <div>
+        <div class="screen">
           <div class="window ub">
             <div class="window-bar">名前@PC名: ~</div>
             <div class="window-body"><span class="user">名前@PC名</span>:<span class="path">~</span>$</div>
           </div>
-          <div class="window-label"><span data-tip="Windows の中で動く，別の OS" data-tip-head="用語｜Ubuntu">Ubuntu</span><small>最後に「$」の表示</small></div>
+          <div class="window-label"><span data-tip="Windows の中で動く，別の OS" data-tip-head="用語｜Ubuntu">Ubuntu</span><small>③ の初期設定・⑤ 以降で使用．最後に「$」</small></div>
+          <dl class="how">
+            <dt>開く</dt><dd>Windows キー →「ubuntu」<br>→ Enter</dd>
+            <dt>貼り付け</dt><dd><span data-tip="黒い部分のどこでもよい／Ctrl + V は効かないことがある" data-tip-head="貼り付け｜Ubuntu">画面の中で右クリック</span></dd>
+          </dl>
         </div>
-        <div>
+        <div class="screen">
           <div class="window">
             <div class="window-bar">Visual Studio Code</div>
             <div class="window-body" style="background:#1F1F1F;">▸ berry-watch</div>
           </div>
-          <div class="window-label"><span data-tip="コードを編集するアプリ" data-tip-head="用語｜VS Code">VS Code</span>・ブラウザ</div>
+          <div class="window-label"><span data-tip="コードを編集するアプリ" data-tip-head="用語｜VS Code">VS Code</span>・ブラウザ<small>⑥ 以降で使用</small></div>
+          <dl class="how">
+            <dt>開く</dt><dd>VS Code は ⑥ で自動<br>ブラウザは普段のもの</dd>
+            <dt>貼り付け</dt><dd>Ctrl + V（VS Code の中のターミナルも）</dd>
+          </dl>
         </div>
       </div>
-      <div class="rules">
-        <div class="rule"><b>起動</b><span>Windows キー → 名前を入力 → Enter</span></div>
-        <div class="rule"><b>管理者</b><span>検索結果の「Windows PowerShell」を右クリック<br>→「管理者として実行」→「はい」</span></div>
-        <div class="rule"><b>貼り付け</b><span>右クリック</span></div>
-        <div class="rule"><b>終了</b><span>「終了可」の表示まで開いたまま</span></div>
+      <div class="rule-box">
+        <p><b>コマンド</b>「コピー」→ 画面に貼り付け → Enter<br><small>長いコマンドは横に続く．コピーで全文</small></p>
+        <p><b>画面</b>「終了可」の表示まで開いたまま</p>
+        <p><b>補足</b>点線の語・コマンド横の「?」</p>
       </div>
-      <p class="hint">点線の語・コマンド横の「?」→ 補足を表示</p>
     </section>
 
     <!-- ===== ① ===== -->
@@ -112,7 +126,7 @@
         <h2>PC の確認</h2>
         <span class="where ps">PowerShell</span>
       </div>
-      <div class="cmd"><code data-tip="確認のみ．インストールなし">[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/berry-watch-course/win/pc.txt | iex</code><button class="copy">コピー</button></div>
+      <div class="cmd"><code data-tip="確認のみ．インストールなし">[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/mentor-study/win/pc.txt | iex</code><button class="copy">コピー</button></div>
       <details>
         <summary>表示例</summary>
         <div class="detail-body">
@@ -136,18 +150,19 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <h2>道具の確認</h2>
         <span class="where ps">PowerShell</span>
       </div>
-      <div class="cmd"><code data-tip="確認のみ．インストールなし">[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/berry-watch-course/win/tools.txt | iex</code><button class="copy">コピー</button></div>
+      <div class="cmd"><code data-tip="確認のみ．インストールなし">[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/mentor-study/win/tools.txt | iex</code><button class="copy">コピー</button></div>
       <details>
         <summary>表示例</summary>
         <div class="detail-body">
 <pre class="out">    道具        次の作業      詳細
 ○  winget      不要
 ×  WSL         ③
+×  Ubuntu      ③
 ×  VS Code     ④</pre>
         </div>
       </details>
       <div class="check-row">
-        <p class="done">「次の作業」の番号を把握（③・④ → その手順で準備）</p>
+        <p class="done">「次の作業」の列を把握</p>
         <label class="check"><input type="checkbox" data-step="2"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
@@ -159,26 +174,29 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <h2>Ubuntu の準備</h2>
         <span class="where admin">PowerShell（管理者）</span>
       </div>
+      <p class="hint"><span data-tip="Windows で Ubuntu を動かす仕組み" data-tip-head="用語｜WSL">WSL</span> は土台，Ubuntu はその上で動く OS<br>土台を最新にしてから，Ubuntu を入れる</p>
       <ol class="actions">
         <li>
-          <p><span data-tip="Windows で Ubuntu を動かす仕組み" data-tip-head="用語｜WSL">WSL</span> の更新<span class="when">全員</span></p>
-          <div class="cmd"><code data-tip="WSL を最新版に更新">wsl --update</code><button class="copy">コピー</button></div>
+          <p>WSL の更新<span class="when">全員</span></p>
+          <div class="cmd"><code data-tip="WSL を最新版に更新／古い版は，docker の自動起動に必要な仕組み（systemd）に未対応">wsl --update</code><button class="copy">コピー</button></div>
         </li>
         <li>
-          <p>Ubuntu のインストール<span class="when">② で WSL が ×</span></p>
+          <p>Ubuntu のインストール<span class="when">Ubuntu がない人</span></p>
           <div class="cmd"><code data-tip="Ubuntu をインストール">wsl --install -d Ubuntu</code><button class="copy">コピー</button></div>
           <span class="wait"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5V8l2.5 1.5"/></svg>待機 数分</span>
-          <p class="hint">再起動の指示 → 再起動</p>
+          <p class="hint">「再起動が必要」の表示 → Windows を再起動</p>
         </li>
         <li>
-          <p>初期設定</p>
+          <p>初期設定<span class="when">初回のみ</span></p>
+          <p class="hint">再起動後，Ubuntu の画面が自動で開く</p>
           <details open>
             <summary>表示と入力</summary>
             <div class="detail-body">
               <ol>
-                <li>英語の案内文で停止 → Enter</li>
-                <li><code>Enter new UNIX username:</code> → 英小文字の名前</li>
-                <li><code>New password:</code> → パスワード（<b>入力は非表示</b>．2回）</li>
+                <li>英語の案内文で止まったら → Enter</li>
+                <li><code>Enter new UNIX username:</code><br>または <code>Create a default Unix user account:</code><br>→ 英小文字の名前</li>
+                <li><code>New password:</code><br>→ パスワード（<b>入力は非表示</b>）</li>
+                <li><code>Retype new password:</code><br>→ 同じパスワード</li>
                 <li><code>名前@PC名:~$</code> → 完了</li>
               </ol>
             </div>
@@ -187,8 +205,15 @@ Windows     ○    Windows 10 Home（ビルド 19045）
       </ol>
       <p class="caution">ここで決めたパスワードは Ubuntu 用<br>Windows のパスワードとは別．このあとも使用</p>
       <p class="closable">管理者の PowerShell は，ここで終了可</p>
+      <details>
+        <summary>うまくいかないとき</summary>
+        <div class="detail-body">
+          <p><b>再起動後，Ubuntu の画面が出ない</b><br>→ Windows キー →「ubuntu」→ Enter</p>
+          <p><b>「ubuntu」が検索に出ない</b><br>→ 管理者の PowerShell で 2 をもう一度</p>
+        </div>
+      </details>
       <div class="check-row">
-        <p class="done"><code>名前@PC名:~$</code> の表示</p>
+        <p class="done">Ubuntu を開くと <code>名前@PC名:~$</code></p>
         <label class="check"><input type="checkbox" data-step="3"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
@@ -202,15 +227,22 @@ Windows     ○    Windows 10 Home（ビルド 19045）
       </div>
       <ol class="actions">
         <li>
-          <p>VS Code のインストール<span class="when">② で VS Code が ×</span></p>
+          <p>VS Code のインストール<span class="when">VS Code がない人</span></p>
           <div class="cmd"><code data-tip="VS Code をインストール">winget install -e --id Microsoft.VisualStudioCode</code><button class="copy">コピー</button></div>
+          <p class="hint">「agree」と聞かれたら → Y → Enter</p>
         </li>
         <li>
-          <p><span data-tip="VS Code を認識させるため" data-tip-head="理由｜再起動">PowerShell の再起動</span></p>
+          <p><span data-tip="code コマンドを使えるようにするため" data-tip-head="理由｜再起動">PowerShell の再起動</span><span class="when">1 を実行した人</span></p>
+          <p class="hint">右上の × で閉じる → 開き直す</p>
         </li>
         <li>
           <p>拡張機能の追加<span class="when">全員</span></p>
-          <div class="cmd"><code data-tip="Ubuntu 接続・日本語化">code --install-extension ms-vscode-remote.remote-wsl --install-extension ms-ceintl.vscode-language-pack-ja</code><button class="copy">コピー</button></div>
+          <div class="cmd"><code data-tip="下の2つを追加">code --install-extension ms-vscode-remote.remote-wsl --install-extension ms-ceintl.vscode-language-pack-ja</code><button class="copy">コピー</button></div>
+          <div class="exts">
+            <div class="ext"><b>WSL</b><span>VS Code から Ubuntu の中を開く</span></div>
+            <div class="ext"><b>Japanese Language Pack</b><span>表示を日本語に</span></div>
+          </div>
+          <p class="hint">画面の変化はまだなし<br>⑥ で VS Code を開くと反映</p>
         </li>
       </ol>
       <p class="closable">PowerShell は，ここで終了可<br>このあとは使わない</p>
@@ -221,7 +253,7 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         </div>
       </details>
       <div class="check-row">
-        <p class="done">最後の2行に <code>successfully installed</code>（または <code>already installed</code>）</p>
+        <p class="done">WSL・日本語の両方に<br><code>successfully installed</code>（または <code>already installed</code>）</p>
         <label class="check"><input type="checkbox" data-step="4"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
@@ -233,25 +265,25 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <h2><span data-tip="変更履歴を記録する道具" data-tip-head="用語｜git">git</span>・<span data-tip="アプリを箱（コンテナ）ごと起動する道具" data-tip-head="用語｜docker">docker</span> の準備</h2>
         <span class="where ub">Ubuntu</span>
       </div>
-      <p class="caution">パスワードを聞かれたら，③ で決めた Ubuntu 用を入力<br>入力しても画面には表示されない</p>
+      <p class="caution">パスワードを聞かれたら，Ubuntu 用を入力（Windows 用とは別）<br>入力しても画面には表示されない</p>
       <ol class="actions">
         <li>
           <p><span data-tip="変更の履歴を記録する道具／チームでコードを共有するときにも使う" data-tip-head="用語｜git">git</span> のインストール</p>
           <div class="cmd"><code data-tip="git をインストール">sudo apt update && sudo apt install -y git</code><button class="copy">コピー</button></div>
         </li>
         <li>
-          <p><span data-tip="アプリを，必要な道具ごと箱（コンテナ）に入れて起動する道具／どの PC でも同じように動く" data-tip-head="用語｜docker">docker</span> のインストール</p>
+          <p><span data-tip="アプリを，必要な道具ごと箱（コンテナ）に入れて起動する道具／PC ごとの違いが出にくい" data-tip-head="用語｜docker">docker</span> のインストール</p>
           <div class="cmd"><code data-tip="docker をインストール">curl -fsSL https://get.docker.com | sudo sh && sudo usermod -aG docker $USER</code><button class="copy">コピー</button></div>
           <span class="wait"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5V8l2.5 1.5"/></svg>待機 数分（英文で20秒停止 → そのまま）</span>
         </li>
         <li>
           <p>Ubuntu の再起動（1回のみ）</p>
           <div class="cmd"><code data-tip="Ubuntu を停止">wsl.exe --shutdown</code><button class="copy">コピー</button></div>
-          <p class="hint">停止後，Ubuntu を起動し直す</p>
+          <p class="hint">停止後，この画面を閉じる<br>→ Windows キー →「ubuntu」→ Enter</p>
         </li>
         <li>
           <p>確認</p>
-          <div class="cmd"><code data-tip="インストール結果を確認">curl -fsSL https://kokiwakatsuki.github.io/berry-watch-course/ubuntu/tools.sh | bash</code><button class="copy">コピー</button></div>
+          <div class="cmd"><code data-tip="インストール結果を確認">curl -fsSL https://kokiwakatsuki.github.io/mentor-study/ubuntu/tools.sh | bash</code><button class="copy">コピー</button></div>
         </li>
       </ol>
       <details>
@@ -262,16 +294,17 @@ Windows     ○    Windows 10 Home（ビルド 19045）
 ○  systemd     不要
 ○  git         不要          git version 2.43.0
 ○  python3     不要          Python 3.12.3
-○  docker      不要          Docker version 29.x.x</pre>
+○  docker      不要          Docker version 29.x.x
+○  compose     不要          Docker Compose version v2.x.x</pre>
         </div>
       </details>
       <details>
         <summary>うまくいかないとき</summary>
         <div class="detail-body">
-          <p><b>systemd が ※</b> → ③ の1（WSL の更新）→ ここの3</p>
-          <p><b>systemd が ×</b> → 次を実行 → ここの3</p>
+          <p><b>systemd が ※</b><br>→ ③ の1（WSL の更新）→ ここの3 → ここの4</p>
+          <p><b>systemd が ×</b><br>→ 次を実行 → ここの3 → ここの4</p>
           <div class="cmd"><code data-tip="docker の自動起動を設定">printf '[boot]\nsystemd=true\n' | sudo tee -a /etc/wsl.conf</code><button class="copy">コピー</button></div>
-          <p><b>docker が △</b> → ここの3</p>
+          <p><b>docker が △</b><br>→ ここの3 → ここの4</p>
         </div>
       </details>
       <div class="check-row">
@@ -286,27 +319,59 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <span class="step-num">6</span>
         <h2>アプリの取得</h2>
         <span class="where ub">Ubuntu</span>
+        <span class="where vs">VS Code</span>
       </div>
-      <div class="cmd"><code data-tip="アプリを複製し，VS Code で開く">git clone https://github.com/KokiWakatsuki/berry-watch.git && cd berry-watch && code .</code><button class="copy">コピー</button></div>
-      <details open>
-        <summary>VS Code の起動後</summary>
-        <div class="detail-body">
-          <ol>
-            <li>英語表示 → 右下「Change Language and Restart」</li>
-            <li>「作成者を信頼しますか？」→「はい」</li>
-            <li>「おすすめ拡張機能」→「インストール」</li>
-          </ol>
-        </div>
-      </details>
+      <ol class="actions">
+        <li>
+          <p>アプリを取得し，VS Code で開く</p>
+          <div class="cmd"><code data-tip="アプリを複製し，VS Code で開く">git clone https://github.com/KokiWakatsuki/berry-watch.git && cd berry-watch && code .</code><button class="copy">コピー</button></div>
+        </li>
+        <li>
+          <p>VS Code の初期表示</p>
+          <details open>
+            <summary>表示と操作</summary>
+            <div class="detail-body">
+              <ol>
+                <li>英語表示 → 右下「Change Language and Restart」</li>
+                <li>「作成者を信頼しますか？」<br>→「はい、作成者を信頼します」</li>
+                <li>左下に「WSL: Ubuntu」の表示<br>（Ubuntu の中を開いている印）</li>
+                <li>アプリの説明書（README）が自動で表示<br>（出ない → 左の README.md をクリック）</li>
+                <li>「おすすめの拡張機能」の通知 → 無視でよい（次の 3 で追加）</li>
+              </ol>
+            </div>
+          </details>
+        </li>
+        <li>
+          <p>拡張機能の追加<span class="when">全員</span></p>
+          <p class="hint">VS Code 上部のメニュー「ターミナル」→「新しいターミナル」<br>→ 下に開いた画面に貼り付け（Ctrl + V）→ Enter</p>
+          <div class="cmd"><code data-tip="下の4つを Ubuntu 側に追加／Ubuntu の画面で実行すると，Windows 側に入る">code --install-extension ms-python.python --install-extension ms-azuretools.vscode-containers --install-extension mhutchie.git-graph --install-extension qwtel.sqlite-viewer</code><button class="copy">コピー</button></div>
+          <div class="exts">
+            <div class="ext"><b>Python</b><span>コードの色分け・説明の表示</span></div>
+            <div class="ext"><b>Container Tools</b><span>動いている docker の箱を一覧</span></div>
+            <div class="ext"><b>Git Graph</b><span>変更の履歴を図で表示</span></div>
+            <div class="ext"><b>SQLite Viewer</b><span>データベースの中身を表で表示</span></div>
+          </div>
+          <p class="hint">確認：左端の <span data-tip="四角が4つ並んだアイコン" data-tip-head="場所｜拡張機能">拡張機能</span><br>→「WSL: UBUNTU - インストール済み」に上の4つ（ほかも増えてよい）<br>→ 左端の一番上のアイコンで，ファイル一覧に戻る</p>
+        </li>
+      </ol>
       <div class="files">
         <div class="file"><code>README.md</code><span>説明書</span></div>
         <div class="file"><code>sensor.py</code><span>センサーの代わり</span></div>
-        <div class="file"><code data-tip="app（application）．アプリの中心の処理によく使う名前" data-tip-head="名前の由来｜app.py">app.py</code><span>サーバー</span></div>
-        <div class="file"><code data-tip="static（静的）．中身が変わらないファイルの置き場" data-tip-head="名前の由来｜static">static/</code><span>画面</span></div>
+        <div class="file"><code data-tip="application（アプリ）の略" data-tip-head="名前の由来｜app.py">app.py</code><span>サーバー</span></div>
+        <div class="file"><code data-tip="static（静的）／ブラウザにそのまま届けるファイル（HTML・CSS・画像）の置き場" data-tip-head="名前の由来｜static">static/</code><span>画面</span></div>
         <div class="file later"><code>その他</code><span>今日は不要</span></div>
       </div>
+      <details>
+        <summary>うまくいかないとき</summary>
+        <div class="detail-body">
+          <p><b>already exists</b>（取得済み）<br>→ 次を実行</p>
+          <div class="cmd"><code data-tip="取得済みのアプリを VS Code で開く">cd ~/berry-watch && code .</code><button class="copy">コピー</button></div>
+          <p><b>日本語の通知が出ない</b><br>→ Ctrl + Shift + P →「Configure Display Language」→「日本語」</p>
+          <p><b>左下に「WSL」が出ない</b> → メンターと確認</p>
+        </div>
+      </details>
       <div class="check-row">
-        <p class="done">VS Code に上のファイル一覧</p>
+        <p class="done">VS Code の左に上のファイル一覧<br>拡張機能の一覧に上の4つ</p>
         <label class="check"><input type="checkbox" data-step="6"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
@@ -317,19 +382,19 @@ Windows     ○    Windows 10 Home（ビルド 19045）
       <div class="parts">
         <figure class="part">
           <img src="../images/parts/sensor.jpg" alt="ハウスの中の温度センサー">
-          <figcaption><b>センサー</b>温度を測る機械<span class="part-here">今日の代役：<code>sensor.py</code></span><span class="part-name">名前の由来<br>sensor（センサー）</span></figcaption>
+          <figcaption><b>センサー</b>温度を測る機械<span class="part-here">今日の代役<br><code>sensor.py</code></span><span class="part-name">名前の由来<br>sensor（センサー）</span></figcaption>
         </figure>
         <figure class="part">
           <img src="../images/parts/server.jpg" alt="要求に応答するサーバー">
-          <figcaption><b>サーバー</b>要求に応じてデータを用意<span class="part-here"><code>app.py</code>（1つ目の Ubuntu）</span><span class="part-name">名前の由来<br>app（application）．アプリの中心の処理によく使う名前</span></figcaption>
+          <figcaption><b>サーバー</b>要求に応じてデータを用意<span class="part-here"><code>app.py</code><br>1つ目の Ubuntu で動く</span><span class="part-name">名前の由来<br>application（アプリ）の略</span></figcaption>
         </figure>
         <figure class="part">
           <img src="../images/parts/database.jpg" alt="記録をしまうデータベース">
-          <figcaption><b>データベース</b>記録の保管庫<span class="part-here"><code>data/house.db</code></span><span class="part-name">名前の由来<br>db（database）</span></figcaption>
+          <figcaption><b>データベース</b>記録の保管庫<span class="part-here"><code>data/house.db</code><br>サーバーが読み書き</span><span class="part-name">名前の由来<br>database の略</span></figcaption>
         </figure>
         <figure class="part">
           <img src="../images/parts/screen.jpg" alt="スマホに表示された画面">
-          <figcaption><b>画面</b>園主が見る所<span class="part-here">ブラウザ（<code>static/</code>）</span><span class="part-name">名前の由来<br>static（静的）．中身が変わらないファイル（HTML・CSS・画像）の置き場</span></figcaption>
+          <figcaption><b>画面</b>園主が見る所<span class="part-here"><code>static/</code><br>ブラウザで表示</span><span class="part-name">名前の由来<br>static（静的）<br>そのまま届けるファイル</span></figcaption>
         </figure>
       </div>
       <div class="key"><p><b>画面</b>　見る所</p><p><b>サーバー</b>　データを用意する所</p></div>
@@ -343,9 +408,10 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <h2>アプリの起動</h2>
         <span class="where ub">Ubuntu</span>
       </div>
+      <p class="hint">⑥ の1 で使った Ubuntu の画面に戻る</p>
       <div class="cmd"><code data-tip="アプリを起動">docker compose up --build</code><button class="copy">コピー</button></div>
       <span class="wait"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5V8l2.5 1.5"/></svg>初回 1〜2分</span>
-      <p class="hint" style="margin-top: 8px;"><code>Uvicorn running on http://0.0.0.0:8000</code> → 起動完了</p>
+      <p class="hint" style="margin-top: 8px;"><code>Application startup complete.</code> → 起動完了</p>
       <p class="closable">この画面はサーバー<br>閉じない</p>
       <p>ブラウザで <a href="http://localhost:8000" target="_blank">http://localhost:8000</a></p>
       <img class="shot" src="../images/02/app_empty.jpg" alt="起動直後の画面．全棟が記録なし">
@@ -365,7 +431,7 @@ Windows     ○    Windows 10 Home（ビルド 19045）
 
     <aside class="memo">
       <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="">
-      <div><b>先輩メモ｜起動確認</b><p>起動できたら，準備の半分は完了．</p></div>
+      <div><b>先輩メモ｜起動確認</b><p>起動できたら，次は温度を送る番．</p></div>
     </aside>
 
     <!-- ===== ⑧ ===== -->
@@ -378,17 +444,18 @@ Windows     ○    Windows 10 Home（ビルド 19045）
       <ol class="actions">
         <li>
           <p>Ubuntu をもう1つ起動</p>
+          <p class="hint">Windows キー →「ubuntu」→ Enter</p>
         </li>
         <li>
           <p>実行</p>
-          <div class="cmd"><code data-tip="センサーの代わりを起動">cd berry-watch && python3 sensor.py</code><button class="copy">コピー</button></div>
+          <div class="cmd"><code data-tip="センサーの代わりを起動">cd ~/berry-watch && python3 sensor.py</code><button class="copy">コピー</button></div>
 <pre class="out">1号棟：10.2℃，75.3% を送信
 ……（8号棟まで．1分ごと）</pre>
         </li>
         <li>
-          <p>ブラウザで「更新」</p>
+          <p>ブラウザに戻り，アプリの「更新」ボタン</p>
           <img class="shot" src="../images/02/app_data.jpg" alt="温度が表示された画面．3号棟が低温">
-          <p class="caption">表示例（数値は毎回異なる）．カードを押すと，棟の温度グラフ</p>
+          <p class="caption">表示例（数値は毎回異なる）<br>カードを押す → 棟の温度グラフ</p>
         </li>
       </ol>
       <div class="check-row">
@@ -474,7 +541,8 @@ Windows     ○    Windows 10 Home（ビルド 19045）
       <details>
         <summary>封筒の色</summary>
         <div class="detail-body">
-          <p><span class="env-sample blue">青</span> 測定値・返事（中に数値）　<span class="env-sample yellow">黄</span> 問い合わせ</p>
+          <p><span class="env-sample blue">青</span> 数値が入った封筒（測定値・返事）</p>
+          <p><span class="env-sample yellow">黄</span> 問い合わせ</p>
         </div>
       </details>
 
@@ -499,7 +567,7 @@ Windows     ○    Windows 10 Home（ビルド 19045）
 
     <section class="card">
       <h2>終了</h2>
-      <p class="closable">2つの Ubuntu で Ctrl + C → 画面を閉じる</p>
+      <p class="closable">センサー → サーバーの順に Ctrl + C<br>入力待ち（$）に戻ったら，Ubuntu・VS Code・ブラウザを閉じる</p>
     </section>
 
   </main>
