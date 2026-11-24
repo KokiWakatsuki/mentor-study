@@ -235,3 +235,49 @@ textarea.note:focus { outline: none; border-color: var(--blue); }
 .vsc .cur { background: rgba(45, 164, 78, 0.25); display: block; }
 .vsc .inc { background: rgba(56, 139, 253, 0.25); display: block; }
 .mark-time { padding: 1px 6px; outline: 2px solid var(--orange); border-radius: 4px; color: var(--gray); }
+
+/* ===== 絵が中心の部品（第3回以降） ===== */
+
+/* 今日の問い：大きな絵と，1行の問い */
+.hook { text-align: center; }
+.hook-q { margin: 14px 0 0; font-size: 20px; font-weight: bold; line-height: 1.6; }
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.compare figure { margin: 0; }
+.compare img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: top; border-radius: 10px; border: 1px solid var(--line); }
+.compare figcaption { margin-top: 6px; font-weight: bold; text-align: center; }
+.compare figcaption small { display: block; color: var(--gray); font-weight: normal; font-size: 13px; }
+
+/* 絵と，その下に並ぶ言葉 */
+.picture { margin: 4px 0 14px; text-align: center; }
+.picture img { width: 100%; max-width: 360px; }
+.picture-labels { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: -6px; }
+.chip { display: inline-flex; align-items: baseline; gap: 8px; padding: 6px 14px; border-radius: 999px; background: var(--white); border: 2px solid var(--green); font-weight: bold; }
+.chip code { color: var(--green); font-size: 15px; }
+.chip.red { border-color: var(--orange); } .chip.red code { color: var(--orange); }
+.chip.blue { border-color: var(--blue); } .chip.blue code { color: var(--blue); }
+
+/* 値の流れ（左から右へ） */
+.flow { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
+.flow-box { padding: 10px 14px; border-radius: 12px; background: var(--background); text-align: center; line-height: 1.4; }
+.flow-box b { display: block; font-size: 20px; }
+.flow-box small { color: var(--gray); font-size: 13px; }
+.flow-box.yes { background: #FDECEA; color: #8C2A12; }
+.flow-arrow { color: var(--gray); font-size: 20px; }
+
+/* 人物のメモ（写真つき） */
+.memo.person img { border-radius: 50%; }
+
+/* 3行に収める説明 */
+.lead { font-size: 17px; font-weight: bold; }
+.memo.person img { object-position: center 22%; }
+
+/* 絵の上に言葉を重ねる（位置は絵の幅・高さに対する %） */
+.overlay { position: relative; display: inline-block; width: 100%; max-width: 360px; }
+.overlay img { display: block; width: 100%; }
+.overlay .on-pic { position: absolute; transform: translate(-50%, -50%); font-family: "Consolas", "Menlo", monospace; font-weight: bold; white-space: nowrap; line-height: 1.2; text-align: center; }
+.on-pic.tag { color: var(--text); font-size: 15px; }
+.on-pic.value { padding: 4px 10px; border-radius: 8px; background: var(--white); border: 2px solid #C9D2CE; font-size: 22px; }
+.on-pic.value.blue { color: var(--blue); }
+.on-pic.label { padding: 3px 10px; border-radius: 999px; background: var(--white); border: 2px solid var(--green); color: var(--green); font-family: inherit; font-size: 14px; }
+.on-pic.label.red { border-color: var(--orange); color: var(--orange); }
+.on-pic.cond { padding: 3px 10px; border-radius: 8px; background: var(--text); color: var(--white); font-size: 14px; }
