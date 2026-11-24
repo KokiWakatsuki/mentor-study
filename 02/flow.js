@@ -70,7 +70,8 @@ def today_summary(house_id: int):
   },
 ];
 
-const MOVE_TIME = 450;  // 札が1区間を移動する時間（ミリ秒）．style.css の .tag と合わせる
+const MOVE_TIME = 1000;   // 札が1区間を移動する時間（ミリ秒）．style.css の .tag と合わせる
+const START_PAUSE = 700;  // 移動を始める前に，出発点で止まる時間（ミリ秒）
 
 
 // ============================================================
@@ -85,6 +86,8 @@ const fileName = document.getElementById("flow-file");
 const codeArea = document.getElementById("flow-code");
 const prevButton = document.getElementById("flow-prev");
 const nextButton = document.getElementById("flow-next");
+const replayButton = document.getElementById("flow-replay");
+const restartButton = document.getElementById("flow-restart");
 const highlightIds = ["box-sensor", "arrow-1", "box-screen", "arrow-3", "box-server", "arrow-2", "box-db", "landed"];
 
 let current = 0;        // 表示中の段（0 から数える）
@@ -104,12 +107,18 @@ function moveTagTo(boxId) {
   tag.style.transform = `translate(${x}px, ${y}px)`;
 }
 
-// 札を，path の場所を順に通って動かす
+// 札を，出発点に置いて少し止めたあと，path の場所を順に通って動かす
 function moveTagAlong(path) {
   moveTimers.forEach(clearTimeout);
   moveTimers = [];
-  path.forEach((boxId, index) => {
-    moveTimers.push(setTimeout(() => moveTagTo(boxId), index * MOVE_TIME));
+
+  tag.classList.add("no-move");   // 出発点へは一瞬で移す
+  moveTagTo(path[0]);
+  tag.offsetWidth;                // 位置を確定させてから，動きを戻す
+  tag.classList.remove("no-move");
+
+  path.slice(1).forEach((boxId, index) => {
+    moveTimers.push(setTimeout(() => moveTagTo(boxId), START_PAUSE + index * MOVE_TIME));
   });
 }
 
@@ -139,5 +148,7 @@ function showStep() {
 
 prevButton.addEventListener("click", () => { current -= 1; showStep(); });
 nextButton.addEventListener("click", () => { current += 1; showStep(); });
+replayButton.addEventListener("click", showStep);
+restartButton.addEventListener("click", () => { current = 0; showStep(); });
 window.addEventListener("resize", () => moveTagTo(STEPS[current].path.at(-1)));
 showStep();

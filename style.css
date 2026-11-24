@@ -235,21 +235,28 @@ a { color: var(--blue-dark); }
 .closable { margin-top: 10px; padding: 8px 16px; border-radius: 10px; border: 1px dashed var(--line); color: var(--gray); font-size: 14px; }
 
 .check {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 8px 16px;
+  position: relative;
+  flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 150px;
+  padding: 10px 18px;
   border: 2px solid var(--green);
   border-radius: 999px;
+  background: var(--white);
   color: var(--green);
   font-weight: bold;
+  line-height: 1.4;
   cursor: pointer;
   user-select: none;
-  transition: background 0.16s, color 0.16s;
+  transition: background 0.16s, color 0.16s, transform 0.1s;
 }
+.check:hover { background: var(--green-light); }
+.check:active { transform: scale(0.97); }
 .check input { position: absolute; opacity: 0; pointer-events: none; }
-.check .box { width: 18px; height: 18px; border: 2px solid var(--green); border-radius: 5px; transition: background 0.16s; }
+.check .check-on { display: none; }
 .check:has(input:checked) { background: var(--green); color: var(--white); }
-.check:has(input:checked) .box { background: var(--white); border-color: var(--white); }
-.check:has(input:checked) .box::after { content: "✓"; display: block; color: var(--green); font-size: 14px; line-height: 14px; text-align: center; }
+.check:has(input:checked) .check-on { display: inline; }
+.check:has(input:checked) .check-off { display: none; }
 .check:has(input:focus-visible) { outline: 3px solid var(--blue); outline-offset: 2px; }
 
 
@@ -268,6 +275,17 @@ details[open] summary::before { content: "▾ "; }
 
 .shot { display: block; width: 100%; margin: 12px 0 4px; border: 1px solid var(--line); border-radius: 10px; }
 .caption { color: var(--gray); font-size: 14px; }
+
+
+/* ===== アプリの4つの部品 ===== */
+
+.parts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.part { margin: 0; padding: 12px 10px 14px; border-radius: 12px; background: var(--background); text-align: center; }
+.part img { width: 100%; max-width: 120px; aspect-ratio: 1; object-fit: contain; }
+.part figcaption { font-size: 14px; line-height: 1.6; }
+.part b { display: block; font-size: 16px; }
+.part-here { display: block; margin-top: 6px; color: var(--gray); font-size: 12px; }
+.key { margin: 18px 0 0; padding: 12px 16px; border-radius: 10px; background: var(--green-light); font-weight: bold; text-align: center; }
 
 
 /* ===== VS Code のファイル一覧 ===== */
@@ -329,6 +347,7 @@ details[open] summary::before { content: "▾ "; }
 .stage .wide { grid-column: 1 / 3; }
 .box { padding: 10px 8px 34px; border: 2px solid #CCD5D1; border-radius: 12px; background: var(--white); color: var(--gray); text-align: center; font-weight: bold; line-height: 1.5; transition: border-color 0.3s, background 0.3s, color 0.3s; }
 .box small { display: block; font-weight: normal; font-size: 12px; }
+.box-img { display: block; width: 44px; height: 44px; margin: 0 auto 2px; object-fit: contain; }
 .box.on { border-color: var(--green); background: var(--green-light); color: var(--text); }
 .arrow { color: #B8C2BE; text-align: center; font-size: 13px; transition: color 0.3s; }
 .arrow.on { color: var(--blue); font-weight: bold; }
@@ -344,14 +363,17 @@ details[open] summary::before { content: "▾ "; }
   font-weight: bold;
   white-space: nowrap;
   box-shadow: 0 2px 8px rgba(0, 90, 255, 0.2);
-  transition: transform 0.45s ease-in-out, opacity 0.2s;
+  transition: transform 1s ease-in-out, opacity 0.2s;
   pointer-events: none;
 }
 .tag.is-hidden { opacity: 0; }
+.tag.no-move { transition: none; }
 .landed { display: block; visibility: hidden; margin-top: 6px; padding: 4px; border-radius: 8px; background: var(--white); color: var(--text); border: 1px solid var(--line); }
 .landed.on { visibility: visible; }
 .flow-text { min-height: 5.7em; margin: 16px 0 10px; white-space: pre-line; }   /* 段が変わってもボタンの位置を固定 */
-.flow-nav { display: flex; gap: 10px; }
+.flow-nav { display: flex; flex-wrap: wrap; gap: 10px; }
+.flow-nav .sub { background: var(--white); color: var(--green); border: 2px solid var(--green); }
+.flow-nav .sub:first-of-type { margin-left: auto; }
 .flow-nav button { padding: 8px 24px; border: none; border-radius: 8px; background: var(--green); color: var(--white); font-size: 15px; font-weight: bold; cursor: pointer; }
 .flow-nav button:disabled { background: #CCD5D1; cursor: default; }
 .flow-code pre { margin: 8px 0 0; padding: 14px; border-radius: 8px; background: var(--text); color: var(--green-light); font-size: 13px; line-height: 1.6; overflow-x: auto; }
@@ -382,6 +404,7 @@ details[open] summary::before { content: "▾ "; }
   .card { padding: 22px 18px; }
   .finish img { width: calc(100% + 36px); margin: -22px -18px 20px; }
   .screens { grid-template-columns: 1fr; }
+  .parts { grid-template-columns: 1fr 1fr; }
   .rule, .file { grid-template-columns: 1fr; gap: 0; }
   .progress-group span { display: none; }
   .dot { width: 22px; height: 22px; line-height: 18px; font-size: 11px; }
