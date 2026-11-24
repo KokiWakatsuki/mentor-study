@@ -88,11 +88,11 @@
           <div class="cmd"><code data-tip="アプリのフォルダに移動し，VS Code で開く／開いたら Ubuntu の画面は閉じてよい">cd ~/berry-watch && code .</code><button class="copy">コピー</button></div>
         </li>
         <li>
-          <p>メニュー「ターミナル」→「新しいターミナル」</p>
+          <p>メニュー「ターミナル」→「新しいターミナル」（1つ目＝サーバー）</p>
           <div class="cmd"><code data-tip="アプリを起動／Application startup complete. で完了">docker compose up</code><button class="copy">コピー</button></div>
         </li>
         <li>
-          <p>ターミナル右上の <b>＋</b> → 2つ目</p>
+          <p>ターミナル右上の <b>＋</b>（2つ目＝センサー）</p>
           <div class="cmd"><code data-tip="センサーの代わりを起動">python3 sensor.py</code><button class="copy">コピー</button></div>
         </li>
         <li>
@@ -163,8 +163,8 @@
         <div class="overlay">
           <img src="../images/03/concept_if.jpg" alt="分かれ道に立ついちご">
           <span class="on-pic cond" style="left:50%; top:16%;">temperature &lt; limit ?</span>
-          <span class="on-pic label red" style="left:15%; top:59%;">True → 低温</span>
-          <span class="on-pic label" style="left:85%; top:59%;">False → 正常</span>
+          <span class="on-pic label red" style="left:19%; top:59%;">True → 低温</span>
+          <span class="on-pic label" style="left:81%; top:59%;">False → 正常</span>
         </div>
       </div>
 <div class="code"><span class="line"><span class="k">if</span> temperature &lt; limit:</span><span class="line">    print(<span class="s">"低温"</span>)</span><span class="line"><span class="k">else</span>:</span><span class="line">    print(<span class="s">"正常"</span>)</span></div>

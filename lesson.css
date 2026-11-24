@@ -281,3 +281,41 @@ textarea.note:focus { outline: none; border-color: var(--blue); }
 .on-pic.label { padding: 3px 10px; border-radius: 999px; background: var(--white); border: 2px solid var(--green); color: var(--green); font-family: inherit; font-size: 14px; }
 .on-pic.label.red { border-color: var(--orange); color: var(--orange); }
 .on-pic.cond { padding: 3px 10px; border-radius: 8px; background: var(--text); color: var(--white); font-size: 14px; }
+.flow-box img { display: block; margin: 0 auto 2px; }
+
+/* ===== PC の中の地図（入れ子の箱）と GitHub ===== */
+
+.pcmap { display: grid; grid-template-columns: 1fr 120px; gap: 12px; align-items: start; margin: 8px 0 12px; font-size: 14px; }
+.pcmap-box { position: relative; padding: 26px 10px 10px; border-radius: 12px; border: 2px solid; }
+.pcmap-box.win { border-color: var(--blue); background: #F3F7FF; }
+.pcmap-box.wsl { margin-top: 10px; border-color: #7A8B95; background: #F6F7F8; }
+.pcmap-box.ub { border-color: var(--orange); background: #FFF6F1; }
+.pcmap-name { position: absolute; left: 10px; top: 4px; font-size: 12px; font-weight: bold; color: var(--gray); }
+.pcmap-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.pcmap-item { flex: 1; min-width: 110px; padding: 6px 10px; border-radius: 8px; background: var(--white); border: 1px solid var(--line); font-weight: bold; line-height: 1.4; }
+.pcmap-item small { color: var(--gray); font-weight: normal; }
+.pcmap-item.folder { margin-top: 8px; border: 2px solid var(--green); }
+.pcmap-cloud { padding: 18px 8px; border-radius: 40px; background: #24292F; color: var(--white); font-weight: bold; text-align: center; line-height: 1.4; }
+.pcmap-cloud small { font-weight: normal; color: #C9D1D9; }
+@media (max-width: 720px) { .pcmap { grid-template-columns: 1fr; } }
+.overlay.wide { max-width: 520px; }
+.on-pic.big { font-size: 26px; color: var(--text); }
+.on-pic.big.small { font-size: 18px; }
+.on-pic.big.blue { color: var(--blue); }
+.on-pic.tag.white { color: var(--white); font-size: 13px; }
+.on-pic.note-s { font-family: inherit; font-size: 12px; color: var(--text); }
+.on-pic.note-s.red { color: var(--orange); }
+@media (max-width: 720px) { .on-pic.big { font-size: 20px; } .on-pic.tag.white { font-size: 11px; } .on-pic.note-s { font-size: 11px; } }
+.pcmap-item small, .pcmap-cloud small { font-size: 12px; }
+@media (max-width: 720px) { .on-pic.tag.white { font-size: 12px; } .on-pic.note-s { font-size: 12px; } }
+.pcmap { grid-template-columns: 1fr 64px 120px; align-items: center; }
+.pcmap-link { text-align: center; color: var(--gray); line-height: 1.3; }
+.pcmap-arrow::before { content: "⇄"; display: block; font-size: 28px; color: var(--blue); }
+.pcmap-link small { font-size: 12px; font-weight: bold; }
+@media (max-width: 720px) { .pcmap { grid-template-columns: 1fr; } .pcmap-arrow::before { content: "⇅"; } }
+
+/* 第3回以降：長いコマンドは折り返して全文を見せる（コピーの中身は同じ） */
+.cmd code { white-space: pre-wrap; overflow-wrap: anywhere; }
+/* コンフリクトの画面の見本は大きく */
+.vsc.big { font-size: 14px; }
+.on-pic.label.blue-l { border-color: var(--blue); color: var(--blue); }

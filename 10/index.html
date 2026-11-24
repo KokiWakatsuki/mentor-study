@@ -45,18 +45,20 @@
 
   <main class="page">
 
-    <section class="card">
-      <h2>今回の目標</h2>
-      <ul class="goal">
-        <li>仲間の Pull request をレビュー</li>
-        <li>同じ行の変更の重なり（コンフリクト）を解消</li>
-        <li>戻し方を決めて，再納品</li>
-      </ul>
+    <section class="card hook">
+      <div class="flow">
+        <div class="flow-box"><img src="../images/10/concept_review.jpg" alt="" style="width:96px;"><small>仲間の目</small></div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box"><img src="../images/10/concept_staging.jpg" alt="" style="width:96px;"><small>園主の目</small></div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box"><img src="../images/10/concept_revert.jpg" alt="" style="width:96px;"><small>戻し方</small></div>
+      </div>
+      <p class="hook-q">納める前の，3つの確認</p>
     </section>
 
-    <aside class="memo">
-      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/strawberry.jpg" alt="">
-      <div><b>先輩メモ｜納める前に</b><p>自分以外の目で確かめる．<br>園主と同じ画面で確かめる．戻し方も決めておく．</p></div>
+    <aside class="memo person">
+      <img src="../images/people/senpai.jpg" alt="">
+      <div><b>先輩｜納める前に</b><p>自分以外の目で．園主と同じ画面で．<br>戻し方も決めておく．</p></div>
     </aside>
 
     <!-- ===== ① 起動 ===== -->
@@ -64,30 +66,47 @@
       <div class="step-head">
         <span class="step-num">1</span>
         <h2>アプリの起動</h2>
-        <span class="where ub">Ubuntu</span>
+        <span class="where vs">VS Code</span>
       </div>
-      <p class="hint">今回から，サーバーとセンサーは VS Code の中のターミナルで実行<br>画面が1つで済む</p>
+      <p class="hint">サーバーもセンサーも，VS Code の下のターミナルで</p>
+      <details>
+        <summary>画面の見本（どこに打つ？）</summary>
+        <div class="detail-body">
+      <div class="vsc">
+        <div class="vsc-bar">berry-watch [WSL: Ubuntu] - Visual Studio Code</div>
+        <div class="vsc-main">
+          <div class="vsc-icons"><span class="on">▤</span><span>⌕</span><span>⑂</span><span>▷</span><span>⊞</span></div>
+          <div class="vsc-side">BERRY-WATCH<br>▸ data<br>▸ static<br>app.py<br>sensor.py</div>
+          <div class="vsc-editor"><span class="cl">ファイルの中身</span></div>
+        </div>
+        <div class="vsc-term">
+          <div class="vsc-term-bar"><span>ターミナル</span><span><span class="mark">＋</span> ∨ 🗑 ✕</span></div>
+          <div class="vsc-term-body">
+<pre class="out">名前@PC名:~/berry-watch$ python3 sensor.py
+1号棟：10.2℃，75.3% を送信</pre>
+            <div class="vsc-tabs">bash<br><span class="on">bash</span></div>
+          </div>
+        </div>
+        <div class="vsc-status">&gt;&lt; WSL: Ubuntu　　main</div>
+      </div>
+          <p class="caption">下のターミナル：1つ目＝サーバー，2つ目＝センサー（右の一覧で切り替え）</p>
+        </div>
+      </details>
       <ol class="actions" style="--step: '1'">
         <li>
-          <p>VS Code でアプリを開く</p>
-          <p class="hint">Windows キー →「ubuntu」→ Enter</p>
-          <div class="cmd"><code data-tip="アプリのフォルダに移動し，VS Code で開く">cd ~/berry-watch && code .</code><button class="copy">コピー</button></div>
-          <p class="hint">VS Code が開いたら，Ubuntu の画面は終了可</p>
+          <p>Ubuntu で実行 → VS Code が開く</p>
+          <div class="cmd"><code data-tip="アプリのフォルダに移動し，VS Code で開く／開いたら Ubuntu の画面は閉じてよい">cd ~/berry-watch && code .</code><button class="copy">コピー</button></div>
         </li>
         <li>
-          <p>サーバーの起動<span class="where vs" style="margin-left:6px;">VS Code</span></p>
-          <p class="hint">上部のメニュー「ターミナル」→「新しいターミナル」<br>→ 下に開いた画面に貼り付け（Ctrl + V）→ Enter</p>
-          <div class="cmd"><code data-tip="アプリを起動">docker compose up</code><button class="copy">コピー</button></div>
-          <p class="hint"><code>Application startup complete.</code> → 起動完了</p>
+          <p>メニュー「ターミナル」→「新しいターミナル」（1つ目＝サーバー）</p>
+          <div class="cmd"><code data-tip="アプリを起動／Application startup complete. で完了">docker compose up</code><button class="copy">コピー</button></div>
         </li>
         <li>
-          <p>センサーの代わりを実行<span class="where vs" style="margin-left:6px;">VS Code</span></p>
-          <p class="hint">ターミナルの右上の「＋」→ 2つ目のターミナル</p>
+          <p>ターミナル右上の <b>＋</b>（2つ目＝センサー）</p>
           <div class="cmd"><code data-tip="センサーの代わりを起動">python3 sensor.py</code><button class="copy">コピー</button></div>
-          <p class="hint">ターミナルの切り替え：右側の一覧（bash が2つ）</p>
         </li>
         <li>
-          <p>ブラウザで <a href="http://localhost:8000" target="_blank">http://localhost:8000</a></p>
+          <p>ブラウザで <a href="http://localhost:8000" target="_blank">localhost:8000</a></p>
         </li>
       </ol>
       <details>
@@ -95,21 +114,25 @@
         <div class="detail-body">
           <p><b>No such file or directory</b><br>→ アプリが未取得．第2回の「アプリの取得」から</p>
           <p><b>左下に「WSL: Ubuntu」が出ない</b><br>→ VS Code を閉じて，1-1 をもう一度</p>
-          <p><b>permission denied</b>（docker）<br>→ メンターと確認</p>
+          <p><b>permission denied</b>（docker）→ メンターと確認</p>
         </div>
       </details>
       <div class="check-row">
-        <p class="done">8棟の温度の表示<br>VS Code にファイル一覧</p>
+        <p class="done">8棟の温度の表示</p>
         <label class="check"><input type="checkbox" data-step="1"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
 
-    <!-- ===== ② レビュー ===== -->
     <section class="card" id="step-2">
       <div class="step-head">
         <span class="step-num">2</span>
         <h2>仲間の Pull request をレビュー</h2>
         <span class="where gh-where">GitHub</span>
+      </div>
+      <div class="picture">
+        <div class="overlay">
+          <img src="../images/10/concept_review.jpg" alt="同じ紙を一緒に見る2人">
+        </div>
       </div>
       <p class="hint">担当：メンターが決めた相手の1つ（自分のものは見ない）</p>
       <ol class="actions" style="--step: '2'">
@@ -145,59 +168,56 @@
       </div>
     </section>
 
-    <!-- ===== ③ ステージング ===== -->
     <section class="card" id="step-3">
       <div class="step-head">
         <span class="step-num">3</span>
-        <h2>ステージングで確認</h2>
+        <h2>ステージング＝リハーサル</h2>
         <span class="where br">スマホ</span>
       </div>
-      <div class="terms">
-        <div class="term-row"><code><span data-tip="本番と同じ形の，確認用の環境．園主には見えない" data-tip-head="用語｜ステージング">ステージング</span></code><span>本番と同じ形の確認用．園主には見えない</span></div>
-        <div class="term-row"><code>本番</code><span>園主が毎晩見ている環境</span></div>
+      <div class="picture">
+        <div class="overlay wide">
+          <img src="../images/10/concept_staging.jpg" alt="リハーサル用のハウスと本番のハウス">
+          <span class="on-pic label" style="left:29%; top:73%;">ステージング（確認用）</span><span class="on-pic label red" style="left:70%; top:73%;">本番（園主が見る）</span>
+        </div>
       </div>
       <ol class="actions" style="--step: '3'">
         <li><div class="wait-mentor">採用候補をステージングに反映．URL が届いたら <span style="white-space:nowrap">3-2 へ</span></div></li>
-        <li><p>届いた URL をスマホで開き，園主の操作をなぞる</p>
-          <p class="hint">一覧を開く → 3号棟のカードの「低温の回数」→ 更新 → 棟の画面</p></li>
+        <li><p>スマホで開く → 一覧 → 3号棟の「低温の回数」→ 棟の画面</p></li>
       </ol>
-      <label class="note-label" for="staging">園主の目で気づいたこと</label>
-      <textarea class="note" data-id="staging" id="staging" style="min-height:70px;" placeholder="例：回数は見やすい．ただ……"></textarea>
+      <textarea class="note" data-id="staging" id="staging" style="min-height:60px;" placeholder="園主の目で気づいたこと"></textarea>
+
       <div class="check-row">
         <p class="done">スマホで「低温の回数」を確認</p>
         <label class="check"><input type="checkbox" data-step="3"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
 
-    <!-- ===== ④ コンフリクトの理由 ===== -->
     <section class="card" id="step-4">
       <div class="step-head">
         <span class="step-num">4</span>
         <h2>同じ行を，2人が変えたら</h2>
+        
       </div>
-      <p>園主から，警告文について2つの要望．先輩と自分で分担した</p>
-      <div class="terms">
-        <div class="term-row"><code>元の文</code><span>…暖房と換気窓を確認してください．</span></div>
-        <div class="term-row"><code>先輩（扉も）</code><span>…暖房・換気窓・扉を確認してください．</span></div>
-        <div class="term-row"><code>自分（すぐに）</code><span>…暖房と換気窓をすぐに確認してください．</span></div>
-      </div>
-      <div class="predict">
-        <p class="predict-q">先輩の変更が main に入った後，自分の枝に main を取り込むと？</p>
-        <div class="predict-options">
-          <button type="button">先輩の文になる</button>
-          <button type="button">自分の文のまま</button>
-          <button type="button" data-right>自動では取り込めず，人が直す</button>
+      <div class="picture">
+        <div class="overlay">
+          <img src="../images/10/concept_conflict.jpg" alt="同じ行に2枚の付箋">
+          <span class="on-pic big" style="left:39%; top:57%; font-size:20px;">扉も</span><span class="on-pic big" style="left:59%; top:58%; font-size:20px;">すぐに</span><span class="on-pic note-s" style="left:15%; top:70%;">先輩（main）</span><span class="on-pic note-s" style="left:85%; top:70%;">自分（わき道）</span><span class="on-pic label" style="left:50%; top:22%;">警告文の同じ1行</span>
         </div>
-        <div class="predict-answer" hidden><b>自動では取り込めず，人が直す</b>　同じ行が別々に変わり，どちらを残すか Git には決められない<br>これが<span data-tip="同じ場所の変更が重なり，自動で取り込めない状態" data-tip-head="用語｜コンフリクト">コンフリクト</span>．失敗ではなく，相談の合図</div>
       </div>
-      <p>正解は「両方の意図を満たす1行」<br>…暖房・換気窓・扉を<b>すぐに</b>確認してください．</p>
+      <p>警告文の同じ1行を，2人が別々に変えた</p>
+      <div class="predict">
+        <p class="predict-q">先輩の変更が入った main を，自分のわき道に取り込むと？</p>
+        <div class="predict-options"><button type="button">先輩の文になる</button><button type="button">自分の文のまま</button><button type="button" data-right>自動では取り込めず，人が直す</button></div>
+        <div class="predict-answer" hidden><b>自動では取り込めず，人が直す</b>　これが<span data-tip="同じ場所の変更が重なり，自動で取り込めない状態" data-tip-head="用語｜コンフリクト">コンフリクト</span>．失敗ではなく，相談の合図</div>
+      </div>
+      <p class="lead">正解：両方の意図を1行に<br>…暖房・換気窓・<span style="background:rgba(3,175,122,.3);">扉</span>を<span style="background:rgba(3,175,122,.3);">すぐに</span>確認してください．</p>
+
       <div class="check-row">
-        <p class="done">起きる理由と，目指す1行を確認</p>
+        <p class="done">理由と，目指す1行を確認</p>
         <label class="check"><input type="checkbox" data-step="4"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
 
-    <!-- ===== ⑤ コンフリクトの解消 ===== -->
     <section class="card" id="step-5">
       <div class="step-head">
         <span class="step-num">5</span>
@@ -227,7 +247,7 @@
         </li>
         <li>
           <p><code>static/list.js</code> を開く → 重なった所（色付きの5行）</p>
-          <div class="vsc">
+          <div class="vsc big">
             <div class="vsc-bar">static/list.js</div>
             <div class="vsc-editor">
               <span class="cl" style="display:block;">現在の変更を採用 | 入力側の変更を採用 | 両方の変更を採用 | 変更の比較</span>
@@ -272,63 +292,63 @@
       </div>
     </section>
 
-    <!-- ===== ⑥ 戻し方 ===== -->
     <section class="card" id="step-6">
       <div class="step-head">
         <span class="step-num">6</span>
         <h2>戻し方を決める</h2>
+        
       </div>
-      <p>本番で問題が出たら，まず元に戻す．原因の調査はその後</p>
+      <div class="picture">
+        <div class="overlay">
+          <img src="../images/10/concept_revert.jpg" alt="巻き戻しのボタン">
+          <span class="on-pic label" style="left:50%; top:88%;">戻るのはコードの変更だけ</span>
+        </div>
+        <div class="picture-labels"><span class="chip">記録（データ）は残る</span></div>
+      </div>
       <ol class="actions" style="--step: '6'">
-        <li><p><b>開発チーム</b>　取り込んだ Pull request の下の「Revert」→「Create pull request」</p><p class="hint">「元に戻す変更」の Pull request ができる</p></li>
-        <li><p><b>開発チーム</b>　その Pull request を Merge → 本番に反映</p></li>
-        <li><p><b>確認</b>　スマホで本番を開き，カードから「低温の回数」が消えたこと</p></li>
-        <li><p><b>連絡</b>　園主に「戻した」と伝える → 原因を調べ，直してから出し直す</p></li>
+        <li><p><b>チーム</b>　取り込んだ Pull request の「Revert」→ 戻す Pull request を Merge → 本番に反映</p></li>
+        <li><p><b>確認</b>　スマホで，カードから「低温の回数」が消えた</p></li>
+        <li><p><b>連絡</b>　園主に「戻した」→ 原因を調べ，直して出し直す</p></li>
       </ol>
-      <div class="gh">
-        <div class="gh-body"><span class="gh-state merged">Merged</span>　…merged commit into main<span style="float:right;"><span class="gh-btn is-target">Revert</span></span></div>
-      </div>
       <div class="predict">
         <p class="predict-q">Revert すると，データベースの記録も消える？</p>
-        <div class="predict-options">
-          <button type="button">消える</button>
-          <button type="button" data-right>消えない</button>
-        </div>
-        <div class="predict-answer" hidden><b>消えない</b>　戻るのはコードだけ<br>データ・索引・本番で動いている版は，別に確認</div>
+        <div class="predict-options"><button type="button">消える</button><button type="button" data-right>消えない</button></div>
+        <div class="predict-answer" hidden><b>消えない</b>　戻るのはコードだけ</div>
       </div>
-      <label class="note-label" for="rollback">今回の変更で，戻す必要が出るのはどんなとき？</label>
-      <textarea class="note" data-id="rollback" id="rollback" style="min-height:60px;" placeholder="例：回数の表示で，一覧の表示が崩れたとき"></textarea>
+
       <div class="check-row">
-        <p class="done">戻す手順と，戻す場面を記入</p>
+        <p class="done">戻す手順を確認</p>
         <label class="check"><input type="checkbox" data-step="6"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
 
-    <!-- ===== ⑦ 再納品 ===== -->
     <section class="card" id="step-7">
       <div class="step-head">
         <span class="step-num">7</span>
         <h2>再納品</h2>
+        
       </div>
-      <ol class="actions" style="--step: '7'">
-        <li><div class="wait-mentor">採用する Pull request を取り込み，本番に反映．合図が出たら <span style="white-space:nowrap">7-2 へ</span></div></li>
-        <li><p>スマホで本番を確認</p></li>
-      </ol>
-      <label class="note-label" for="mail">園主への連絡（何を・いつ・確かめたこと・困ったときの連絡先）</label>
-      <textarea class="note" data-id="mail" id="mail" style="min-height:120px;" placeholder="変えたこと：&#10;確認したこと：&#10;困ったときの連絡先："></textarea>
+      <div class="wait-mentor">採用する Pull request を取り込み，本番に反映．合図が出たらスマホで確認</div>
+    <aside class="memo person">
+      <img src="../images/people/owner_happy.jpg" alt="">
+      <div><b>園主｜再納品</b><p>今朝は2回冷えたのか．<br>これなら見回りの順番が決められる．</p></div>
+    </aside>
+
+      <label class="note-label" for="mail">園主への連絡</label>
+      <textarea class="note" data-id="mail" id="mail" style="min-height:100px;" placeholder="変えたこと：&#10;確認したこと：&#10;困ったときの連絡先："></textarea>
+
       <div class="check-row">
-        <p class="done">本番で「低温の回数」と新しい警告文<br>連絡を記入</p>
+        <p class="done">本番で確認・連絡を記入</p>
         <label class="check"><input type="checkbox" data-step="7"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
 
-    <!-- ===== ⑧ 練習 ===== -->
     <section class="card practice" id="step-8">
       <div class="step-head">
         <span class="step-num">8</span>
         <h2>解き直し</h2>
       </div>
-      <p class="hint">これまでの型．解けなかった型から</p>
+      <p class="lead">3問から1問を選ぶ．前に解けなかった型から</p>
 
       <h3>問1　判定の型</h3>
       <p>湿度を受け取り，90.0 以上なら <code>多湿</code>，それ以外は <code>適正</code></p>
@@ -430,12 +450,12 @@ for i in range(n):
         <span class="step-num">9</span>
         <h2>手応えメモ</h2>
       </div>
-      <p class="hint">このブラウザに保存．第11回で並べて振り返る</p>
+      <p class="hint">このブラウザに保存．第11回で並べる</p>
       <label class="note-label" for="memo-done">自分でできた所</label>
       <textarea class="note" data-id="memo-done" id="memo-done"></textarea>
       <label class="note-label" for="memo-help">手伝ってもらった所</label>
       <textarea class="note" data-id="memo-help" id="memo-help"></textarea>
-      <label class="note-label" for="memo-again">もう一度やりたい所・もっと知りたい所</label>
+      <label class="note-label" for="memo-again">もう一度・もっと知りたい所</label>
       <textarea class="note" data-id="memo-again" id="memo-again"></textarea>
       <div class="check-row">
         <p class="done">3つとも記入</p>
@@ -448,16 +468,15 @@ for i in range(n):
       <span class="stamp">第10回 完了</span>
       <h2>再納品できた</h2>
       <ul class="goal">
-        <li>レビュー</li>
+        <li>仲間の目・園主の目</li>
         <li>コンフリクトの解消</li>
         <li>戻し方と再納品</li>
       </ul>
-      <p style="margin-top: 16px;">次回は，振り返りと次の相談</p>
     </section>
 
     <section class="card">
       <h2>終了</h2>
-      <p class="closable">センサー → サーバーの順に，各ターミナルで Ctrl + C<br>入力待ち（$）に戻ったら，VS Code・ブラウザを閉じる</p>
+      <p class="closable">各ターミナルで Ctrl + C → VS Code・ブラウザを閉じる</p>
     </section>
 
   </main>

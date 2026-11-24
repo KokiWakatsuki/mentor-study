@@ -28,13 +28,13 @@
         <div class="progress-dots"><button class="dot" data-step="1">1</button><button class="dot" data-step="2">2</button><button class="dot" data-step="3">3</button></div>
       </div>
       <div class="progress-group"><span>直す</span>
-        <div class="progress-dots"><button class="dot" data-step="4">4</button><button class="dot" data-step="5">5</button><button class="dot" data-step="6">6</button></div>
+        <div class="progress-dots"><button class="dot" data-step="4">4</button><button class="dot" data-step="5">5</button><button class="dot" data-step="6">6</button><button class="dot" data-step="7">7</button></div>
       </div>
       <div class="progress-group"><span>届ける</span>
-        <div class="progress-dots"><button class="dot" data-step="7">7</button><button class="dot" data-step="8">8</button></div>
+        <div class="progress-dots"><button class="dot" data-step="8">8</button><button class="dot" data-step="9">9</button></div>
       </div>
       <div class="progress-group"><span>書く</span>
-        <div class="progress-dots"><button class="dot" data-step="9">9</button><button class="dot" data-step="10">10</button></div>
+        <div class="progress-dots"><button class="dot" data-step="10">10</button><button class="dot" data-step="11">11</button></div>
       </div>
     </div>
     <div class="progress-count" id="progress-count"></div>
@@ -42,18 +42,18 @@
 
   <main class="page">
 
-    <section class="card">
-      <h2>今回の目標</h2>
-      <ul class="goal">
-        <li>枝（ブランチ）を作って直す</li>
-        <li>受入基準で，直ったことを確認</li>
-        <li>Pull request を出し，本番への反映を確認</li>
-      </ul>
+    <section class="card hook">
+      <div class="flow">
+        <div class="flow-box yes"><small>今の一覧</small><b>数秒</b></div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box"><small>寒波の前に</small><b>一瞬で</b></div>
+      </div>
+      <p class="hook-q">寒波まで，あと数日．<br>直して，本番に届ける</p>
     </section>
 
-    <aside class="memo">
-      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="">
-      <div><b>園主より｜寒波の予報</b><p>寒波は来週の月曜から．<br>金曜までに直ると助かる．</p></div>
+    <aside class="memo person">
+      <img src="../images/people/owner.jpg" alt="">
+      <div><b>園主｜寒波の予報</b><p>寒波は来週の月曜から．<br>金曜までに直ると助かる．</p></div>
     </aside>
 
     <!-- ===== ① 起動 ===== -->
@@ -61,30 +61,47 @@
       <div class="step-head">
         <span class="step-num">1</span>
         <h2>アプリの起動</h2>
-        <span class="where ub">Ubuntu</span>
+        <span class="where vs">VS Code</span>
       </div>
-      <p class="hint">今回から，サーバーとセンサーは VS Code の中のターミナルで実行<br>画面が1つで済む</p>
+      <p class="hint">サーバーもセンサーも，VS Code の下のターミナルで</p>
+      <details>
+        <summary>画面の見本（どこに打つ？）</summary>
+        <div class="detail-body">
+      <div class="vsc">
+        <div class="vsc-bar">berry-watch [WSL: Ubuntu] - Visual Studio Code</div>
+        <div class="vsc-main">
+          <div class="vsc-icons"><span class="on">▤</span><span>⌕</span><span>⑂</span><span>▷</span><span>⊞</span></div>
+          <div class="vsc-side">BERRY-WATCH<br>▸ data<br>▸ static<br>app.py<br>sensor.py</div>
+          <div class="vsc-editor"><span class="cl">ファイルの中身</span></div>
+        </div>
+        <div class="vsc-term">
+          <div class="vsc-term-bar"><span>ターミナル</span><span><span class="mark">＋</span> ∨ 🗑 ✕</span></div>
+          <div class="vsc-term-body">
+<pre class="out">名前@PC名:~/berry-watch$ python3 sensor.py
+1号棟：10.2℃，75.3% を送信</pre>
+            <div class="vsc-tabs">bash<br><span class="on">bash</span></div>
+          </div>
+        </div>
+        <div class="vsc-status">&gt;&lt; WSL: Ubuntu　　main</div>
+      </div>
+          <p class="caption">下のターミナル：1つ目＝サーバー，2つ目＝センサー（右の一覧で切り替え）</p>
+        </div>
+      </details>
       <ol class="actions" style="--step: '1'">
         <li>
-          <p>VS Code でアプリを開く</p>
-          <p class="hint">Windows キー →「ubuntu」→ Enter</p>
-          <div class="cmd"><code data-tip="アプリのフォルダに移動し，VS Code で開く">cd ~/berry-watch && code .</code><button class="copy">コピー</button></div>
-          <p class="hint">VS Code が開いたら，Ubuntu の画面は終了可</p>
+          <p>Ubuntu で実行 → VS Code が開く</p>
+          <div class="cmd"><code data-tip="アプリのフォルダに移動し，VS Code で開く／開いたら Ubuntu の画面は閉じてよい">cd ~/berry-watch && code .</code><button class="copy">コピー</button></div>
         </li>
         <li>
-          <p>サーバーの起動<span class="where vs" style="margin-left:6px;">VS Code</span></p>
-          <p class="hint">上部のメニュー「ターミナル」→「新しいターミナル」<br>→ 下に開いた画面に貼り付け（Ctrl + V）→ Enter</p>
-          <div class="cmd"><code data-tip="アプリを起動">docker compose up</code><button class="copy">コピー</button></div>
-          <p class="hint"><code>Application startup complete.</code> → 起動完了</p>
+          <p>メニュー「ターミナル」→「新しいターミナル」（1つ目＝サーバー）</p>
+          <div class="cmd"><code data-tip="アプリを起動／Application startup complete. で完了">docker compose up</code><button class="copy">コピー</button></div>
         </li>
         <li>
-          <p>センサーの代わりを実行<span class="where vs" style="margin-left:6px;">VS Code</span></p>
-          <p class="hint">ターミナルの右上の「＋」→ 2つ目のターミナル</p>
+          <p>ターミナル右上の <b>＋</b>（2つ目＝センサー）</p>
           <div class="cmd"><code data-tip="センサーの代わりを起動">python3 sensor.py</code><button class="copy">コピー</button></div>
-          <p class="hint">ターミナルの切り替え：右側の一覧（bash が2つ）</p>
         </li>
         <li>
-          <p>ブラウザで <a href="http://localhost:8000" target="_blank">http://localhost:8000</a></p>
+          <p>ブラウザで <a href="http://localhost:8000" target="_blank">localhost:8000</a></p>
         </li>
       </ol>
       <details>
@@ -92,81 +109,68 @@
         <div class="detail-body">
           <p><b>No such file or directory</b><br>→ アプリが未取得．第2回の「アプリの取得」から</p>
           <p><b>左下に「WSL: Ubuntu」が出ない</b><br>→ VS Code を閉じて，1-1 をもう一度</p>
-          <p><b>permission denied</b>（docker）<br>→ メンターと確認</p>
+          <p><b>permission denied</b>（docker）→ メンターと確認</p>
         </div>
       </details>
       <div class="check-row">
-        <p class="done">8棟の温度の表示<br>VS Code にファイル一覧</p>
+        <p class="done">8棟の温度の表示</p>
         <label class="check"><input type="checkbox" data-step="1"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
 
-    <!-- ===== ② 直す前 ===== -->
     <section class="card" id="step-2">
       <div class="step-head">
         <span class="step-num">2</span>
-        <h2>直す前の記録</h2>
+        <h2>直す前を記録</h2>
         <span class="where br">ブラウザ</span>
       </div>
-      <p>受入基準と比べるため，直す前を記録</p>
-      <ol class="actions" style="--step: '2'">
-        <li><p>「更新」を3回 → 表示時間</p>
-          <div class="gh"><div class="gh-body"><span class="gh-btn">更新</span>　<span class="mark-time">表示時間：3.12 秒</span></div></div>
-          <p class="hint">アプリの「更新」ボタンの右．3回とも記録</p></li>
-        <li><p>3号棟のカード → 温度・本日最高・本日最低</p></li>
-      </ol>
-      <p class="hint">表示時間が 1秒未満 → 本番と同じ件数の記録がない（試験データが未作成）<br>3つ目のターミナルで次を実行 →「完了：記録は全部で …件」→ 2-1 から</p>
-      <div class="cmd"><code data-tip="本番と同じ件数の試験データを作成（1分ほど）">docker compose exec app python sample_data.py</code><button class="copy">コピー</button></div>
-      <label class="note-label" for="before">直す前</label>
-      <textarea class="note" data-id="before" id="before" style="min-height:70px;" placeholder="表示時間：〇秒，〇秒，〇秒&#10;3号棟：温度 〇℃・最高 〇℃・最低 〇℃"></textarea>
+      <div class="gh"><div class="gh-body"><span class="gh-btn">更新</span>　<span class="mark-time">表示時間：3.12 秒</span></div></div>
+      <p>「更新」を3回 → 表示時間．3号棟の温度・最高・最低も</p>
+      <textarea class="note" data-id="before" id="before" style="min-height:60px;" placeholder="表示時間：〇秒，〇秒，〇秒&#10;3号棟：〇℃・最高 〇℃・最低 〇℃"></textarea>
+      <details>
+        <summary>表示時間が 1秒未満のとき</summary>
+        <div class="detail-body"><p>試験データが未作成．3つ目のターミナルで実行 → 2 から</p>
+          <div class="cmd"><code data-tip="本番と同じ件数の試験データを作成（1分ほど）">docker compose exec app python sample_data.py</code><button class="copy">コピー</button></div></div>
+      </details>
+
       <div class="check-row">
         <p class="done">表示時間と3号棟の値を記録</p>
         <label class="check"><input type="checkbox" data-step="2"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
 
-    <!-- ===== ③ 枝 ===== -->
     <section class="card" id="step-3">
       <div class="step-head">
         <span class="step-num">3</span>
-        <h2>作業用の枝を作る</h2>
+        <h2>ブランチ＝わき道で作業</h2>
         <span class="where vs">VS Code</span>
       </div>
-      <div class="pair">
-        <div>
-          <p><span data-tip="本流（main）から分けた作業場所．main を壊さずに試せる" data-tip-head="用語｜ブランチ">ブランチ（枝）</span>で作業<br><code>main</code>：チームで共有する本流．本番はここから</p>
+      <div class="picture">
+        <div class="overlay wide">
+          <img src="../images/08/concept_branch.jpg" alt="本道から分かれて，また合流するわき道">
+          <span class="on-pic label" style="left:16%; top:76%;">main（本道）</span><span class="on-pic label" style="left:40%; top:25%;">わき道（ブランチ）</span><span class="on-pic label blue-l" style="left:74%; top:36%;">PR＝合流のお願い</span><span class="on-pic label" style="left:78%; top:76%;">Merge＝採用して合流</span>
         </div>
-        <div class="gh"><div class="gh-body" style="font-family: Consolas, Menlo, monospace; font-size: 13px; line-height: 2;">● main（本流）<br>│╲<br>│ ● fix-list-speed-名前（作業）</div></div>
       </div>
-      <p class="hint">3つ目のターミナル（なければ「＋」）で実行</p>
+      <p class="hint">わき道で直して確かめる → PR でお願い → 採用（Merge）で本道に合流</p>
       <ol class="actions" style="--step: '3'">
-        <li>
-          <p>main を最新に</p>
-          <div class="cmd"><code data-tip="main に移動し，チームの最新を取得">git switch main && git pull</code><button class="copy">コピー</button></div>
-        </li>
-        <li>
-          <p>枝を作って移動</p>
-          <div class="cmd"><code data-tip="「fix-list-speed-ユーザー名」の枝を作り，移動／名前は自動で入る">git switch -c "fix-list-speed-$(git config user.name)"</code><button class="copy">コピー</button></div>
-          <p class="hint">VS Code の左下に，今いる枝の名前</p>
-        </li>
+        <li><div class="cmd"><code data-tip="main に移動し，チームの最新を受け取る">git switch main && git pull</code><button class="copy">コピー</button></div></li>
+        <li><div class="cmd"><code data-tip="「fix-list-speed-ユーザー名」のわき道を作り，移動">git switch -c "fix-list-speed-$(git config user.name)"</code><button class="copy">コピー</button></div></li>
       </ol>
+
       <div class="check-row">
-        <p class="done">左下が <code>fix-list-speed-ユーザー名</code></p>
+        <p class="done">VS Code の左下が <code>fix-list-speed-…</code></p>
         <label class="check"><input type="checkbox" data-step="3"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
 
-    <!-- ===== ④ app.py ===== -->
     <section class="card" id="step-4">
       <div class="step-head">
         <span class="step-num">4</span>
-        <h2>app.py を直す</h2>
+        <h2>読む量を減らす</h2>
         <span class="where vs">VS Code</span>
       </div>
-      <p>方針：今日の分だけを，データベースから受け取る</p>
-      <p class="hint">約18万件を全部読む → 今日の分（多くて約1400件）だけ</p>
+      <p class="lead">日記の「今日のページ」だけを受け取る</p>
       <p>左の一覧 → <code>app.py</code> → Ctrl + F →「def today」</p>
-
       <ol class="actions" style="--step: '4'">
         <li>
           <p><code>house_id = ?</code> の直後をクリック → 貼り付け</p>
@@ -186,6 +190,25 @@
           </div>
           <p class="hint">黄色の枠が選ぶ範囲（行頭の空白は選ばない）</p>
         </li>
+        <li>
+          <p>Ctrl + S（保存）</p>
+        </li>
+      </ol>
+
+      <div class="check-row">
+        <p class="done">2か所を，上の「後」と同じに</p>
+        <label class="check"><input type="checkbox" data-step="4"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <section class="card" id="step-5">
+      <div class="step-head">
+        <span class="step-num">5</span>
+        <h2>いらない処理を消す</h2>
+        <span class="where vs">VS Code</span>
+      </div>
+      <p class="lead">今日の分を自分で選ぶ6行は，もう不要</p>
+      <ol class="actions" style="--step: '5'">
         <li>
           <p>「# 2. 本日の記録だけを抽出する」の6行を選択 → Delete</p>
           <div class="before-after">
@@ -233,23 +256,28 @@
           <p class="hint">ソース管理（左端の上から3つ目）→ app.py で同じ表示</p>
         </div>
       </details>
+      <p class="hint">一覧を「更新」→ 温度が出れば OK（出ない → 差分と見比べる）</p>
+
       <div class="check-row">
-        <p class="done">一覧を「更新」→ 温度が表示<br>（表示されない → 差分と見比べる）</p>
-        <label class="check"><input type="checkbox" data-step="4"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+        <p class="done">ソース管理の差分が，上の差分と一致</p>
+        <label class="check"><input type="checkbox" data-step="5"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
 
-    <!-- ===== ⑤ schema.sql ===== -->
-    <section class="card" id="step-5">
+    <section class="card" id="step-6">
       <div class="step-head">
-        <span class="step-num">5</span>
+        <span class="step-num">6</span>
         <h2>索引を追加</h2>
         <span class="where vs">VS Code</span>
       </div>
-      <div class="terms">
-        <div class="term-row"><code><span data-tip="本の索引と同じ．「3号棟・11月24日」の行の場所がすぐ分かる" data-tip-head="用語｜索引（インデックス）">索引</span></code><span>「何号棟の何日」の場所を，すぐ引ける表</span></div>
+      <div class="picture">
+        <div class="overlay">
+          <img src="../images/08/concept_index.jpg" alt="索引の付箋で目的のページへ直行する本">
+          <span class="on-pic label" style="left:47%; top:66%;">3号棟・今日</span>
+        </div>
       </div>
-      <ol class="actions" style="--step: '5'">
+      <div class="picture-labels" style="margin:0 0 10px;"><span class="chip">今日だけ読む＝読む量を減らす</span><span class="chip blue">索引＝読む場所をすぐ探す</span></div>
+      <ol class="actions" style="--step: '6'">
         <li>
           <p>左の一覧 → <code>schema.sql</code></p>
         </li>
@@ -264,64 +292,52 @@ CREATE INDEX IF NOT EXISTS readings_house_time ON readings (house_id, measured_a
       </ol>
       <div class="check-row">
         <p class="done">上の「後」と同じ並び（前後に空行）</p>
-        <label class="check"><input type="checkbox" data-step="5"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
-      </div>
-    </section>
-
-    <!-- ===== ⑤ 確かめる ===== -->
-    <section class="card" id="step-6">
-      <div class="step-head">
-        <span class="step-num">6</span>
-        <h2>受入基準で確認</h2>
-        <span class="where vs">VS Code</span>
-      </div>
-      <ol class="actions" style="--step: '6'">
-        <li>
-          <p>サーバーの再起動</p>
-          <p class="hint">サーバーのターミナルで Ctrl + C → 次を実行</p>
-          <div class="cmd"><code data-tip="アプリを起動">docker compose up</code><button class="copy">コピー</button></div>
-          <p class="caution">再起動は必須．schema.sql は起動時にだけ読む（索引はこのとき作成）</p>
-        </li>
-        <li><p>「更新」を3回 → 表示時間</p></li>
-        <li><p>3号棟の温度・最高・最低 → 直す前と比べる</p></li>
-      </ol>
-      <label class="note-label" for="after">直した後</label>
-      <textarea class="note" data-id="after" id="after" style="min-height:70px;" placeholder="表示時間：〇秒，〇秒，〇秒&#10;3号棟：直す前と同じ／違う"></textarea>
-      <details>
-        <summary>豆知識｜索引だけでは速くならない</summary>
-        <div class="detail-body">
-          <p>先輩が Mac で測った，8棟分のデータベースの時間</p>
-          <div class="terms">
-            <div class="term-row"><code>直す前</code><span>0.85 秒</span></div>
-            <div class="term-row"><code>索引だけ</code><span>1.19 秒（遅くなる）</span></div>
-            <div class="term-row"><code>今日の分だけ</code><span>0.37 秒</span></div>
-            <div class="term-row"><code>両方</code><span>0.005 秒</span></div>
-          </div>
-          <p>索引だけ → 3号棟の場所は分かるが，1年分を全部読むのは同じ<br>今日の分だけ → 今日の行を探すのに，全部の行を確認<br>両方 → 索引で「3号棟の今日」へ直行</p>
-        </div>
-      </details>
-      <details>
-        <summary>うまくいかないとき</summary>
-        <div class="detail-body">
-          <p><b>全棟が「記録なし」</b><br>→ センサー（2つ目のターミナル）が止まっていないか確認</p>
-          <p><b>Internal Server Error</b><br>→ サーバーのターミナルの赤い文字を確認．多くは SQL の書き間違い．差分と見比べる</p>
-        </div>
-      </details>
-      <div class="check-row">
-        <p class="done">表示時間が受入基準を満たす<br>3号棟の値が直す前と同じ</p>
         <label class="check"><input type="checkbox" data-step="6"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
 
-    <!-- ===== ⑥ PR ===== -->
     <section class="card" id="step-7">
       <div class="step-head">
         <span class="step-num">7</span>
+        <h2>受入基準で確認</h2>
+        <span class="where vs">VS Code</span>
+      </div>
+      <ol class="actions" style="--step: '7'">
+        <li><p>サーバーのターミナルで Ctrl + C → <code>docker compose up</code></p>
+          <p class="caution">再起動は必須．付箋（索引）は起動のときに作る</p></li>
+      </ol>
+      <div class="predict">
+        <p class="predict-q">直した後の表示時間は？</p>
+        <div class="predict-options"><button type="button">2秒くらい</button><button type="button">1秒くらい</button><button type="button" data-right>0.1秒未満</button></div>
+        <div class="predict-answer" hidden><b>0.1秒未満</b>　確かめる → 7-2</div>
+      </div>
+      <ol class="actions" style="--step: '7'">
+        <li style="counter-set: action 1;"><p>「更新」を3回 → 表示時間．3号棟の値も</p></li>
+      </ol>
+      <div class="compare">
+        <figure><img src="../images/08/list_fast.jpg" alt="直した後の一覧"><figcaption>表示時間<small>「更新」の右</small></figcaption></figure>
+        <figure><img src="../images/08/card3_after.jpg" alt="直した後の3号棟のカード"><figcaption>3号棟<small>直す前と比べる</small></figcaption></figure>
+      </div>
+      <textarea class="note" data-id="after" id="after" style="min-height:60px; margin-top:12px;" placeholder="表示時間：〇秒，〇秒，〇秒&#10;3号棟：直す前と同じ／違う"></textarea>
+      <details>
+        <summary>豆知識｜付箋だけでは速くならない</summary>
+        <div class="detail-body"><p>先輩の Mac での実測（この試験データ・8棟分）：直す前 0.85秒／付箋だけ 1.19秒／今日だけ 0.37秒／両方 0.005秒<br>付箋で3号棟は開けても，1年分を全部読むのは同じ</p></div>
+      </details>
+
+      <div class="check-row">
+        <p class="done">受入基準を満たす・3号棟の値が同じ</p>
+        <label class="check"><input type="checkbox" data-step="7"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <section class="card" id="step-8">
+      <div class="step-head">
+        <span class="step-num">8</span>
         <h2>記録して，提案する</h2>
         <span class="where vs">VS Code</span>
         <span class="where gh-where">GitHub</span>
       </div>
-      <ol class="actions" style="--step: '7'">
+      <ol class="actions" style="--step: '8'">
         <li>
           <p>変更を記録（コミット）</p>
           <div class="cmd"><code data-tip="2つのファイルの変更を，説明つきで記録">git commit -am "一覧の高速化：本日の記録だけを読み，棟と日時の索引を追加"</code><button class="copy">コピー</button></div>
@@ -351,46 +367,82 @@ Closes #1</code><button class="copy">コピー</button></div>
       </ol>
       <div class="check-row">
         <p class="done">自分の Pull request が Open（緑）</p>
-        <label class="check"><input type="checkbox" data-step="7"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
-      </div>
-    </section>
-
-    <!-- ===== ⑦ 採用と本番 ===== -->
-    <section class="card" id="step-8">
-      <div class="step-head">
-        <span class="step-num">8</span>
-        <h2>採用と本番への反映</h2>
-      </div>
-      <ol class="actions" style="--step: '8'">
-        <li>
-          <div class="wait-mentor">3つを見比べ，1つを採用（Merge）．合図が出たら <span style="white-space:nowrap">8-2 へ</span></div>
-          <p class="hint">採用以外は「同じ変更を採用済み」とコメントして Close<br>同じ変更を3人で練習したため．不採用は失敗ではない</p>
-        </li>
-        <li>
-          <p>全員，main を最新に</p>
-          <div class="cmd"><code data-tip="main に移動し，採用された変更を取得">git switch main && git pull</code><button class="copy">コピー</button></div>
-        </li>
-        <li>
-          <div class="wait-mentor">本番に反映．URL が届いたらスマホで開く</div>
-          <p class="hint">園主と同じ画面．一覧の表示時間を確認</p>
-        </li>
-      </ol>
-      <label class="note-label" for="mail">園主への連絡（3〜4行）</label>
-      <textarea class="note" data-id="mail" id="mail" style="min-height:120px;" placeholder="変えたこと：&#10;結果（〇秒 → 〇秒）：&#10;原因：&#10;困ったときの連絡先："></textarea>
-      <div class="check-row">
-        <p class="done">本番で一覧が速い<br>園主への連絡を記入</p>
         <label class="check"><input type="checkbox" data-step="8"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
 
-    <!-- ===== ⑧ 練習 ===== -->
-    <section class="card practice" id="step-9">
+    <section class="card" id="step-9">
       <div class="step-head">
         <span class="step-num">9</span>
+        <h2>採用と本番</h2>
+        
+      </div>
+      <ol class="actions" style="--step: '9'">
+        <li><div class="wait-mentor">3つを見比べて1つを採用（Merge）．合図が出たら <span style="white-space:nowrap">9-2 へ</span></div>
+          <p class="hint">ほかは Close．同じ変更の練習なので，不採用は失敗ではない</p></li>
+        <li><div class="cmd"><code data-tip="main に移動し，採用された変更を受け取る">git switch main && git pull</code><button class="copy">コピー</button></div></li>
+        <li><div class="wait-mentor">本番に反映．URL が届いたらスマホで</div></li>
+      </ol>
+    <aside class="memo person">
+      <img src="../images/people/owner_happy.jpg" alt="">
+      <div><b>園主｜届いた</b><p>朝の一覧が，すぐ出るようになった！</p></div>
+    </aside>
+
+      <label class="note-label" for="mail">園主への連絡</label>
+      <textarea class="note" data-id="mail" id="mail" style="min-height:100px;" placeholder="変えたこと：&#10;結果（〇秒 → 〇秒）：&#10;原因：&#10;困ったときの連絡先："></textarea>
+
+      <div class="check-row">
+        <p class="done">本番が速い・連絡を記入</p>
+        <label class="check"><input type="checkbox" data-step="9"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <section class="card practice" id="step-10">
+      <div class="step-head">
+        <span class="step-num">10</span>
         <h2>今日の分だけ集計</h2>
       </div>
 
-      <h3>問1　本日の最高と最低</h3>
+      <p class="lead">2段で：① 今日の記録を選ぶ → ② 選んだ中から最高・最低</p>
+
+      <h3>問1　今日の記録の数</h3>
+      <p>1行目は今日の日付．今日の記録の数を出力</p>
+      <div class="io">
+        <div><b>入力例（日付・記録の数・「日付 温度」）</b><pre>11-24
+3
+11-23 5.0
+11-24 9.0
+11-24 7.5</pre></div>
+        <div><b>出力例</b><pre>2</pre></div>
+      </div>
+      <div class="judge" data-id="08-0">
+        <script type="text/plain" class="starter">today = input()                 # 今日の日付（例：11-24）
+n = int(input())
+records = []
+for i in range(n):
+    date, temperature = input().split()
+    records.append({"date": date, "temperature": float(temperature)})
+
+# ここから書く
+</script>
+        <script type="application/json" class="tests">[
+          {"in": "11-24\n3\n11-23 5.0\n11-24 9.0\n11-24 7.5", "out": "2"},
+          {"in": "11-24\n2\n11-23 5.0\n11-22 6.0", "out": "0"},
+          {"in": "11-25\n1\n11-25 -1.0", "out": "1"}
+        ]</script>
+      </div>
+      <details>
+        <summary>ヒント</summary>
+        <div class="detail-body"><p><code>record["date"] == today</code> のときだけ数を増やす</p></div>
+      </details>
+      <details>
+        <summary>解答例</summary>
+        <div class="detail-body">
+<div class="code"><span class="line">count = 0</span><span class="line"><span class="k">for</span> record <span class="k">in</span> records:</span><span class="line">    <span class="k">if</span> record[<span class="s">"date"</span>] == today:</span><span class="line">        count = count + 1</span><span class="line">print(count)</span></div>
+        </div>
+      </details>
+
+      <h3>問2　本日の最高と最低</h3>
       <p>1行目は今日の日付．記録のうち今日の分だけで，最高と最低を1行ずつ出力．<br>今日の記録がなければ <code>記録なし</code>．for は1回だけ</p>
       <div class="io">
         <div><b>入力例（日付・記録の数・「日付 温度」）</b><pre>11-24
@@ -430,27 +482,27 @@ for i in range(n):
         </div>
       </details>
       <div class="check-row">
-        <p class="done">問1 が全問正解</p>
-        <label class="check"><input type="checkbox" data-step="9"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+        <p class="done">問1 が全問正解（問2 は続き）</p>
+        <label class="check"><input type="checkbox" data-step="10"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
 
     <!-- ===== ⑦ 手応えメモ ===== -->
-    <section class="card" id="step-10">
+    <section class="card" id="step-11">
       <div class="step-head">
-        <span class="step-num">10</span>
+        <span class="step-num">11</span>
         <h2>手応えメモ</h2>
       </div>
-      <p class="hint">このブラウザに保存．第11回で並べて振り返る</p>
+      <p class="hint">このブラウザに保存．第11回で並べる</p>
       <label class="note-label" for="memo-done">自分でできた所</label>
       <textarea class="note" data-id="memo-done" id="memo-done"></textarea>
       <label class="note-label" for="memo-help">手伝ってもらった所</label>
       <textarea class="note" data-id="memo-help" id="memo-help"></textarea>
-      <label class="note-label" for="memo-again">もう一度やりたい所・もっと知りたい所</label>
+      <label class="note-label" for="memo-again">もう一度・もっと知りたい所</label>
       <textarea class="note" data-id="memo-again" id="memo-again"></textarea>
       <div class="check-row">
         <p class="done">3つとも記入</p>
-        <label class="check"><input type="checkbox" data-step="10"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+        <label class="check"><input type="checkbox" data-step="11"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
 
@@ -459,16 +511,15 @@ for i in range(n):
       <span class="stamp">第8回 完了</span>
       <h2>寒波の前に届けた</h2>
       <ul class="goal">
-        <li>ブランチ・コミット・プッシュ</li>
-        <li>受入基準での確認</li>
+        <li>ブランチ＝わき道</li>
+        <li>日記の今日のページだけ＋付箋</li>
         <li>Pull request と本番への反映</li>
       </ul>
-      <p style="margin-top: 16px;">次回は，園主の次の要望を，AI の提案で</p>
     </section>
 
     <section class="card">
       <h2>終了</h2>
-      <p class="closable">センサー → サーバーの順に，各ターミナルで Ctrl + C<br>入力待ち（$）に戻ったら，VS Code・ブラウザを閉じる</p>
+      <p class="closable">各ターミナルで Ctrl + C → VS Code・ブラウザを閉じる</p>
     </section>
 
   </main>

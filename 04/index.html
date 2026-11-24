@@ -18,7 +18,7 @@
     <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="ひだまり農園のビニールハウス">
     <div class="hero-text">
       <h1>第4回　本日の最高・最低</h1>
-      <p>たくさんの記録から，1つの答えを出す</p>
+      <p>たくさんの記録から，1つを選ぶ</p>
     </div>
   </section>
 
@@ -39,18 +39,18 @@
 
   <main class="page">
 
-    <section class="card">
-      <h2>今回の目標</h2>
-      <ul class="goal">
-        <li>リストと for を読める</li>
-        <li>最高を求める流れを1行ずつ追える</li>
-        <li>最高を求めるプログラムを自分で書く</li>
-      </ul>
+    <section class="card hook">
+      <div class="flow">
+        <div class="flow-box"><small>3号棟の今日の記録</small><b>1440件</b></div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box"><small>カードに出るのは</small><b>最高・最低</b></div>
+      </div>
+      <p class="hook-q">1440件から，1つを選ぶには？</p>
     </section>
 
-    <aside class="memo">
-      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/strawberry.jpg" alt="">
-      <div><b>先輩メモ｜引き継ぎ 2</b><p>カードの「本日最高・本日最低」．<br>1日分の記録から1つを選ぶ処理．</p></div>
+    <aside class="memo person">
+      <img src="../images/people/senpai.jpg" alt="">
+      <div><b>先輩｜引き継ぎ 2</b><p>人なら目で探す．<br>プログラムは，1枚ずつ比べるだけ．</p></div>
     </aside>
 
     <!-- ===== ① 起動 ===== -->
@@ -58,30 +58,47 @@
       <div class="step-head">
         <span class="step-num">1</span>
         <h2>アプリの起動</h2>
-        <span class="where ub">Ubuntu</span>
+        <span class="where vs">VS Code</span>
       </div>
-      <p class="hint">今回から，サーバーとセンサーは VS Code の中のターミナルで実行<br>画面が1つで済む</p>
+      <p class="hint">サーバーもセンサーも，VS Code の下のターミナルで</p>
+      <details>
+        <summary>画面の見本（どこに打つ？）</summary>
+        <div class="detail-body">
+      <div class="vsc">
+        <div class="vsc-bar">berry-watch [WSL: Ubuntu] - Visual Studio Code</div>
+        <div class="vsc-main">
+          <div class="vsc-icons"><span class="on">▤</span><span>⌕</span><span>⑂</span><span>▷</span><span>⊞</span></div>
+          <div class="vsc-side">BERRY-WATCH<br>▸ data<br>▸ static<br>app.py<br>sensor.py</div>
+          <div class="vsc-editor"><span class="cl">ファイルの中身</span></div>
+        </div>
+        <div class="vsc-term">
+          <div class="vsc-term-bar"><span>ターミナル</span><span><span class="mark">＋</span> ∨ 🗑 ✕</span></div>
+          <div class="vsc-term-body">
+<pre class="out">名前@PC名:~/berry-watch$ python3 sensor.py
+1号棟：10.2℃，75.3% を送信</pre>
+            <div class="vsc-tabs">bash<br><span class="on">bash</span></div>
+          </div>
+        </div>
+        <div class="vsc-status">&gt;&lt; WSL: Ubuntu　　main</div>
+      </div>
+          <p class="caption">下のターミナル：1つ目＝サーバー，2つ目＝センサー（右の一覧で切り替え）</p>
+        </div>
+      </details>
       <ol class="actions" style="--step: '1'">
         <li>
-          <p>VS Code でアプリを開く</p>
-          <p class="hint">Windows キー →「ubuntu」→ Enter</p>
-          <div class="cmd"><code data-tip="アプリのフォルダに移動し，VS Code で開く">cd ~/berry-watch && code .</code><button class="copy">コピー</button></div>
-          <p class="hint">VS Code が開いたら，Ubuntu の画面は終了可</p>
+          <p>Ubuntu で実行 → VS Code が開く</p>
+          <div class="cmd"><code data-tip="アプリのフォルダに移動し，VS Code で開く／開いたら Ubuntu の画面は閉じてよい">cd ~/berry-watch && code .</code><button class="copy">コピー</button></div>
         </li>
         <li>
-          <p>サーバーの起動<span class="where vs" style="margin-left:6px;">VS Code</span></p>
-          <p class="hint">上部のメニュー「ターミナル」→「新しいターミナル」<br>→ 下に開いた画面に貼り付け（Ctrl + V）→ Enter</p>
-          <div class="cmd"><code data-tip="アプリを起動">docker compose up</code><button class="copy">コピー</button></div>
-          <p class="hint"><code>Application startup complete.</code> → 起動完了</p>
+          <p>メニュー「ターミナル」→「新しいターミナル」（1つ目＝サーバー）</p>
+          <div class="cmd"><code data-tip="アプリを起動／Application startup complete. で完了">docker compose up</code><button class="copy">コピー</button></div>
         </li>
         <li>
-          <p>センサーの代わりを実行<span class="where vs" style="margin-left:6px;">VS Code</span></p>
-          <p class="hint">ターミナルの右上の「＋」→ 2つ目のターミナル</p>
+          <p>ターミナル右上の <b>＋</b>（2つ目＝センサー）</p>
           <div class="cmd"><code data-tip="センサーの代わりを起動">python3 sensor.py</code><button class="copy">コピー</button></div>
-          <p class="hint">ターミナルの切り替え：右側の一覧（bash が2つ）</p>
         </li>
         <li>
-          <p>ブラウザで <a href="http://localhost:8000" target="_blank">http://localhost:8000</a></p>
+          <p>ブラウザで <a href="http://localhost:8000" target="_blank">localhost:8000</a></p>
         </li>
       </ol>
       <details>
@@ -89,55 +106,61 @@
         <div class="detail-body">
           <p><b>No such file or directory</b><br>→ アプリが未取得．第2回の「アプリの取得」から</p>
           <p><b>左下に「WSL: Ubuntu」が出ない</b><br>→ VS Code を閉じて，1-1 をもう一度</p>
-          <p><b>permission denied</b>（docker）<br>→ メンターと確認</p>
+          <p><b>permission denied</b>（docker）→ メンターと確認</p>
         </div>
       </details>
       <div class="check-row">
-        <p class="done">8棟の温度の表示<br>VS Code にファイル一覧</p>
+        <p class="done">8棟の温度の表示</p>
         <label class="check"><input type="checkbox" data-step="1"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
 
-    <!-- ===== ② リスト ===== -->
     <section class="card" id="step-2">
       <div class="step-head">
         <span class="step-num">2</span>
-        <h2>リスト</h2>
+        <h2>リスト＝棚に並んだカード</h2>
+        
       </div>
-      <p>今朝の3号棟の温度（3回分）</p>
-<div class="code"><span class="line">temperatures = [9.0, 7.0, 11.0]</span><span class="line">print(temperatures[0])</span><span class="line">print(len(temperatures))</span></div>
-      <div class="terms">
-        <div class="term-row"><code>[9.0, 7.0, 11.0]</code><span><span data-tip="複数の値を順番に並べて，1つの変数に入れたもの" data-tip-head="用語｜リスト">リスト</span>．値を順番に並べたもの</span></div>
-        <div class="term-row"><code>temperatures[0]</code><span>先頭の値．番号は 0 から</span></div>
-        <div class="term-row"><code>len( )</code><span>リストの長さ（値の数）</span></div>
-      </div>
-      <div class="predict">
-        <p class="predict-q">出力の2行は？</p>
-        <div class="predict-options">
-          <button type="button">9.0 と 2</button>
-          <button type="button" data-right>9.0 と 3</button>
-          <button type="button">7.0 と 3</button>
+      <div class="picture">
+        <div class="overlay">
+          <img src="../images/04/concept_list.jpg" alt="棚に並んだ3枚のカード">
+          <span class="on-pic big" style="left:22%; top:48%;">9.0</span><span class="on-pic big" style="left:50%; top:48%;">7.0</span><span class="on-pic big" style="left:78%; top:48%;">11.0</span>
         </div>
-        <div class="predict-answer" hidden><b>9.0 と 3</b>　番号 0 が先頭の 9.0．値は3つ</div>
+        <div class="picture-labels"><span class="chip"><code>[0]</code>9.0</span><span class="chip"><code>[1]</code>7.0</span><span class="chip"><code>[2]</code>11.0</span></div>
       </div>
+<div class="code"><span class="line">temperatures = [9.0, 7.0, 11.0]</span><span class="line">print(temperatures[1])</span></div>
+      <p class="hint">番号は 0 から</p>
+      <div class="predict">
+        <p class="predict-q">画面に出るのは？</p>
+        <div class="predict-options"><button type="button">9.0</button><button type="button" data-right>7.0</button><button type="button">11.0</button></div>
+        <div class="predict-answer" hidden><b>7.0</b>　[0] が 9.0，[1] が 7.0</div>
+      </div>
+
       <div class="check-row">
         <p class="done">答えを確認</p>
         <label class="check"><input type="checkbox" data-step="2"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
 
-    <!-- ===== ③ for ===== -->
     <section class="card" id="step-3">
       <div class="step-head">
         <span class="step-num">3</span>
-        <h2>for で1つずつ調べる</h2>
+        <h2>for＝1枚ずつ流れてくる</h2>
+        
       </div>
-      <p>最高を求めるコード．「次へ」で1行ずつ</p>
+      <div class="picture">
+        <div class="overlay">
+          <img src="../images/04/concept_for.jpg" alt="流れてくるカードを1枚ずつ比べるいちご">
+          <span class="on-pic big blue" style="left:50%; top:35%;">9.0</span><span class="on-pic big" style="left:48%; top:66%;">7.0</span><span class="on-pic big" style="left:67%; top:66%;">11.0</span><span class="on-pic big" style="left:86%; top:66%;">…</span><span class="on-pic label blue-l" style="left:50%; top:20%;">highest（手に持つ）</span><span class="on-pic label" style="left:48%; top:80%;">t（次に来る）</span>
+        </div>
+        <div class="picture-labels"><span class="chip"><code>t</code>流れてきたカード</span><span class="chip blue"><code>highest</code>手に持つカード</span></div>
+      </div>
+      <p>大きいカードが来たら持ち替える．「次へ」で1行ずつ</p>
       <div class="trace">
         <div class="trace-body">
           <div class="code trace-code"><span class="line">temperatures = [9.0, 7.0, 11.0]</span><span class="line">highest = temperatures[0]</span><span class="line"><span class="k">for</span> t <span class="k">in</span> temperatures:</span><span class="line">    <span class="k">if</span> t &gt; highest:</span><span class="line">        highest = t</span><span class="line">print(highest)</span></div>
           <div class="trace-side">
-            <h4>変数の中身</h4>
+            <h4>箱の中身</h4>
             <div class="trace-vars"></div>
           </div>
         </div>
@@ -149,60 +172,58 @@
           <span class="trace-count"></span>
         </div>
         <script type="application/json" class="trace-steps">[
-          {"line": 1, "vars": {"temperatures": "[9.0, 7.0, 11.0]"}, "changed": ["temperatures"], "note": "3つの温度をリストに"},
-          {"line": 2, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0"}, "changed": ["highest"], "note": "ひとまず先頭の 9.0 を最高とする"},
-          {"line": 3, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0", "t": "9.0"}, "changed": ["t"], "note": "1回目：先頭の 9.0 を t に"},
-          {"line": 4, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0", "t": "9.0"}, "note": "9.0 > 9.0 → False．5行目は飛ばす"},
-          {"line": 3, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0", "t": "7.0"}, "changed": ["t"], "note": "2回目：次の 7.0 を t に"},
-          {"line": 4, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0", "t": "7.0"}, "note": "7.0 > 9.0 → False．飛ばす"},
-          {"line": 3, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0", "t": "11.0"}, "changed": ["t"], "note": "3回目：最後の 11.0 を t に"},
-          {"line": 4, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0", "t": "11.0"}, "note": "11.0 > 9.0 → True．5行目へ"},
-          {"line": 5, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "11.0", "t": "11.0"}, "changed": ["highest"], "note": "最高を 11.0 に更新"},
-          {"line": 6, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "11.0", "t": "11.0"}, "note": "リストの最後まで調べた → for を抜けて 11.0 を出力"}
+          {"line": 1, "vars": {"temperatures": "[9.0, 7.0, 11.0]"}, "changed": ["temperatures"], "note": "3枚のカードを棚に"},
+          {"line": 2, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0"}, "changed": ["highest"], "note": "ひとまず先頭の 9.0 を持つ"},
+          {"line": 3, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0", "t": "9.0"}, "changed": ["t"], "note": "1枚目が来た：9.0"},
+          {"line": 4, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0", "t": "9.0"}, "note": "9.0 > 9.0？ → いいえ．持ち替えない"},
+          {"line": 3, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0", "t": "7.0"}, "changed": ["t"], "note": "2枚目が来た：7.0"},
+          {"line": 4, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0", "t": "7.0"}, "note": "7.0 > 9.0？ → いいえ"},
+          {"line": 3, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0", "t": "11.0"}, "changed": ["t"], "note": "3枚目が来た：11.0"},
+          {"line": 4, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "9.0", "t": "11.0"}, "note": "11.0 > 9.0？ → はい"},
+          {"line": 5, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "11.0", "t": "11.0"}, "changed": ["highest"], "note": "11.0 に持ち替える"},
+          {"line": 6, "vars": {"temperatures": "[9.0, 7.0, 11.0]", "highest": "11.0", "t": "11.0"}, "note": "カードが尽きた → 持っている 11.0 が最高"}
         ]</script>
       </div>
-      <div class="terms">
-        <div class="term-row"><code>for t in リスト:</code><span>リストの値を先頭から1つずつ t に入れ，<br>字下げした行をくり返す</span></div>
-      </div>
       <div class="predict">
-        <p class="predict-q">4行目の <code>&gt;</code> を <code>&lt;</code> にすると，出力は？</p>
-        <div class="predict-options">
-          <button type="button">11.0</button>
-          <button type="button" data-right>7.0</button>
-          <button type="button">9.0</button>
-        </div>
-        <div class="predict-answer" hidden><b>7.0</b>　小さい値で更新 → 最低になる<br>変数の名前は highest のまま．名前と中身がずれるので，本物では lowest に</div>
+        <p class="predict-q">4行目の <code>&gt;</code> を <code>&lt;</code> にしたら？</p>
+        <div class="predict-options"><button type="button">11.0</button><button type="button" data-right>7.0</button><button type="button">9.0</button></div>
+        <div class="predict-answer" hidden><b>7.0</b>　小さいカードに持ち替える → 最低</div>
       </div>
+
       <div class="check-row">
-        <p class="done">最後まで追って，答えを確認</p>
+        <p class="done">最後まで追った</p>
         <label class="check"><input type="checkbox" data-step="3"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
 
-    <!-- ===== ④ アプリの中 ===== -->
     <section class="card" id="step-4">
       <div class="step-head">
         <span class="step-num">4</span>
         <h2>アプリの中の最高・最低</h2>
         <span class="where vs">VS Code</span>
       </div>
-      <p><code>app.py</code> で Ctrl + F →「highest」</p>
-<span class="code-file">app.py（today_summary の中）</span>
-<div class="code"><span class="line">    latest = today_rows[-1]</span><span class="line is-mark">    highest = today_rows[0][<span class="s">"temperature"</span>]</span><span class="line">    lowest = today_rows[0][<span class="s">"temperature"</span>]</span><span class="line is-mark">    <span class="k">for</span> row <span class="k">in</span> today_rows:</span><span class="line is-mark">        <span class="k">if</span> row[<span class="s">"temperature"</span>] &gt; highest:</span><span class="line is-mark">            highest = row[<span class="s">"temperature"</span>]</span><span class="line">        <span class="k">if</span> row[<span class="s">"temperature"</span>] &lt; lowest:</span><span class="line">            lowest = row[<span class="s">"temperature"</span>]</span></div>
-      <div class="terms">
-        <div class="term-row"><code>today_rows</code><span>本日の記録のリスト（1件＝温度・湿度・時刻）</span></div>
-        <div class="term-row"><code>row["temperature"]</code><span>その記録の温度<br>（記録の中から温度を取り出す書き方．次回）</span></div>
-        <div class="term-row"><code>today_rows[-1]</code><span>最後（最新）の記録．-1 は後ろから1つ目</span></div>
+      <p>アプリのカードは，数だけでなく記録1件（時刻・温度・湿度）</p>
+      <div class="flow">
+        <div class="flow-box"><small>記録カード1枚 ＝ row</small><b style="font-size:16px;">06:30　<span style="color:var(--blue);">7.2℃</span>　88%</b></div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box"><small>温度の欄だけ</small><b style="color:var(--blue);">row["temperature"]</b></div>
       </div>
-      <p>黄色の4行は，③ と同じ形<br>下の2行は <code>&lt;</code> で最低．1回の for で最高と最低を同時に</p>
-      <p class="hint">結果はカードの「本日最高」「本日最低」に表示</p>
+      <p><code>app.py</code> で Ctrl + F →「highest」</p>
+<span class="code-file">app.py（today_summary）</span>
+<div class="code"><span class="line">    highest = today_rows[0][<span class="s">"temperature"</span>]</span><span class="line">    lowest = today_rows[0][<span class="s">"temperature"</span>]</span><span class="line is-mark">    <span class="k">for</span> row <span class="k">in</span> today_rows:</span><span class="line is-mark">        <span class="k">if</span> row[<span class="s">"temperature"</span>] &gt; highest:</span><span class="line is-mark">            highest = row[<span class="s">"temperature"</span>]</span><span class="line">        <span class="k">if</span> row[<span class="s">"temperature"</span>] &lt; lowest:</span><span class="line">            lowest = row[<span class="s">"temperature"</span>]</span></div>
+      <div class="flow">
+        <div class="flow-box"><small>today_rows</small><b>今日の記録</b></div><span class="flow-arrow">→</span>
+        <div class="flow-box"><small>for で1件ずつ</small><b>&gt; と &lt;</b></div><span class="flow-arrow">→</span>
+        <div class="flow-box"><small>カード</small><b>最高・最低</b></div>
+      </div>
+      <p class="hint"><code>row["temperature"]</code>：その記録の温度．1回の for で，最高と最低を同時に</p>
+
       <div class="check-row">
-        <p class="done">③ と同じ形の4行を発見</p>
+        <p class="done">黄色の3行＝ ③ と同じ形</p>
         <label class="check"><input type="checkbox" data-step="4"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
 
-    <!-- ===== ⑤ 練習 ===== -->
     <section class="card practice" id="step-5">
       <div class="step-head">
         <span class="step-num">5</span>
@@ -291,12 +312,12 @@ for i in range(n):
         <span class="step-num">6</span>
         <h2>手応えメモ</h2>
       </div>
-      <p class="hint">このブラウザに保存．第11回で並べて振り返る</p>
+      <p class="hint">このブラウザに保存．第11回で並べる</p>
       <label class="note-label" for="memo-done">自分でできた所</label>
       <textarea class="note" data-id="memo-done" id="memo-done"></textarea>
       <label class="note-label" for="memo-help">手伝ってもらった所</label>
       <textarea class="note" data-id="memo-help" id="memo-help"></textarea>
-      <label class="note-label" for="memo-again">もう一度やりたい所・もっと知りたい所</label>
+      <label class="note-label" for="memo-again">もう一度・もっと知りたい所</label>
       <textarea class="note" data-id="memo-again" id="memo-again"></textarea>
       <div class="check-row">
         <p class="done">3つとも記入</p>
@@ -307,18 +328,17 @@ for i in range(n):
     <section class="card finish" id="finish" hidden>
       <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="">
       <span class="stamp">第4回 完了</span>
-      <h2>最高・最低を読めた</h2>
+      <h2>1枚ずつ比べて選べた</h2>
       <ul class="goal">
-        <li>リストと for</li>
-        <li>1行ずつ追う読み方</li>
+        <li>リスト＝棚に並んだカード</li>
+        <li>for＝1枚ずつ流れてくる</li>
         <li>最高を求めるプログラム</li>
       </ul>
-      <p style="margin-top: 16px;">次回は，記録1件の形と，前任者の変更の履歴</p>
     </section>
 
     <section class="card">
       <h2>終了</h2>
-      <p class="closable">センサー → サーバーの順に，各ターミナルで Ctrl + C<br>入力待ち（$）に戻ったら，VS Code・ブラウザを閉じる</p>
+      <p class="closable">各ターミナルで Ctrl + C → VS Code・ブラウザを閉じる</p>
     </section>
 
   </main>
