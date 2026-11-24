@@ -1,5 +1,6 @@
-// ⑨「測定値が表示されるまでの流れ」の解説．
-// 「次へ」で1段ずつ進み，左に動いているコード，右にアプリのどこが動いているかを表示する．
+// ⑨「温度表示までの流れ」
+// 「次へ」で1段ずつ進む．青い札（1号棟の温度）が，センサー → サーバー → データベース → 画面 と移動する．
+// 下の開閉欄には，その段で動いているコードを表示する（読まなくてよい）．
 
 
 // ============================================================
@@ -9,103 +10,123 @@
 const STEPS = [
   {
     title: "1. センサーが送信",
-    file: "sensor.py",
+    text: "センサーが1号棟の温度を測定し，サーバーへ送信",
+    path: ["box-sensor", "box-server"],          // 札が通る場所（順に移動）
+    active: ["box-sensor", "arrow-1", "box-server"],
+    file: "sensor.py の send",
     code: `def send(house_id, temperature, humidity):
     """測定値をサーバーに送信する．"""
-    body = {"house_id": house_id,
-            "temperature": temperature,
-            "humidity": humidity}
+    body = {"house_id": house_id, "temperature": temperature, ...}
     ...
     urllib.request.urlopen(request, timeout=TIMEOUT_SECONDS)`,
-    text: "sensor.py の send：棟の番号・温度・湿度を送信",
-    active: ["box-sensor", "arrow-1"],
   },
   {
     title: "2. サーバーが保存",
-    file: "app.py",
+    text: "サーバーが受信し，データベースに保存\n（サーバーの記録「POST /api/readings」）",
+    path: ["box-server", "box-db"],
+    active: ["box-server", "arrow-2", "box-db"],
+    file: "app.py の add_reading",
     code: `@app.post("/api/readings")
 def add_reading(reading: Reading):
     """センサーから受信した記録を保存する．"""
-    ...
     sql = "INSERT INTO readings (...) VALUES (?, ?, ?, ?)"
     write(sql, params)`,
-    text: "app.py の add_reading：受信してデータベースに保存\n（記録「POST /api/readings」）",
-    active: ["box-server", "arrow-2", "box-db"],
   },
   {
     title: "3. 画面が要求",
-    file: "static/list.js",
-    code: `// 棟ごとに本日の集計を取得し，カードを追加する
-for (const house of houses) {
+    text: "「更新」で，画面がサーバーへ1号棟の集計を要求\n（サーバーの記録「GET /api/houses/1/today」）",
+    path: ["box-db"],                            // 温度はまだデータベースの中
+    active: ["box-screen", "arrow-3", "box-server"],
+    file: "list.js の showList",
+    code: `for (const house of houses) {
   const today = await getJson(\`/api/houses/\${house.id}/today\`);
   ...
 }`,
-    text: "list.js：「更新」で棟ごとの集計を要求\n（記録「GET /api/houses/1/today」）",
-    active: ["box-screen", "arrow-3", "box-server"],
   },
   {
     title: "4. サーバーが取得・応答",
-    file: "app.py",
+    text: "サーバーがデータベースから取得し，最新値・最高・最低を計算して画面へ応答",
+    path: ["box-db", "box-server", "box-screen"],
+    active: ["box-db", "arrow-2", "box-server", "arrow-3"],
+    file: "app.py の today_summary",
     code: `@app.get("/api/houses/{house_id}/today")
 def today_summary(house_id: int):
     """棟の本日の集計（最新値・最高・最低）を返す．"""
-    # 1. この棟の全記録を取得する（古い順）
     rows = fetch_all(sql, (house_id,))
-    # 2. 本日の記録だけを抽出する
     ...
     return {"temperature": ..., "max": ..., "min": ...}`,
-    text: "app.py の today_summary：記録を取得し，最新値・最高・最低を計算して応答",
-    active: ["box-server", "arrow-2", "box-db", "arrow-3"],
   },
   {
     title: "5. 画面に表示",
-    file: "static/list.js",
-    code: `// 棟1つ分のカードを作成する
-function makeCard(house, today) {
+    text: "画面が温度をカードに表示．引き継ぎ完了",
+    path: ["box-screen"],
+    active: ["box-screen", "landed"],
+    file: "list.js の makeCard",
+    code: `function makeCard(house, today) {
   ...
   card.querySelector(".card-temperature").textContent =
     formatTemperature(today.temperature);
-  ...
 }`,
-    text: "list.js の makeCard：受信した温度をカードに表示",
-    active: ["box-screen", "mini-card"],
   },
 ];
+
+const MOVE_TIME = 450;  // 札が1区間を移動する時間（ミリ秒）．style.css の .tag と合わせる
 
 
 // ============================================================
 // 画面の要素
 // ============================================================
 
+const stage = document.getElementById("stage");
+const tag = document.getElementById("tag");
 const stepTitle = document.getElementById("flow-step");
+const explanation = document.getElementById("flow-text");
 const fileName = document.getElementById("flow-file");
 const codeArea = document.getElementById("flow-code");
-const explanation = document.getElementById("flow-text");
 const prevButton = document.getElementById("flow-prev");
 const nextButton = document.getElementById("flow-next");
-const highlightIds = ["box-sensor", "arrow-1", "box-server", "arrow-2", "box-db", "arrow-3", "box-screen", "mini-card"];
+const highlightIds = ["box-sensor", "arrow-1", "box-screen", "arrow-3", "box-server", "arrow-2", "box-db", "landed"];
 
-let current = 0;  // 表示中の段（0 から数える）
+let current = 0;        // 表示中の段（0 から数える）
+let moveTimers = [];    // 札の移動の予約
 
 
 // ============================================================
 // 関数
 // ============================================================
 
+// 札を，指定した場所（箱）の内側の右下に動かす（箱の名前・矢印の文字に重ねない）
+function moveTagTo(boxId) {
+  const box = document.getElementById(boxId).getBoundingClientRect();
+  const area = stage.getBoundingClientRect();
+  const x = box.right - area.left - tag.offsetWidth - 8;
+  const y = box.bottom - area.top - tag.offsetHeight - 8;
+  tag.style.transform = `translate(${x}px, ${y}px)`;
+}
+
+// 札を，path の場所を順に通って動かす
+function moveTagAlong(path) {
+  moveTimers.forEach(clearTimeout);
+  moveTimers = [];
+  path.forEach((boxId, index) => {
+    moveTimers.push(setTimeout(() => moveTagTo(boxId), index * MOVE_TIME));
+  });
+}
+
 // current 番目の段を表示する
 function showStep() {
   const step = STEPS[current];
 
   stepTitle.textContent = `${step.title}（${current + 1} / ${STEPS.length}）`;
+  explanation.textContent = step.text;
   fileName.textContent = step.file;
   codeArea.textContent = step.code;
-  explanation.textContent = step.text;
 
-  // 右の図：この段で動いている所だけを強調する
   for (const id of highlightIds) {
-    const element = document.getElementById(id);
-    element.classList.toggle("on", step.active.includes(id));
+    document.getElementById(id).classList.toggle("on", step.active.includes(id));
   }
+  tag.classList.toggle("is-hidden", current === STEPS.length - 1);  // 最後は札がカードに収まる
+  moveTagAlong(step.path);
 
   prevButton.disabled = current === 0;
   nextButton.disabled = current === STEPS.length - 1;
@@ -118,4 +139,5 @@ function showStep() {
 
 prevButton.addEventListener("click", () => { current -= 1; showStep(); });
 nextButton.addEventListener("click", () => { current += 1; showStep(); });
+window.addEventListener("resize", () => moveTagTo(STEPS[current].path.at(-1)));
 showStep();

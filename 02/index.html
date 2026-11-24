@@ -6,7 +6,7 @@
   <title>第2回 着任 | ハウスみまもり講座</title>
   <link rel="stylesheet" href="../style.css">
 </head>
-<body>
+<body data-lesson="02">
   <header class="topbar">
     <a class="brand" href="../">ハウスみまもり講座</a>
   </header>
@@ -18,6 +18,28 @@
       <p>引き継いだアプリを，自分の PC で起動</p>
     </div>
   </section>
+
+  <!-- 進捗：手順ごとの確認済を表示（押すとその手順へ移動） -->
+  <nav class="progress" aria-label="進捗">
+    <div class="progress-groups">
+      <div class="progress-group"><span>準備</span>
+        <div class="progress-dots">
+          <button class="dot" data-step="1">1</button><button class="dot" data-step="2">2</button><button class="dot" data-step="3">3</button><button class="dot" data-step="4">4</button><button class="dot" data-step="5">5</button>
+        </div>
+      </div>
+      <div class="progress-group"><span>起動</span>
+        <div class="progress-dots">
+          <button class="dot" data-step="6">6</button><button class="dot" data-step="7">7</button><button class="dot" data-step="8">8</button>
+        </div>
+      </div>
+      <div class="progress-group"><span>しくみ</span>
+        <div class="progress-dots">
+          <button class="dot" data-step="9">9</button>
+        </div>
+      </div>
+    </div>
+    <div class="progress-count" id="progress-count"></div>
+  </nav>
 
   <main class="page">
 
@@ -34,20 +56,42 @@
       </ul>
     </section>
 
+    <aside class="memo">
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/house-mimamori/main/static/images/strawberry.jpg" alt="">
+      <div><b>前任者メモ｜引き継ぎ</b><p>アプリ一式は GitHub に保管．<br>まずは自分の PC で起動確認を．</p></div>
+    </aside>
+
     <!-- ===== 今日使う画面 ===== -->
     <section class="card">
       <h2>今日使う画面</h2>
       <div class="screens">
-        <div class="screen-group">
-          <h3>Windows</h3>
-          <div class="screen-item"><span data-tip="コマンドを入力する画面">PowerShell</span></div>
-          <div class="screen-item"><span data-tip="管理者の権限で使う PowerShell．画面上部に「管理者」と表示">PowerShell（管理者）</span></div>
-          <div class="screen-item"><span data-tip="コードを編集するアプリ">VS Code</span></div>
-          <div class="screen-item">ブラウザ</div>
+        <div>
+          <div class="window ps">
+            <div class="window-bar">Windows PowerShell</div>
+            <div class="window-body">PS C:\Users\名前&gt;</div>
+          </div>
+          <div class="window-label"><span data-tip="コマンドを入力する画面" data-tip-head="用語｜PowerShell">PowerShell</span></div>
         </div>
-        <div class="screen-group ubuntu">
-          <h3><span data-tip="Windows の中で動く，別の OS（Linux の一種）．アプリはここで動かす">Ubuntu</span></h3>
-          <div class="screen-item"><span data-tip="最後に「名前@PC名:~$」と表示される画面">Ubuntu の画面</span></div>
+        <div>
+          <div class="window ps">
+            <div class="window-bar"><span class="mark-admin">管理者</span>: Windows PowerShell</div>
+            <div class="window-body">PS C:\WINDOWS\system32&gt;</div>
+          </div>
+          <div class="window-label">PowerShell（管理者）<small>上部に「管理者」の表示</small></div>
+        </div>
+        <div>
+          <div class="window ub">
+            <div class="window-bar">名前@PC名: ~</div>
+            <div class="window-body"><span class="user">名前@PC名</span>:<span class="path">~</span>$</div>
+          </div>
+          <div class="window-label"><span data-tip="Windows の中で動く，別の OS（Linux の一種）／アプリの実行場所" data-tip-head="用語｜Ubuntu">Ubuntu</span><small>最後に「$」の表示</small></div>
+        </div>
+        <div>
+          <div class="window">
+            <div class="window-bar">Visual Studio Code</div>
+            <div class="window-body" style="background:#1F1F1F;">▸ house-mimamori</div>
+          </div>
+          <div class="window-label"><span data-tip="コードを編集するアプリ" data-tip-head="用語｜VS Code">VS Code</span>・ブラウザ</div>
         </div>
       </div>
       <div class="rules">
@@ -56,18 +100,17 @@
         <div class="rule"><b>貼り付け</b><span>右クリック</span></div>
         <div class="rule"><b>終了</b><span>「終了可」の表示まで開いたまま</span></div>
       </div>
-      <p class="hint">点線の語・コマンドにマウスを合わせると，補足を表示．</p>
+      <p class="hint">点線の語・コマンド横の「?」→ 補足を表示</p>
     </section>
 
     <!-- ===== ① ===== -->
-    <section class="card">
+    <section class="card" id="step-1">
       <div class="step-head">
         <span class="step-num">1</span>
         <h2>PC の確認</h2>
         <span class="where ps">PowerShell</span>
       </div>
-      <div class="cmd"><code data-tip="受講可能な PC か確認．インストールなし">[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/house-mimamori-course/win/pc.txt | iex</code><button>コピー</button></div>
-      <p class="done">すべて ○ → 次へ（× はメンターと確認）</p>
+      <div class="cmd"><code data-tip="受講可能な PC か確認／インストールなし">[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/house-mimamori-course/win/pc.txt | iex</code><button class="copy">コピー</button></div>
       <details>
         <summary>表示例</summary>
         <div class="detail-body">
@@ -78,17 +121,20 @@ Windows     ○    Windows 10 Home（ビルド 19045）
 空き容量    ○    85 GB</pre>
         </div>
       </details>
+      <div class="check-row">
+        <p class="done">すべて ○（× はメンターと確認）</p>
+        <label class="check"><input type="checkbox" data-step="1"><span class="box"></span>確認済</label>
+      </div>
     </section>
 
     <!-- ===== ② ===== -->
-    <section class="card">
+    <section class="card" id="step-2">
       <div class="step-head">
         <span class="step-num">2</span>
         <h2>道具の確認</h2>
         <span class="where ps">PowerShell</span>
       </div>
-      <div class="cmd"><code data-tip="必要な道具の有無を確認．インストールなし">[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/house-mimamori-course/win/tools.txt | iex</code><button>コピー</button></div>
-      <p class="done">「次の作業」に ③・④ → その手順で準備</p>
+      <div class="cmd"><code data-tip="必要な道具の有無を確認／インストールなし">[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/house-mimamori-course/win/tools.txt | iex</code><button class="copy">コピー</button></div>
       <details>
         <summary>表示例</summary>
         <div class="detail-body">
@@ -98,10 +144,14 @@ Windows     ○    Windows 10 Home（ビルド 19045）
 ×  VS Code     ④</pre>
         </div>
       </details>
+      <div class="check-row">
+        <p class="done">「次の作業」の番号を把握（③・④ → その手順で準備）</p>
+        <label class="check"><input type="checkbox" data-step="2"><span class="box"></span>確認済</label>
+      </div>
     </section>
 
     <!-- ===== ③ ===== -->
-    <section class="card">
+    <section class="card" id="step-3">
       <div class="step-head">
         <span class="step-num">3</span>
         <h2>Ubuntu の準備</h2>
@@ -109,12 +159,13 @@ Windows     ○    Windows 10 Home（ビルド 19045）
       </div>
       <ol class="actions">
         <li>
-          <p><span data-tip="Windows で Ubuntu を動かす仕組み．古い版では docker が自動起動しない">WSL</span> の更新<span class="when">全員</span></p>
-          <div class="cmd"><code data-tip="WSL を最新版に更新">wsl --update</code><button>コピー</button></div>
+          <p><span data-tip="Windows で Ubuntu を動かす仕組み／古い版では docker が自動起動しない" data-tip-head="用語｜WSL">WSL</span> の更新<span class="when">全員</span></p>
+          <div class="cmd"><code data-tip="WSL を最新版に更新">wsl --update</code><button class="copy">コピー</button></div>
         </li>
         <li>
           <p>Ubuntu のインストール<span class="when">② で WSL が ×</span></p>
-          <div class="cmd"><code data-tip="Ubuntu をインストール．数分">wsl --install -d Ubuntu</code><button>コピー</button></div>
+          <div class="cmd"><code data-tip="Ubuntu をインストール">wsl --install -d Ubuntu</code><button class="copy">コピー</button></div>
+          <span class="wait"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5V8l2.5 1.5"/></svg>待機 数分</span>
           <p class="hint">再起動の指示 → 再起動</p>
         </li>
         <li>
@@ -132,12 +183,16 @@ Windows     ○    Windows 10 Home（ビルド 19045）
           </details>
         </li>
       </ol>
-      <p class="done">パスワード：Ubuntu 用（Windows とは別）．以降も使用</p>
+      <p class="caution">パスワード：Ubuntu 用（Windows とは別）．以降も使用</p>
       <p class="closable">管理者の PowerShell：終了可</p>
+      <div class="check-row">
+        <p class="done"><code>名前@PC名:~$</code> の表示</p>
+        <label class="check"><input type="checkbox" data-step="3"><span class="box"></span>確認済</label>
+      </div>
     </section>
 
     <!-- ===== ④ ===== -->
-    <section class="card">
+    <section class="card" id="step-4">
       <div class="step-head">
         <span class="step-num">4</span>
         <h2>VS Code の準備</h2>
@@ -146,17 +201,16 @@ Windows     ○    Windows 10 Home（ビルド 19045）
       <ol class="actions">
         <li>
           <p>VS Code のインストール<span class="when">② で VS Code が ×</span></p>
-          <div class="cmd"><code data-tip="Windows 標準の道具（winget）で VS Code をインストール">winget install -e --id Microsoft.VisualStudioCode</code><button>コピー</button></div>
+          <div class="cmd"><code data-tip="Windows 標準の道具（winget）で VS Code をインストール">winget install -e --id Microsoft.VisualStudioCode</code><button class="copy">コピー</button></div>
         </li>
         <li>
-          <p><span data-tip="インストールした VS Code を PowerShell に認識させるため">PowerShell の再起動</span></p>
+          <p><span data-tip="インストールした VS Code を PowerShell に認識させるため" data-tip-head="理由｜再起動">PowerShell の再起動</span></p>
         </li>
         <li>
           <p>拡張機能の追加<span class="when">全員</span></p>
-          <div class="cmd"><code data-tip="Ubuntu 接続と日本語化の拡張機能を追加">code --install-extension ms-vscode-remote.remote-wsl --install-extension ms-ceintl.vscode-language-pack-ja</code><button>コピー</button></div>
+          <div class="cmd"><code data-tip="Ubuntu 接続・日本語化の拡張機能を追加">code --install-extension ms-vscode-remote.remote-wsl --install-extension ms-ceintl.vscode-language-pack-ja</code><button class="copy">コピー</button></div>
         </li>
       </ol>
-      <p class="done">最後の2行に <code>successfully installed</code>（または <code>already installed</code>）→ 成功</p>
       <p class="closable">PowerShell：終了可（以降は不使用）</p>
       <details>
         <summary>うまくいかないとき</summary>
@@ -164,37 +218,40 @@ Windows     ○    Windows 10 Home（ビルド 19045）
           <p><b>code が見つからない</b> → PowerShell の再起動を確認</p>
         </div>
       </details>
+      <div class="check-row">
+        <p class="done">最後の2行に <code>successfully installed</code>（または <code>already installed</code>）</p>
+        <label class="check"><input type="checkbox" data-step="4"><span class="box"></span>確認済</label>
+      </div>
     </section>
 
     <!-- ===== ⑤ ===== -->
-    <section class="card">
+    <section class="card" id="step-5">
       <div class="step-head">
         <span class="step-num">5</span>
-        <h2><span data-tip="変更履歴を記録する道具">git</span>・<span data-tip="アプリを「箱（コンテナ）」ごと起動する道具">docker</span> の準備</h2>
+        <h2><span data-tip="変更履歴を記録する道具" data-tip-head="用語｜git">git</span>・<span data-tip="アプリを「箱（コンテナ）」ごと起動する道具" data-tip-head="用語｜docker">docker</span> の準備</h2>
         <span class="where ub">Ubuntu</span>
       </div>
-      <p class="done">パスワード：③ の Ubuntu 用（入力は非表示）</p>
+      <p class="caution">パスワード：③ の Ubuntu 用（入力は非表示）</p>
       <ol class="actions">
         <li>
           <p>git のインストール</p>
-          <div class="cmd"><code data-tip="sudo：管理者の権限で実行．apt：Ubuntu 公式の配布元からインストール">sudo apt update && sudo apt install -y git</code><button>コピー</button></div>
+          <div class="cmd"><code data-tip="sudo：管理者の権限で実行／apt：Ubuntu 公式の配布元からインストール">sudo apt update && sudo apt install -y git</code><button class="copy">コピー</button></div>
         </li>
         <li>
-          <p>docker のインストール（数分）</p>
-          <div class="cmd"><code data-tip="docker 公式のインストール手順を実行し，sudo なしで docker を使えるよう設定">curl -fsSL https://get.docker.com | sudo sh && sudo usermod -aG docker $USER</code><button>コピー</button></div>
-          <p class="hint">英文で20秒停止 → そのまま待機</p>
+          <p>docker のインストール</p>
+          <div class="cmd"><code data-tip="docker 公式の手順でインストール／sudo なしで使えるよう設定">curl -fsSL https://get.docker.com | sudo sh && sudo usermod -aG docker $USER</code><button class="copy">コピー</button></div>
+          <span class="wait"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5V8l2.5 1.5"/></svg>待機 数分（英文で20秒停止 → そのまま）</span>
         </li>
         <li>
           <p>Ubuntu の再起動（1回のみ）</p>
-          <div class="cmd"><code data-tip="Ubuntu を停止．設定を反映するため">wsl.exe --shutdown</code><button>コピー</button></div>
+          <div class="cmd"><code data-tip="Ubuntu を停止／設定の反映のため">wsl.exe --shutdown</code><button class="copy">コピー</button></div>
           <p class="hint">停止後，Ubuntu を起動し直す</p>
         </li>
         <li>
           <p>確認</p>
-          <div class="cmd"><code data-tip="git・docker などの状態を確認">curl -fsSL https://kokiwakatsuki.github.io/house-mimamori-course/ubuntu/tools.sh | bash</code><button>コピー</button></div>
+          <div class="cmd"><code data-tip="git・docker などの状態を確認">curl -fsSL https://kokiwakatsuki.github.io/house-mimamori-course/ubuntu/tools.sh | bash</code><button class="copy">コピー</button></div>
         </li>
       </ol>
-      <p class="done">すべて ○ → 完了</p>
       <details>
         <summary>表示例</summary>
         <div class="detail-body">
@@ -211,20 +268,24 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <div class="detail-body">
           <p><b>systemd が ※</b> → ③ の1（WSL の更新）→ ここの3</p>
           <p><b>systemd が ×</b> → 次を実行 → ここの3</p>
-          <div class="cmd"><code data-tip="docker を自動起動する設定を追加">printf '[boot]\nsystemd=true\n' | sudo tee -a /etc/wsl.conf</code><button>コピー</button></div>
+          <div class="cmd"><code data-tip="docker を自動起動する設定を追加">printf '[boot]\nsystemd=true\n' | sudo tee -a /etc/wsl.conf</code><button class="copy">コピー</button></div>
           <p><b>docker が △</b> → ここの3</p>
         </div>
       </details>
+      <div class="check-row">
+        <p class="done">確認の表がすべて ○</p>
+        <label class="check"><input type="checkbox" data-step="5"><span class="box"></span>確認済</label>
+      </div>
     </section>
 
     <!-- ===== ⑥ ===== -->
-    <section class="card">
+    <section class="card" id="step-6">
       <div class="step-head">
         <span class="step-num">6</span>
         <h2>アプリの取得</h2>
         <span class="where ub">Ubuntu</span>
       </div>
-      <div class="cmd"><code data-tip="GitHub のアプリを複製（clone）し，VS Code で開く">git clone https://github.com/KokiWakatsuki/house-mimamori.git && cd house-mimamori && code .</code><button>コピー</button></div>
+      <div class="cmd"><code data-tip="GitHub のアプリを複製（clone）し，VS Code で開く">git clone https://github.com/KokiWakatsuki/house-mimamori.git && cd house-mimamori && code .</code><button class="copy">コピー</button></div>
       <details open>
         <summary>VS Code の起動後</summary>
         <div class="detail-body">
@@ -242,36 +303,49 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <div class="file"><code>static/</code><span>画面</span></div>
         <div class="file later"><code>その他</code><span>今日は不要</span></div>
       </div>
+      <div class="check-row">
+        <p class="done">VS Code に上のファイル一覧</p>
+        <label class="check"><input type="checkbox" data-step="6"><span class="box"></span>確認済</label>
+      </div>
     </section>
 
     <!-- ===== ⑦ ===== -->
-    <section class="card">
+    <section class="card" id="step-7">
       <div class="step-head">
         <span class="step-num">7</span>
         <h2>アプリの起動</h2>
         <span class="where ub">Ubuntu</span>
       </div>
-      <div class="cmd"><code data-tip="compose.yml の設定でコンテナを作成・起動．初回は1〜2分">docker compose up --build</code><button>コピー</button></div>
-      <p class="hint"><code>Uvicorn running on http://0.0.0.0:8000</code> → 起動完了</p>
+      <div class="cmd"><code data-tip="compose.yml の設定でコンテナを作成・起動">docker compose up --build</code><button class="copy">コピー</button></div>
+      <span class="wait"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5V8l2.5 1.5"/></svg>初回 1〜2分</span>
+      <p class="hint" style="margin-top: 8px;"><code>Uvicorn running on http://0.0.0.0:8000</code> → 起動完了</p>
       <p class="closable">この画面：サーバー（終了不可）</p>
       <p>ブラウザで <a href="http://localhost:8000" target="_blank">http://localhost:8000</a></p>
       <img class="shot" src="../images/02/app_empty.jpg" alt="起動直後の画面．全棟が記録なし">
-      <p class="done">全棟「記録なし」→ 成功</p>
       <details>
         <summary>うまくいかないとき</summary>
         <div class="detail-body">
           <p><b>permission denied</b> → ⑤ の3 → 次を実行</p>
-          <div class="cmd"><code data-tip="アプリのフォルダに移動して起動">cd ~/house-mimamori && docker compose up --build</code><button>コピー</button></div>
+          <div class="cmd"><code data-tip="アプリのフォルダに移動して起動">cd ~/house-mimamori && docker compose up --build</code><button class="copy">コピー</button></div>
           <p><b>address already in use</b> → メンターと確認</p>
         </div>
       </details>
+      <div class="check-row">
+        <p class="done">全棟「記録なし」の表示</p>
+        <label class="check"><input type="checkbox" data-step="7"><span class="box"></span>確認済</label>
+      </div>
     </section>
 
+    <aside class="memo">
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/house-mimamori/main/static/images/farm.jpg" alt="">
+      <div><b>前任者メモ｜起動確認</b><p>起動できたら，引き継ぎの半分は完了．</p></div>
+    </aside>
+
     <!-- ===== ⑧ ===== -->
-    <section class="card">
+    <section class="card" id="step-8">
       <div class="step-head">
         <span class="step-num">8</span>
-        <h2><span data-tip="実際のハウスでは，センサー（測定機器）が温度を送信">センサーの代わり</span>を実行</h2>
+        <h2><span data-tip="実際のハウスでは，センサー（測定機器）が温度を送信" data-tip-head="用語｜センサー">センサー</span>の代わりを実行</h2>
         <span class="where ub">2つ目の Ubuntu</span>
       </div>
       <ol class="actions">
@@ -280,21 +354,29 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         </li>
         <li>
           <p>実行</p>
-          <div class="cmd"><code data-tip="アプリのフォルダに移動し，センサーの代わりを起動．1分ごとに8棟の温度を送信">cd house-mimamori && python3 sensor.py</code><button>コピー</button></div>
+          <div class="cmd"><code data-tip="アプリのフォルダに移動し，センサーの代わりを起動／1分ごとに8棟の温度を送信">cd house-mimamori && python3 sensor.py</code><button class="copy">コピー</button></div>
 <pre class="out">1号棟：10.2℃，75.3% を送信
 ……（8号棟まで．1分ごと）</pre>
         </li>
         <li>
           <p>ブラウザで「更新」</p>
           <img class="shot" src="../images/02/app_data.jpg" alt="温度が表示された画面．3号棟が低温">
-          <p class="caption">表示例（数値は毎回異なる）</p>
+          <p class="caption">表示例（数値は毎回異なる）．カードを押すと，棟の温度グラフ</p>
         </li>
       </ol>
-      <p class="done">8棟の温度を表示 → 成功（カードで棟のグラフ）</p>
+      <div class="check-row">
+        <p class="done">8棟の温度の表示</p>
+        <label class="check"><input type="checkbox" data-step="8"><span class="box"></span>確認済</label>
+      </div>
     </section>
 
+    <aside class="memo">
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/house-mimamori/main/static/images/tomato.jpg" alt="">
+      <div><b>園主より｜温度の確認</b><p>8棟の温度が見えると，夜の見回りが楽になる．よろしく．</p></div>
+    </aside>
+
     <!-- ===== ⑨ ===== -->
-    <section class="card">
+    <section class="card" id="step-9">
       <div class="step-head">
         <span class="step-num">9</span>
         <h2>温度表示までの流れ</h2>
@@ -304,58 +386,61 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <div class="log-line"><code>"POST /api/readings HTTP/1.1" 200 OK</code><span>センサーから温度を受信・保存</span></div>
         <div class="log-line"><code>"GET /api/houses/1/today HTTP/1.1" 200 OK</code><span>画面から1号棟の集計を要求</span></div>
       </div>
-      <p>「次へ」で，動いているコードを順に表示．<br><b>コードの読解は不要</b>．図の強調だけ確認．</p>
+      <p>「次へ」で，<b>青い札（1号棟の温度）</b>の移動を確認．</p>
 
-      <div class="flow" id="flow">
+      <div class="flow">
         <div class="flow-step" id="flow-step"></div>
-        <div class="flow-body">
-          <div class="flow-code">
-            <div class="flow-file" id="flow-file"></div>
-            <pre id="flow-code"></pre>
-          </div>
-          <div class="flow-app">
-            <div class="box" id="box-sensor">センサー<small>sensor.py</small></div>
-            <div class="box" id="box-screen">画面<small>static/</small><span class="mini-card" id="mini-card">1号棟　8.4℃</span></div>
-            <div class="arrow" id="arrow-1">↓ 送信</div>
-            <div class="arrow" id="arrow-3">↓ 要求　↑ 応答</div>
-            <div class="box wide" id="box-server">サーバー<small>app.py</small></div>
-            <div class="arrow wide" id="arrow-2">↓ 保存　↑ 取得</div>
-            <div class="box wide" id="box-db">データベース<small>data/house.db</small></div>
-          </div>
+        <div class="stage" id="stage">
+          <div class="box" id="box-sensor">センサー<small>sensor.py</small></div>
+          <div class="box" id="box-screen">画面<small>static/</small><span class="landed" id="landed">1号棟　8.4℃</span></div>
+          <div class="arrow" id="arrow-1">↓ 送信</div>
+          <div class="arrow" id="arrow-3">↓ 要求　↑ 応答</div>
+          <div class="box wide" id="box-server">サーバー<small>app.py</small></div>
+          <div class="arrow wide" id="arrow-2">↓ 保存　↑ 取得</div>
+          <div class="box wide" id="box-db">データベース<small>data/house.db</small></div>
+          <span class="tag" id="tag">1号棟 8.4℃</span>
         </div>
         <p class="flow-text" id="flow-text"></p>
         <div class="flow-nav">
           <button id="flow-prev">前へ</button>
           <button id="flow-next">次へ</button>
         </div>
+        <details>
+          <summary>対応するコード（読解は不要）</summary>
+          <div class="detail-body flow-code">
+            <div class="flow-file" id="flow-file"></div>
+            <pre id="flow-code"></pre>
+          </div>
+        </details>
+      </div>
+      <div class="check-row">
+        <p class="done">5段階すべての確認</p>
+        <label class="check"><input type="checkbox" data-step="9"><span class="box"></span>確認済</label>
       </div>
     </section>
 
-    <!-- ===== まとめ ===== -->
-    <section class="card">
-      <h2>まとめ</h2>
+    <!-- ===== 着任完了（全手順の確認済で表示） ===== -->
+    <section class="card finish" id="finish" hidden>
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/house-mimamori/main/static/images/farm.jpg" alt="">
+      <span class="stamp">着任完了</span>
+      <h2>引き継ぎ完了</h2>
       <ul class="goal">
-        <li>センサーが送信 → サーバーが保存</li>
-        <li>画面が要求 → サーバーが取得・応答</li>
+        <li>アプリの起動</li>
+        <li>8棟の温度の表示</li>
+        <li>温度表示までの流れの理解</li>
       </ul>
       <p style="margin-top: 16px;">次回：コードの読解</p>
-      <p class="closable">終了：2つの Ubuntu で Ctrl + C → 画面を閉じる</p>
+    </section>
+
+    <section class="card">
+      <h2>終了</h2>
+      <p class="closable">2つの Ubuntu で Ctrl + C → 画面を閉じる</p>
     </section>
 
   </main>
 
-  <script src="flow.js"></script>
   <script src="../tip.js"></script>
-  <script>
-    // 「コピー」ボタン：隣のコマンドをクリップボードにコピーする
-    for (const button of document.querySelectorAll(".cmd button")) {
-      button.addEventListener("click", async () => {
-        const command = button.previousElementSibling.textContent;
-        await navigator.clipboard.writeText(command);
-        button.textContent = "完了";
-        setTimeout(() => { button.textContent = "コピー"; }, 1500);
-      });
-    }
-  </script>
+  <script src="../page.js"></script>
+  <script src="flow.js"></script>
 </body>
 </html>
