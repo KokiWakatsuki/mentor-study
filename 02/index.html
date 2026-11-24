@@ -21,99 +21,295 @@
 
   <main class="page">
 
+    <!-- ===== 状況と目標 ===== -->
     <section class="panel">
       <h2>状況</h2>
       <p>ひだまり農園は，ビニールハウス8棟で冬にいちご・トマトを栽培している．ハウス内が 5℃ 未満になると作物が傷む．</p>
-      <p>そのため農園は，各棟の温度・湿度を監視するアプリ「ハウスみまもり」を使用している．</p>
-      <p>本日から，このアプリの開発チームに配属．前任者からアプリを引き継ぐ．</p>
-    </section>
-
-    <section class="panel">
-      <h2>今回の目標</h2>
+      <p>農園は，各棟の温度・湿度を監視するアプリ「ハウスみまもり」を使用している．本日から，このアプリの開発チームに配属．前任者からアプリを引き継ぐ．</p>
+      <h3>今回の目標</h3>
       <ul>
         <li>アプリを自分の PC で起動する</li>
-        <li>測定値が画面に表示されるまでの流れを説明できる</li>
+        <li>測定値が画面に表示されるまでの流れを知る</li>
       </ul>
     </section>
 
+    <!-- ===== 今日使う画面 ===== -->
+    <section class="panel">
+      <h2>今日使う画面</h2>
+      <div class="sides">
+        <div class="side">
+          <div class="side-title">Windows</div>
+          <div class="chip">PowerShell<small>Windows でコマンドを実行する画面</small></div>
+          <div class="chip">PowerShell（管理者）<small>管理者の権限で実行する PowerShell</small></div>
+          <div class="chip">VS Code</div>
+          <div class="chip">ブラウザ</div>
+        </div>
+        <div class="side ubuntu">
+          <div class="side-title">Ubuntu（Windows 上で動く Linux．Linux は OS の一種）</div>
+          <div class="chip">Ubuntu の画面<small>最後に <code>ユーザー名@PC名:~$</code> と表示</small></div>
+          <div class="chip">git・docker・アプリ</div>
+        </div>
+      </div>
+      <ul>
+        <li><b>開き方</b>：Windows キー → 名前を入力 → Enter（すべて共通）</li>
+        <li><b>管理者</b>：Enter の代わりに右クリック →「管理者として実行」→「許可しますか」に「はい」．画面上部に「管理者」と表示される</li>
+        <li><b>貼り付け</b>：PowerShell・Ubuntu の画面とも右クリック</li>
+        <li>画面は開いたままでよい．閉じてよい画面は手順中に記載</li>
+      </ul>
+      <p class="note">今回はアプリの実行環境を準備する．Ubuntu・WSL・docker の仕組みは次回以降に解説．</p>
+    </section>
+
+    <!-- ===== ① ===== -->
     <section class="panel">
       <h2>① PC の確認</h2>
-      <p><span class="where ps">PowerShell</span></p>
+      <p><span class="where ps">PowerShell</span>で実行．確認のみで，インストールはしない．</p>
       <div class="cmd"><code>[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/house-mimamori-course/win/pc.txt | iex</code><button>コピー</button></div>
-      <p class="note">すべて ○ なら次へ．× があればメンターと確認．</p>
+      <details>
+        <summary>表示される内容</summary>
+<pre class="out">項目        判定  この PC
+Windows     ○    Windows 10 Home（ビルド 19045）
+メモリ      ○    7.8 GB
+仮想化      ○    有効
+空き容量    ○    85 GB
+
+すべて ○ なら受講可能．× があればメンターと確認．</pre>
+      </details>
     </section>
 
+    <!-- ===== ② ===== -->
     <section class="panel">
       <h2>② 道具の確認</h2>
-      <p><span class="where ps">PowerShell</span></p>
+      <p><span class="where ps">PowerShell</span>で実行．確認のみ．</p>
       <div class="cmd"><code>[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/house-mimamori-course/win/tools.txt | iex</code><button>コピー</button></div>
-      <p class="note">「次の作業」の列に従い，下の手順①〜③のうち必要なものだけ実行する．</p>
+      <p>「次の作業」の列の番号（③・④）の手順を実行する．</p>
+      <details>
+        <summary>表示される内容（例：WSL・VS Code が未インストール）</summary>
+<pre class="out">    道具            次の作業                    詳細
+○  winget          不要                        C:\Users\...\winget.exe
+×  WSL             ③
+×  VS Code         ④
+
+○ 使用可　△ 未設定　× 未インストール　※ 要確認　・ 参考</pre>
+      </details>
     </section>
 
+    <!-- ===== ③ ===== -->
     <section class="panel">
-      <h2>③ インストール（必要なものだけ）</h2>
-
-      <h3>手順① Ubuntu（Windows 上の Linux）</h3>
-      <p><span class="where ps">PowerShell</span></p>
+      <h2>③ Ubuntu のインストール</h2>
+      <p><span class="where admin">PowerShell（管理者）</span>で実行．</p>
+      <p>1. WSL（Ubuntu を動かす仕組み）を最新版に更新する．<b>全員実行</b>（② で WSL が ○ でも実行）．</p>
+      <div class="cmd"><code>wsl --update</code><button>コピー</button></div>
+      <p>2. Ubuntu をインストールする．<b>② で Linux の行が「○ Ubuntu」でない場合</b>．</p>
       <div class="cmd"><code>wsl --install -d Ubuntu</code><button>コピー</button></div>
-      <p class="note">再起動を求められたら再起動する．Ubuntu の初回起動時にユーザー名とパスワードを設定する（パスワードは入力しても表示されない）．</p>
+      <details>
+        <summary>表示される内容と入力</summary>
+        <ol>
+          <li>インストールに数分かかる．再起動を求められたら再起動し，Windows キー →「Ubuntu」→ Enter で開く</li>
+          <li>案内文（Microsoft Store の WSL について等）で止まって見えたら Enter</li>
+          <li><code>Enter new UNIX username:</code> → ユーザー名を半角英小文字で入力（例：<code>koki</code>）</li>
+          <li><code>New password:</code> → パスワードを入力．<b>入力しても表示されない</b>．もう一度聞かれたら同じものを入力</li>
+          <li><code>ユーザー名@PC名:~$</code> と表示されたら完了</li>
+        </ol>
+        <p class="note">このパスワードは Windows とは別の，Ubuntu 用のパスワード．このあと何度も使うので忘れないこと．</p>
+      </details>
+      <details>
+        <summary>豆知識：コマンドの意味</summary>
+        <ul>
+          <li><code>wsl</code>：Windows で Linux を動かす仕組み（Windows Subsystem for Linux）を操作するコマンド</li>
+          <li><code>--update</code>：WSL を最新版にする．古い版では docker の自動起動（systemd）が使えない</li>
+          <li><code>--install -d Ubuntu</code>：Linux の一種である Ubuntu をインストールする</li>
+          <li>更新の確認：<code>wsl --version</code> で版が表示されれば最新版（古い版ではエラーになる）</li>
+        </ul>
+      </details>
+      <p class="close">ここで<b>管理者の PowerShell は閉じてよい</b>．</p>
+    </section>
 
-      <h3>手順② VS Code（コードエディタ）</h3>
-      <p><span class="where ps">PowerShell</span></p>
+    <!-- ===== ④ ===== -->
+    <section class="panel">
+      <h2>④ VS Code のインストール</h2>
+      <p>VS Code はコード編集用のアプリ．<b>② で VS Code が ○ なら，3 から実行</b>．</p>
+      <p>1. <span class="where ps">PowerShell</span>で実行．</p>
       <div class="cmd"><code>winget install -e --id Microsoft.VisualStudioCode</code><button>コピー</button></div>
-      <p><span class="where ps">PowerShell を再起動して</span></p>
-      <div class="cmd"><code>code --install-extension ms-vscode-remote.remote-wsl</code><button>コピー</button></div>
+      <p>2. 完了したら，PowerShell を閉じて開き直す（インストールした VS Code を PowerShell に認識させるため）．</p>
+      <p>3. 開き直した<span class="where ps">PowerShell</span>で，拡張機能（Ubuntu 接続・日本語化）をインストールする．</p>
+      <div class="cmd"><code>code --install-extension ms-vscode-remote.remote-wsl --install-extension ms-ceintl.vscode-language-pack-ja</code><button>コピー</button></div>
+      <details>
+        <summary>表示される内容</summary>
+<pre class="out">Installing extensions...
+Installing extension 'ms-vscode-remote.remote-wsl'...
+Installing extension 'ms-ceintl.vscode-language-pack-ja'...
+Extension 'ms-vscode-remote.remote-wsl' v0.x.x was successfully installed.
+Extension 'ms-ceintl.vscode-language-pack-ja' v1.x.x was successfully installed.</pre>
+        <p class="note">途中の「Installing」は作業中の表示．最後に <code>successfully installed</code>（または <code>already installed</code>）が2行あれば成功．</p>
+      </details>
+      <details>
+        <summary>うまくいかないとき</summary>
+        <ul>
+          <li><b>code が見つからないと表示</b>：PowerShell を閉じて開き直したか確認．開き直しても同じならメンターと確認</li>
+        </ul>
+      </details>
+      <p class="close">ここで <b>PowerShell は閉じてよい</b>．以降は使わない．</p>
+    </section>
 
-      <h3>手順③ git（変更履歴の管理）と docker（コンテナの実行）</h3>
-      <p><span class="where ub">Ubuntu</span></p>
+    <!-- ===== ⑤ ===== -->
+    <section class="panel">
+      <h2>⑤ git・docker のインストール</h2>
+      <p>git は変更履歴の管理，docker はコンテナ（箱）内でアプリを起動する道具．Windows キー →「Ubuntu」→ Enter で<span class="where ub">Ubuntu</span>を開き，順に実行する．</p>
+      <p class="note">途中で <code>[sudo] password for ユーザー名:</code> と表示されたら，<b>③ で決めた Ubuntu のパスワード</b>を入力して Enter（Windows のパスワードではない．入力しても表示されない）．</p>
+      <p>1. git</p>
       <div class="cmd"><code>sudo apt update && sudo apt install -y git</code><button>コピー</button></div>
+      <p>2. docker（数分かかる）</p>
       <div class="cmd"><code>curl -fsSL https://get.docker.com | sudo sh && sudo usermod -aG docker $USER</code><button>コピー</button></div>
-      <p><span class="where ps">PowerShell</span>で Ubuntu を再起動する．</p>
-      <div class="cmd"><code>wsl --shutdown</code><button>コピー</button></div>
-
-      <h3>インストール後の確認</h3>
-      <p><span class="where ub">Ubuntu</span></p>
+      <p class="note">途中で英文（<code>WSL DETECTED: We recommend using Docker Desktop for Windows.</code>）が表示され，20秒止まる．中断せずに待つ（講義では Ubuntu 側の docker を使う）．</p>
+      <details>
+        <summary>豆知識：コマンドの意味（待つ間に）</summary>
+        <ul>
+          <li><code>sudo</code>：管理者の権限で実行する．パスワード入力が必要</li>
+          <li><code>apt install -y git</code>：Ubuntu の公式の配布元から git をインストールする</li>
+          <li><code>curl -fsSL https://get.docker.com | sudo sh</code>：docker 公式のインストール手順を取得し，そのまま実行する</li>
+          <li><code>usermod -aG docker $USER</code>：自分を docker のグループに追加し，<code>sudo</code> なしで docker を使えるようにする</li>
+        </ul>
+      </details>
+      <p>3. Ubuntu を再起動する（1・2 の設定を反映するため．再起動はこの1回だけ）．</p>
+      <div class="cmd"><code>wsl.exe --shutdown</code><button>コピー</button></div>
+      <p>Ubuntu の画面が止まるので閉じ，Windows キー →「Ubuntu」→ Enter で開き直す．</p>
+      <p>4. 確認</p>
       <div class="cmd"><code>curl -fsSL https://kokiwakatsuki.github.io/house-mimamori-course/ubuntu/tools.sh | bash</code><button>コピー</button></div>
-      <p class="note">git・python3・docker が ○ なら完了．</p>
+      <details>
+        <summary>表示される内容</summary>
+<pre class="out">    道具        次の作業        詳細
+○  WSL2        不要            ...-microsoft-standard-WSL2
+○  systemd     不要
+○  git         不要            git version 2.43.0
+○  python3     不要            Python 3.12.3
+○  docker      不要            Docker version 29.x.x</pre>
+        <p class="note">すべて ○ なら完了．</p>
+      </details>
+      <details>
+        <summary>うまくいかないとき</summary>
+        <ul>
+          <li><b>systemd が ※</b>：WSL が古い．③ の <code>wsl --update</code> を管理者の PowerShell で実行し，3 の再起動をやり直す</li>
+          <li><b>systemd が ×</b>：docker の自動起動の設定を追加し，3 の再起動をやり直す<div class="cmd"><code>printf '[boot]\nsystemd=true\n' | sudo tee -a /etc/wsl.conf</code><button>コピー</button></div></li>
+          <li><b>docker が △</b>：再起動が反映されていない．3 をやり直す</li>
+          <li><b>パスワードが違う</b>：Ubuntu のパスワードを入力しているか確認．3回間違えると止まるので，もう一度コマンドを実行する</li>
+        </ul>
+      </details>
     </section>
 
+    <!-- ===== ⑥ ===== -->
     <section class="panel">
-      <h2>④ アプリの取得</h2>
-      <p>前任者が GitHub に公開したアプリを，自分の PC に複製（clone）する．</p>
-      <p><span class="where ub">Ubuntu</span></p>
+      <h2>⑥ アプリの取得</h2>
+      <p>前任者が GitHub に公開したアプリを，自分の PC に複製（clone）し，VS Code で開く．<span class="where ub">Ubuntu</span>で実行．</p>
       <div class="cmd"><code>git clone https://github.com/KokiWakatsuki/house-mimamori.git && cd house-mimamori && code .</code><button>コピー</button></div>
-      <p class="note">VS Code が起動し，左にファイル一覧が表示される．README.md にファイル構成の説明がある．</p>
-    </section>
-
-    <section class="panel">
-      <h2>⑤ アプリの起動</h2>
-      <p>前任者と同じ環境（コンテナ）でアプリを起動する．</p>
-      <p><span class="where ub">Ubuntu</span>（house-mimamori フォルダ内）</p>
-      <div class="cmd"><code>docker compose up --build</code><button>コピー</button></div>
-      <p>ブラウザで <b>http://localhost:8000</b> を開く．全棟「記録なし」と表示されれば<span class="ok">起動成功</span>．</p>
-    </section>
-
-    <section class="panel">
-      <h2>⑥ センサーの代わりを実行</h2>
-      <p>実際のハウスでは，センサー（測定機器）が測定値を送信する．ここでは，その代わりのプログラムを実行する．</p>
-      <p><span class="where ub">別の Ubuntu の画面</span></p>
-      <div class="cmd"><code>cd house-mimamori && python3 sensor.py</code><button>コピー</button></div>
-      <p>アプリの「更新」を押すと，8棟の温度が表示される．カードを押すと棟の画面が開く．測定値は1分ごとに届く．</p>
-    </section>
-
-    <section class="panel">
-      <h2>⑦ 測定値が表示されるまでの流れ</h2>
-      <div class="map">
-        <div>センサー<small>sensor.py</small></div><span>→</span>
-        <div>サーバー<small>app.py</small></div><span>→</span>
-        <div>データベース<small>data/house.db</small></div><span>→</span>
-        <div>画面<small>static/</small></div>
+      <details>
+        <summary>VS Code で表示される確認</summary>
+        <ul>
+          <li>初回は準備に少し時間がかかる</li>
+          <li>英語表示なら，右下の「Change Language and Restart」を押して日本語にする</li>
+          <li>「このフォルダー内のファイルの作成者を信頼しますか？」（Do you trust the authors?）→「はい，作成者を信頼します」（Yes, I trust the authors）</li>
+          <li>右下「このリポジトリ用のおすすめ拡張機能をインストールしますか？」→「インストール」（Python・docker 等の拡張機能）</li>
+        </ul>
+      </details>
+      <h3>VS Code の画面</h3>
+      <p>左にファイル一覧，ファイルをクリックすると右に中身が表示される．今日見るのは次の4つ．</p>
+      <div class="files">
+        <div class="file today">README.md<span>アプリの説明書．この表と同じ内容が書いてある</span></div>
+        <div class="file today">sensor.py<span>センサーの代わり．測定値を送信</span></div>
+        <div class="file today">app.py<span>サーバー．測定値の保存と，画面への応答</span></div>
+        <div class="file today">static/<span>画面（HTML・CSS・JavaScript・写真）</span></div>
+        <div class="file">.vscode/　Dockerfile　compose.yml　schema.sql　…<span>今日は見なくてよい</span></div>
       </div>
-      <p><b>課題</b>：画面に表示された1つの温度は，どのファイルのどの関数を経由したか．VS Code でファイルを開いて確認する．</p>
+    </section>
+
+    <!-- ===== ⑦ ===== -->
+    <section class="panel">
+      <h2>⑦ アプリの起動</h2>
+      <p>前任者と同じ環境（コンテナ）でアプリを起動する．<span class="where ub">Ubuntu</span>の house-mimamori フォルダ内で実行（⑥ の画面ならそのまま）．</p>
+      <div class="cmd"><code>docker compose up --build</code><button>コピー</button></div>
+      <p>初回は1〜2分かかる．<code>Uvicorn running on http://0.0.0.0:8000</code> と表示されたら起動完了．<b>この画面はサーバーなので閉じない</b>．</p>
+      <p>ブラウザで <a href="http://localhost:8000" target="_blank">http://localhost:8000</a> を開く．全棟「記録なし」なら成功．</p>
+      <img class="shot" src="../images/02/app_empty.jpg" alt="起動直後の画面．全棟が記録なし">
+      <details>
+        <summary>豆知識：コマンドの意味（待つ間に）</summary>
+        <ul>
+          <li><code>docker compose</code>：<code>compose.yml</code> の設定に従ってコンテナを起動する</li>
+          <li><code>up</code>：コンテナを起動する</li>
+          <li><code>--build</code>：<code>Dockerfile</code> の手順でコンテナを作成してから起動する．初回はここに時間がかかる</li>
+        </ul>
+      </details>
+      <details>
+        <summary>うまくいかないとき</summary>
+        <ul>
+          <li><b>permission denied と表示</b>：⑤ の 3（再起動）をやり直し，開き直した Ubuntu で次を実行<div class="cmd"><code>cd ~/house-mimamori && docker compose up --build</code><button>コピー</button></div></li>
+          <li><b>address already in use と表示</b>：別のアプリが 8000 番を使用中．メンターと確認</li>
+          <li><b>ブラウザで開けない</b>：<code>Uvicorn running</code> が表示されたか確認</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- ===== ⑧ ===== -->
+    <section class="panel">
+      <h2>⑧ センサーの代わりを実行</h2>
+      <p>実際のハウスでは，センサー（測定機器）が測定値を送信する．ここでは，その代わりのプログラムを実行する．</p>
+      <p>Windows キー →「Ubuntu」→ Enter で，<b>2つ目の<span class="where ub">Ubuntu</span>の画面</b>を開いて実行．</p>
+      <div class="cmd"><code>cd house-mimamori && python3 sensor.py</code><button>コピー</button></div>
+      <details open>
+        <summary>表示される内容</summary>
+<pre class="out">1号棟：10.2℃，75.3% を送信
+2号棟：9.8℃，74.1% を送信
+……（8号棟まで）</pre>
+        <p class="note">1分ごとに8行ずつ増える．終了は Ctrl + C．</p>
+      </details>
+      <p>ブラウザに戻り「更新」を押すと，8棟の温度が表示される．カードを押すと棟の画面（温度のグラフ）が開く．</p>
+      <img class="shot" src="../images/02/app_data.jpg" alt="測定値が表示された画面．3号棟が低温">
+      <p class="caption">表示例（3号棟が 5℃ 未満の場合）．数値は毎回異なる．</p>
+    </section>
+
+    <!-- ===== ⑨ ===== -->
+    <section class="panel">
+      <h2>⑨ 測定値が表示されるまでの流れ</h2>
+      <p>1つ目の Ubuntu の画面（サーバー）には，要求が届くたびに記録が1行ずつ表示される．</p>
+<pre class="out">"POST /api/readings HTTP/1.1" 200 OK          ← センサーから測定値が届き，保存した
+"GET /api/houses/1/today HTTP/1.1" 200 OK     ← 画面から「1号棟の本日の集計」を要求された</pre>
+      <p>下の「次へ」で，それぞれの記録のとき，どのコードが動いているかを順に見る．<b>コードは読めなくてよい</b>．左のコードと右の動きの対応だけ見る．</p>
+
+      <div class="flow" id="flow">
+        <div class="flow-step" id="flow-step"></div>
+        <div class="flow-body">
+          <div class="flow-code">
+            <div class="flow-file" id="flow-file"></div>
+            <pre id="flow-code"></pre>
+          </div>
+          <div class="flow-app">
+            <div class="box" id="box-sensor">センサー<small>sensor.py</small></div>
+            <div class="box" id="box-screen">画面<small>static/</small><span class="mini-card" id="mini-card">1号棟　8.4℃</span></div>
+            <div class="arrow" id="arrow-1">↓ 送信</div>
+            <div class="arrow" id="arrow-3">↓ 要求　↑ 応答</div>
+            <div class="box wide" id="box-server">サーバー<small>app.py</small></div>
+            <div class="arrow wide" id="arrow-2">↓ 保存　↑ 取得</div>
+            <div class="box wide" id="box-db">データベース<small>data/house.db</small></div>
+          </div>
+        </div>
+        <p class="flow-text" id="flow-text"></p>
+        <div class="flow-nav">
+          <button id="flow-prev">前へ</button>
+          <button id="flow-next">次へ</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>まとめ</h2>
+      <ul>
+        <li>アプリは4つの部分で動いている：センサーが送信 → サーバーが保存 → 画面が要求 → サーバーが取得して応答</li>
+        <li>次回は，このコードを少しずつ読む</li>
+      </ul>
+      <p>終了：2つの Ubuntu の画面で Ctrl + C．</p>
     </section>
 
   </main>
 
+  <script src="flow.js"></script>
   <script>
     // 「コピー」ボタン：隣のコマンドをクリップボードにコピーする
     for (const button of document.querySelectorAll(".cmd button")) {

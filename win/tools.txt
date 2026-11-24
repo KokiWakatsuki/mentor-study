@@ -1,6 +1,6 @@
 # 講義で使う道具が，この Windows で使用可能かを確認する．インストール・変更は一切しない．
 # インストールの有無だけでなく，コマンド名で実行可能か（Get-Command）で判定する．
-# 「次の作業」の列の番号は，第2回のページの手順を指す．
+# 「次の作業」の列の番号は，第2回のページの見出しの番号を指す．
 # 使い方（PowerShell）：
 #   [Net.ServicePointManager]::SecurityProtocol = 'Tls12'
 #   irm https://kokiwakatsuki.github.io/house-mimamori-course/win/tools.txt | iex
@@ -10,7 +10,7 @@ function Pad($text, $width) { $w = 0; foreach ($c in $text.ToCharArray()) { $w +
 function Row($mark, $name, $next, $detail) { '{0}  {1}{2}{3}' -f $mark, (Pad $name 16), (Pad $next 28), $detail }
 function Find($command) { (Get-Command $command -ErrorAction SilentlyContinue | Select-Object -First 1).Source }
 
-# PowerShell を開き直したあとに見に行くフォルダの一覧（いま開いている窓には，まだ反映されていないことがある）
+# PowerShell の再起動後に参照するフォルダ一覧（現在の画面には未反映の場合がある）
 $savedPath = [Environment]::ExpandEnvironmentVariables(
   [Environment]::GetEnvironmentVariable('Path', 'User') + ';' + [Environment]::GetEnvironmentVariable('Path', 'Machine'))
 
@@ -27,11 +27,11 @@ $wsl   = Get-AppxPackage MicrosoftCorporationII.WindowsSubsystemForLinux -ErrorA
 $linux = @(Get-ChildItem $lxss -ErrorAction SilentlyContinue | ForEach-Object { Get-ItemProperty $_.PSPath })
 $main  = (Get-ItemProperty $lxss -ErrorAction SilentlyContinue).DefaultDistribution
 
-# systemd（docker を自動で動かす仕組み）を使うには 0.67.6 以上の版が要る
-if ($wsl -and [version]$wsl.Version -lt [version]'0.67.6') { Row '※' 'WSL' 'wsl --update を実行' ('版が古い ' + $wsl.Version) }
+# systemd（docker を自動起動する仕組み）には 0.67.6 以上の版が必要
+if ($wsl -and [version]$wsl.Version -lt [version]'0.67.6') { Row '※' 'WSL' '③（wsl --update）' ('版が古い ' + $wsl.Version) }
 elseif ($wsl) { Row '○' 'WSL' '不要' ('新しい版 ' + $wsl.Version) }
-elseif ($linux.Count -gt 0) { Row '※' 'WSL' 'wsl --update を実行' '古い版' }
-else { Row '×' 'WSL' '手順①' '' }
+elseif ($linux.Count -gt 0) { Row '※' 'WSL' '③（wsl --update）' '古い版' }
+else { Row '×' 'WSL' '③' '' }
 
 # Linux：WSL がレジストリに書く一覧から読む（Version 2 が WSL2）
 $ubuntu = $linux | Where-Object { $_.DistributionName -like 'Ubuntu*' } | Select-Object -First 1
@@ -42,8 +42,8 @@ foreach ($d in $linux) {
   elseif ($isWsl2) { Row '○' 'Linux' '不要' $label }
   else { Row '※' 'Linux' 'メンターと確認' ('wsl --set-version ' + $d.DistributionName + ' 2') }
 }
-if (-not $ubuntu -and $wsl) { Row '×' 'Linux' '手順①' 'Ubuntu がない' }
-elseif (-not $ubuntu -and $linux.Count -gt 0) { Row '×' 'Linux' '手順①' 'Ubuntu がない（wsl --update の後に実行）' }
+if (-not $ubuntu -and $wsl) { Row '×' 'Linux' '③' 'Ubuntu がない' }
+elseif (-not $ubuntu -and $linux.Count -gt 0) { Row '×' 'Linux' '③' 'Ubuntu がない' }
 
 # VS Code：アプリがあっても，code コマンドが呼び出せないとターミナルから開けない
 $x = Find 'code'
@@ -58,11 +58,11 @@ if ($x) { Row '○' 'VS Code' '不要' $x }
 elseif ($app -and $savedPath.ToLower().Contains("$app\bin".ToLower())) { Row '△' 'VS Code' 'PowerShell を再起動' $app }
 elseif ($app) { Row '※' 'VS Code' 'メンターと確認' ('code コマンドがない：' + $app) }
 elseif ($other) { Row '※' 'VS Code' 'メンターと確認' ('標準とは別の場所：' + $other) }
-else { Row '×' 'VS Code' '手順②' '' }
+else { Row '×' 'VS Code' '④' '' }
 
-# 参考：Docker・Git は Ubuntu 側のものを使う
+# 参考：docker・git は Ubuntu 側のものを使う（⑤ でインストール）．Windows 側の Docker Desktop は使わない
 $dd = @("$env:ProgramFiles\Docker\Docker", "$env:LOCALAPPDATA\Programs\DockerDesktop") | Where-Object { Test-Path $_ } | Select-Object -First 1
-if ($dd) { Row '※' 'Docker Desktop' 'メンターと確認' 'Ubuntu の docker とぶつかることがある' } else { Row '・' 'Docker Desktop' '不要' 'なし（なくてよい）' }
+if ($dd) { Row '※' 'Docker Desktop' 'メンターと確認' 'Windows 側の Docker Desktop．講義では Ubuntu 側の docker を使う' }
 
 ''
 '○ 使用可　△ 未設定　× 未インストール　※ 要確認　・ 参考'

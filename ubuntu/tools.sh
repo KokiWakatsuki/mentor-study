@@ -17,11 +17,17 @@ case "$(uname -r)" in
   *) row ・ WSL2 "不要" "WSL ではない Linux" ;;
 esac
 
-# systemd：docker を自動で動かす仕組み．新しい WSL の Ubuntu では最初から動いている
-if [ "$(ps -p 1 -o comm= 2>/dev/null)" = systemd ]; then row ○ systemd "不要" ""; else row ※ systemd "メンターと確認" "動いていない（docker が自動で動かない）"; fi
+# systemd：docker を自動起動する仕組み．WSL の版が古いと，設定しても有効にならない
+if [ "$(ps -p 1 -o comm= 2>/dev/null)" = systemd ]; then
+  row ○ systemd "不要" ""
+elif grep -q "systemd=true" /etc/wsl.conf 2>/dev/null; then
+  row ※ systemd "③（wsl --update）→ ⑤の再起動" "設定済みだが無効．WSL が古い可能性"
+else
+  row × systemd "⑤（systemd の設定）" "無効（docker が自動起動しない）"
+fi
 
 # git：Ubuntu には最初から入っていることが多い
-if command -v git >/dev/null; then row ○ git "不要" "$(git --version)"; else row × git "手順③" ""; fi
+if command -v git >/dev/null; then row ○ git "不要" "$(git --version)"; else row × git "⑤" ""; fi
 
 # python3：sensor.py の実行に必要．Ubuntu には標準で入っている
 if command -v python3 >/dev/null; then row ○ python3 "不要" "$(python3 --version)"; else row × python3 "メンターと確認" ""; fi
@@ -32,15 +38,15 @@ d=$(command -v docker)
 if [ -n "$d" ] && docker info >/dev/null 2>&1 && ! readlink -f "$d" | grep -q docker-desktop; then
   row ○ docker "不要" "$(docker --version)"
 elif [ -z "$d" ]; then
-  row × docker "手順③" ""
+  row × docker "⑤" ""
 elif readlink -f "$d" | grep -q docker-desktop; then
   row ※ docker "メンターと確認" "Windows の Docker Desktop のもの"
 elif ! dpkg -s docker-ce >/dev/null 2>&1; then
   row ※ docker "メンターと確認" "公式の手順とは別の docker：$d"
 elif ! id -nG | grep -qw docker; then
-  row △ docker "手順③の2行目と wsl --shutdown" "sudo なしでは使えない"
+  row △ docker "⑤の再起動" "sudo なしでは使えない"
 else
-  row △ docker "wsl --shutdown 後に再起動" "入っているが，まだ動いていない"
+  row △ docker "⑤の再起動" "入っているが，まだ動いていない"
 fi
 
 echo
