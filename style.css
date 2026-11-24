@@ -165,14 +165,15 @@ a { color: var(--blue-dark); }
 .step-head h2 { margin: 0; }
 
 .actions { margin: 16px 0; padding: 0; list-style: none; counter-reset: action; }
-.actions > li { position: relative; margin-bottom: 20px; padding-left: 40px; }
+.actions > li { position: relative; margin-bottom: 20px; padding-left: 60px; }
+/* 小手順の番号は「手順-小手順」（例：3-1）．手順番号は ol の --step から */
 .actions > li::before {
   counter-increment: action;
-  content: counter(action);
+  content: var(--step, "") "-" counter(action);
   position: absolute; left: 0; top: 2px;
-  width: 26px; height: 26px; border-radius: 50%;
+  width: 48px; height: 26px; border-radius: 13px;
   border: 2px solid var(--green); color: var(--green);
-  font-size: 14px; font-weight: bold; line-height: 22px; text-align: center;
+  font-size: 13px; font-weight: bold; line-height: 22px; text-align: center;
 }
 .when { display: inline-block; margin-left: 6px; padding: 0 8px; border-radius: 6px; background: var(--green-light); color: var(--green); font-size: 13px; font-weight: bold; }
 .hint { color: var(--gray); font-size: 14px; }
@@ -457,6 +458,4 @@ details[open] summary::before { content: "▾ "; }
 .rule-box { padding: 12px 18px; border-radius: 10px; background: var(--green-light); }
 .rule-box p { margin: 4px 0; }
 .rule-box b { display: inline-block; min-width: 5.5em; color: var(--green); }
-.rule-box small { display: block; padding-left: 5.5em; color: var(--gray); font-size: 13px; }
 .how .note { color: var(--gray); font-size: 12px; }
-@media (max-width: 720px) { .rule-box small { padding-left: 0; } }

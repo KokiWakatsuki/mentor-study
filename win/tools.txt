@@ -28,9 +28,9 @@ $linux = @(Get-ChildItem $lxss -ErrorAction SilentlyContinue | ForEach-Object { 
 $main  = (Get-ItemProperty $lxss -ErrorAction SilentlyContinue).DefaultDistribution
 
 # systemd（docker を自動起動する仕組み）には 0.67.6 以上の版が必要
-if ($wsl -and [version]$wsl.Version -lt [version]'0.67.6') { Row '※' 'WSL' '③の1' ('版が古い ' + $wsl.Version) }
-elseif ($wsl) { Row '○' 'WSL' '③の1 のみ' ('新しい版 ' + $wsl.Version) }
-elseif ($linux.Count -gt 0) { Row '※' 'WSL' '③の1' '古い版' }
+if ($wsl -and [version]$wsl.Version -lt [version]'0.67.6') { Row '※' 'WSL' '③-1' ('版が古い ' + $wsl.Version) }
+elseif ($wsl) { Row '○' 'WSL' '③-1 のみ' ('新しい版 ' + $wsl.Version) }
+elseif ($linux.Count -gt 0) { Row '※' 'WSL' '③-1' '古い版' }
 else { Row '×' 'WSL' '③' '' }
 
 # Linux：WSL がレジストリに書く一覧から読む（Version 2 が WSL2）
@@ -42,7 +42,7 @@ foreach ($d in $linux) {
   elseif ($isWsl2) { Row '○' 'Ubuntu' '不要' $label }
   else { Row '※' 'Ubuntu' 'メンターと確認' ('wsl --set-version ' + $d.DistributionName + ' 2') }
 }
-# Ubuntu がない場合は，WSL の有無にかかわらず表示する（③の2 が必要かの判断に使う）
+# Ubuntu がない場合は，WSL の有無にかかわらず表示する（③-2 が必要かの判断に使う）
 if (-not $ubuntu) { Row '×' 'Ubuntu' '③' '' }
 
 # VS Code：アプリがあっても，code コマンドが呼び出せないとターミナルから開けない
@@ -57,7 +57,7 @@ $other = @(Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uni
 # 拡張機能（Container Tools）は新しい VS Code が必要．古い版は更新を案内する
 $ver = if ($x) { try { [version]((& $x --version 2>$null) | Select-Object -First 1) } catch { $null } }
 if ($x -and $ver -and $ver -lt [version]'1.109') { Row '△' 'VS Code' 'VS Code を更新' ('版が古い ' + $ver) }
-elseif ($x) { Row '○' 'VS Code' '④の3 のみ' $(if ($ver) { "版 $ver" } else { $x }) }
+elseif ($x) { Row '○' 'VS Code' '④-3 のみ' $(if ($ver) { "版 $ver" } else { $x }) }
 elseif ($app -and $savedPath.ToLower().Contains("$app\bin".ToLower())) { Row '△' 'VS Code' 'PowerShell を再起動' $app }
 elseif ($app) { Row '※' 'VS Code' 'メンターと確認' ('code コマンドがない：' + $app) }
 elseif ($other) { Row '※' 'VS Code' 'メンターと確認' ('標準とは別の場所：' + $other) }

@@ -21,13 +21,13 @@ esac
 if [ "$(ps -p 1 -o comm= 2>/dev/null)" = systemd ]; then
   row ○ systemd "不要" ""
 elif grep -Eq "^[[:space:]]*systemd[[:space:]]*=[[:space:]]*true" /etc/wsl.conf 2>/dev/null; then
-  row ※ systemd "③の1 → ⑤の3 → ⑤の4" "設定済みだが無効．WSL が古い可能性"
+  row ※ systemd "③-1 → ⑤-3 → ⑤-4" "設定済みだが無効．WSL が古い可能性"
 else
-  row × systemd "⑤の「うまくいかないとき」" "無効（docker が自動起動しない）"
+  row × systemd "⑤ のうまくいかないとき" "無効（docker が自動起動しない）"
 fi
 
 # git：Ubuntu には最初から入っていることが多い
-if command -v git >/dev/null; then row ○ git "不要" "$(git --version)"; else row × git "⑤の1" ""; fi
+if command -v git >/dev/null; then row ○ git "不要" "$(git --version)"; else row × git "⑤-1" ""; fi
 
 # python3：sensor.py の実行に必要．Ubuntu には標準で入っている
 if command -v python3 >/dev/null; then row ○ python3 "不要" "$(python3 --version)"; else row × python3 "メンターと確認" ""; fi
@@ -40,17 +40,17 @@ if [ -n "$d" ] && docker info >/dev/null 2>&1 && ! readlink -f "$d" | grep -q do
   # ⑦の docker compose は，docker とは別の部品（プラグイン）
   if docker compose version >/dev/null 2>&1; then row ○ compose "不要" "$(docker compose version)"; else row ※ compose "メンターと確認" "docker compose がない"; fi
 elif [ -z "$d" ]; then
-  row × docker "⑤の2" ""
+  row × docker "⑤-2" ""
 elif readlink -f "$d" | grep -q docker-desktop; then
   row ※ docker "メンターと確認" "Windows の Docker Desktop のもの"
 elif ! dpkg -s docker-ce >/dev/null 2>&1; then
   row ※ docker "メンターと確認" "公式の手順とは別の docker：$d"
 elif ! getent group docker | grep -qw "$USER"; then
-  row △ docker "⑤の2 → ⑤の3" "docker グループに未登録"
+  row △ docker "⑤-2 → ⑤-3" "docker グループに未登録"
 elif ! id -nG | grep -qw docker; then
-  row △ docker "⑤の3" "登録済み．再起動で反映"
+  row △ docker "⑤-3" "登録済み．再起動で反映"
 else
-  row △ docker "⑤の3" "入っているが，まだ動いていない（再起動後も同じならメンターと確認）"
+  row △ docker "⑤-3" "入っているが，まだ動いていない（再起動後も同じならメンターと確認）"
 fi
 
 echo

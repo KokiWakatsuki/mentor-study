@@ -113,7 +113,6 @@
         </div>
       </div>
       <div class="rule-box">
-        <p><b>コマンド</b>「コピー」→ 画面に貼り付け → Enter<br><small>長いコマンドは横に続く．コピーで全文</small></p>
         <p><b>画面</b>「終了可」の表示まで開いたまま</p>
         <p><b>補足</b>点線の語・コマンド横の「?」</p>
       </div>
@@ -175,7 +174,7 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <span class="where admin">PowerShell（管理者）</span>
       </div>
       <p class="hint"><span data-tip="Windows で Ubuntu を動かす仕組み" data-tip-head="用語｜WSL">WSL</span> は土台，Ubuntu はその上で動く OS<br>土台を最新にしてから，Ubuntu を入れる</p>
-      <ol class="actions">
+      <ol class="actions" style="--step: '3'">
         <li>
           <p>WSL の更新<span class="when">全員</span></p>
           <div class="cmd"><code data-tip="WSL を最新版に更新／古い版は，docker の自動起動に必要な仕組み（systemd）に未対応">wsl --update</code><button class="copy">コピー</button></div>
@@ -209,7 +208,7 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <summary>うまくいかないとき</summary>
         <div class="detail-body">
           <p><b>再起動後，Ubuntu の画面が出ない</b><br>→ Windows キー →「ubuntu」→ Enter</p>
-          <p><b>「ubuntu」が検索に出ない</b><br>→ 管理者の PowerShell で 2 をもう一度</p>
+          <p><b>「ubuntu」が検索に出ない</b><br>→ 管理者の PowerShell で ③-2 をもう一度</p>
         </div>
       </details>
       <div class="check-row">
@@ -225,14 +224,14 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <h2>VS Code の準備</h2>
         <span class="where ps">PowerShell</span>
       </div>
-      <ol class="actions">
+      <ol class="actions" style="--step: '4'">
         <li>
           <p>VS Code のインストール<span class="when">VS Code がない人</span></p>
           <div class="cmd"><code data-tip="VS Code をインストール">winget install -e --id Microsoft.VisualStudioCode</code><button class="copy">コピー</button></div>
           <p class="hint">「agree」と聞かれたら → Y → Enter</p>
         </li>
         <li>
-          <p><span data-tip="code コマンドを使えるようにするため" data-tip-head="理由｜再起動">PowerShell の再起動</span><span class="when">1 を実行した人</span></p>
+          <p><span data-tip="code コマンドを使えるようにするため" data-tip-head="理由｜再起動">PowerShell の再起動</span><span class="when">④-1 を実行した人</span></p>
           <p class="hint">右上の × で閉じる → 開き直す</p>
         </li>
         <li>
@@ -266,7 +265,7 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <span class="where ub">Ubuntu</span>
       </div>
       <p class="caution">パスワードを聞かれたら，Ubuntu 用を入力（Windows 用とは別）<br>入力しても画面には表示されない</p>
-      <ol class="actions">
+      <ol class="actions" style="--step: '5'">
         <li>
           <p><span data-tip="変更の履歴を記録する道具／チームでコードを共有するときにも使う" data-tip-head="用語｜git">git</span> のインストール</p>
           <div class="cmd"><code data-tip="git をインストール">sudo apt update && sudo apt install -y git</code><button class="copy">コピー</button></div>
@@ -301,10 +300,10 @@ Windows     ○    Windows 10 Home（ビルド 19045）
       <details>
         <summary>うまくいかないとき</summary>
         <div class="detail-body">
-          <p><b>systemd が ※</b><br>→ ③ の1（WSL の更新）→ ここの3 → ここの4</p>
-          <p><b>systemd が ×</b><br>→ 次を実行 → ここの3 → ここの4</p>
+          <p><b>systemd が ※</b><br>→ ③-1（WSL の更新）→ ⑤-3 → ⑤-4</p>
+          <p><b>systemd が ×</b><br>→ 次を実行 → ⑤-3 → ⑤-4</p>
           <div class="cmd"><code data-tip="docker の自動起動を設定">printf '[boot]\nsystemd=true\n' | sudo tee -a /etc/wsl.conf</code><button class="copy">コピー</button></div>
-          <p><b>docker が △</b><br>→ ここの3 → ここの4</p>
+          <p><b>docker が △</b><br>→ ⑤-3 → ⑤-4</p>
         </div>
       </details>
       <div class="check-row">
@@ -321,7 +320,7 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <span class="where ub">Ubuntu</span>
         <span class="where vs">VS Code</span>
       </div>
-      <ol class="actions">
+      <ol class="actions" style="--step: '6'">
         <li>
           <p>アプリを取得し，VS Code で開く</p>
           <div class="cmd"><code data-tip="アプリを複製し，VS Code で開く">git clone https://github.com/KokiWakatsuki/berry-watch.git && cd berry-watch && code .</code><button class="copy">コピー</button></div>
@@ -336,7 +335,7 @@ Windows     ○    Windows 10 Home（ビルド 19045）
                 <li>「作成者を信頼しますか？」<br>→「はい、作成者を信頼します」</li>
                 <li>左下に「WSL: Ubuntu」の表示<br>（Ubuntu の中を開いている印）</li>
                 <li>アプリの説明書（README）が自動で表示<br>（出ない → 左の README.md をクリック）</li>
-                <li>「おすすめの拡張機能」の通知 → 無視でよい（次の 3 で追加）</li>
+                <li>「おすすめの拡張機能」の通知 → 無視でよい（⑥-3 で追加）</li>
               </ol>
             </div>
           </details>
@@ -408,7 +407,7 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <h2>アプリの起動</h2>
         <span class="where ub">Ubuntu</span>
       </div>
-      <p class="hint">⑥ の1 で使った Ubuntu の画面に戻る</p>
+      <p class="hint">⑥-1 で使った Ubuntu の画面に戻る</p>
       <div class="cmd"><code data-tip="アプリを起動">docker compose up --build</code><button class="copy">コピー</button></div>
       <span class="wait"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5V8l2.5 1.5"/></svg>初回 1〜2分</span>
       <p class="hint" style="margin-top: 8px;"><code>Application startup complete.</code> → 起動完了</p>
@@ -418,7 +417,7 @@ Windows     ○    Windows 10 Home（ビルド 19045）
       <details>
         <summary>うまくいかないとき</summary>
         <div class="detail-body">
-          <p><b>permission denied</b> → ⑤ の3 → 次を実行</p>
+          <p><b>permission denied</b> → ⑤-3 → 次を実行</p>
           <div class="cmd"><code data-tip="アプリを起動">cd ~/berry-watch && docker compose up --build</code><button class="copy">コピー</button></div>
           <p><b>address already in use</b> → メンターと確認</p>
         </div>
@@ -441,7 +440,7 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <h2><span data-tip="温度を測る機械" data-tip-head="用語｜センサー">センサー</span>の代わりを実行</h2>
         <span class="where ub">2つ目の Ubuntu</span>
       </div>
-      <ol class="actions">
+      <ol class="actions" style="--step: '8'">
         <li>
           <p>Ubuntu をもう1つ起動</p>
           <p class="hint">Windows キー →「ubuntu」→ Enter</p>
