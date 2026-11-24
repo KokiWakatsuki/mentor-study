@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>第7回 原因の調査 | メンター勉強会</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../lesson.css">
+</head>
+<body data-lesson="07">
+  <header class="topbar">
+    <a class="brand" href="../">メンター勉強会</a>
+  </header>
+
+  <section class="hero">
+    <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="ひだまり農園のビニールハウス">
+    <div class="hero-text">
+      <h1>第7回　原因の調査</h1>
+      <p>遅さを再現し，どこが遅いかを突き止める</p>
+    </div>
+  </section>
+
+  <nav class="progress" aria-label="進捗">
+    <div class="progress-groups">
+      <div class="progress-group"><span>準備</span>
+        <div class="progress-dots"><button class="dot" data-step="1">1</button><button class="dot" data-step="2">2</button></div>
+      </div>
+      <div class="progress-group"><span>調べる</span>
+        <div class="progress-dots"><button class="dot" data-step="3">3</button><button class="dot" data-step="4">4</button><button class="dot" data-step="5">5</button><button class="dot" data-step="6">6</button></div>
+      </div>
+      <div class="progress-group"><span>書く</span>
+        <div class="progress-dots"><button class="dot" data-step="7">7</button><button class="dot" data-step="8">8</button></div>
+      </div>
+    </div>
+    <div class="progress-count" id="progress-count"></div>
+  </nav>
+
+  <main class="page">
+
+    <section class="card">
+      <h2>今回の目標</h2>
+      <ul class="goal">
+        <li>自分の PC で遅さを再現</li>
+        <li>遅い場所を，測って絞り込む</li>
+        <li>記録の数を見積もり，原因を説明</li>
+      </ul>
+    </section>
+
+    <aside class="memo">
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/strawberry.jpg" alt="">
+      <div><b>先輩メモ｜調べる順番</b><p>いきなり直さない．<br>まず再現して，測って，場所を絞る．</p></div>
+    </aside>
+
+    <!-- ===== ① 起動 ===== -->
+    <section class="card" id="step-1">
+      <div class="step-head">
+        <span class="step-num">1</span>
+        <h2>アプリの起動</h2>
+        <span class="where ub">Ubuntu</span>
+      </div>
+      <p class="hint">今回から，サーバーとセンサーは VS Code の中のターミナルで実行<br>画面が1つで済む</p>
+      <ol class="actions" style="--step: '1'">
+        <li>
+          <p>VS Code でアプリを開く</p>
+          <p class="hint">Windows キー →「ubuntu」→ Enter</p>
+          <div class="cmd"><code data-tip="アプリのフォルダに移動し，VS Code で開く">cd ~/berry-watch && code .</code><button class="copy">コピー</button></div>
+          <p class="hint">VS Code が開いたら，Ubuntu の画面は終了可</p>
+        </li>
+        <li>
+          <p>サーバーの起動<span class="where vs" style="margin-left:6px;">VS Code</span></p>
+          <p class="hint">上部のメニュー「ターミナル」→「新しいターミナル」<br>→ 下に開いた画面に貼り付け（Ctrl + V）→ Enter</p>
+          <div class="cmd"><code data-tip="アプリを起動">docker compose up</code><button class="copy">コピー</button></div>
+          <p class="hint"><code>Application startup complete.</code> → 起動完了</p>
+        </li>
+        <li>
+          <p>センサーの代わりを実行<span class="where vs" style="margin-left:6px;">VS Code</span></p>
+          <p class="hint">ターミナルの右上の「＋」→ 2つ目のターミナル</p>
+          <div class="cmd"><code data-tip="センサーの代わりを起動">python3 sensor.py</code><button class="copy">コピー</button></div>
+          <p class="hint">ターミナルの切り替え：右側の一覧（bash が2つ）</p>
+        </li>
+        <li>
+          <p>ブラウザで <a href="http://localhost:8000" target="_blank">http://localhost:8000</a></p>
+        </li>
+      </ol>
+      <details>
+        <summary>うまくいかないとき</summary>
+        <div class="detail-body">
+          <p><b>No such file or directory</b><br>→ アプリが未取得．第2回の「アプリの取得」から</p>
+          <p><b>左下に「WSL: Ubuntu」が出ない</b><br>→ VS Code を閉じて，1-1 をもう一度</p>
+          <p><b>permission denied</b>（docker）<br>→ メンターと確認</p>
+        </div>
+      </details>
+      <div class="check-row">
+        <p class="done">8棟の温度の表示<br>VS Code にファイル一覧</p>
+        <label class="check"><input type="checkbox" data-step="1"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ② 再現 ===== -->
+    <section class="card" id="step-2">
+      <div class="step-head">
+        <span class="step-num">2</span>
+        <h2>遅さの再現</h2>
+        <span class="where vs">VS Code</span>
+      </div>
+      <p>本番のデータは園主のもの．持ち出さず，同じ件数の試験データで再現</p>
+      <ol class="actions" style="--step: '2'">
+        <li>
+          <p>試験データの作成</p>
+          <p class="hint">ターミナルの「＋」→ 3つ目のターミナル</p>
+          <div class="cmd"><code data-tip="動いているサーバーの箱の中で，sample_data.py を実行">docker compose exec app python sample_data.py</code><button class="copy">コピー</button></div>
+          <span class="wait"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5V8l2.5 1.5"/></svg>待機 1分ほど</span>
+<pre class="out">作成中… 100,000件
+……
+完了：記録は全部で 1,457,312件</pre>
+        </li>
+        <li>
+          <p>ブラウザの「更新」を3回 → 表示時間を記録</p>
+          <p class="hint">「更新」ボタンの横の「表示時間：〇〇 秒」</p>
+        </li>
+      </ol>
+      <details>
+        <summary>豆知識｜docker compose exec</summary>
+        <div class="detail-body"><p>動いている箱（コンテナ）の中でコマンドを実行<br>箱の中は，サーバーと同じ Python・同じデータベース</p></div>
+      </details>
+      <label class="note-label" for="before">表示時間（3回）</label>
+      <textarea class="note" data-id="before" id="before" style="min-height:60px;" placeholder="例：3.2秒，3.0秒，3.1秒"></textarea>
+      <div class="check-row">
+        <p class="done">表示時間が数秒に</p>
+        <label class="check"><input type="checkbox" data-step="2"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ③ 観察 ===== -->
+    <section class="card" id="step-3">
+      <div class="step-head">
+        <span class="step-num">3</span>
+        <h2>遅い画面・速い画面</h2>
+        <span class="where br">ブラウザ</span>
+      </div>
+      <p class="hint">先輩の調べ方．この順を何度もくり返す</p>
+      <div class="terms">
+        <div class="term-row"><code>観察</code><span>何が起きている？</span></div>
+        <div class="term-row"><code>仮説</code><span>原因はここでは？</span></div>
+        <div class="term-row"><code>確認</code><span>測って確かめる</span></div>
+      </div>
+      <p style="margin-top:12px;">カードを押して，棟の画面へ．速さを比べる</p>
+      <div class="predict">
+        <p class="predict-q">棟の画面は？</p>
+        <div class="predict-options">
+          <button type="button" data-right>一覧より速い</button>
+          <button type="button">一覧と同じくらい遅い</button>
+        </div>
+        <div class="predict-answer" hidden><b>一覧より速い</b>　棟の画面は「最新の60件」だけを読む<br>→ 遅いのは，一覧だけが使う処理（仮説）</div>
+      </div>
+      <div class="check-row">
+        <p class="done">一覧は遅く，棟の画面は速い</p>
+        <label class="check"><input type="checkbox" data-step="3"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ④ 開発者ツール ===== -->
+    <section class="card" id="step-4">
+      <div class="step-head">
+        <span class="step-num">4</span>
+        <h2>どの要求が遅い？</h2>
+        <span class="where br">ブラウザ</span>
+      </div>
+      <ol class="actions" style="--step: '4'">
+        <li>
+          <p>一覧の画面で F12 → 上部の「ネットワーク」</p>
+          <p class="hint"><span data-tip="ブラウザに付いている，作る人向けの道具．画面の裏のやりとりが見える" data-tip-head="用語｜開発者ツール">開発者ツール</span>が開く</p>
+        </li>
+        <li>
+          <p>アプリの「更新」ボタン → 一覧に要求が並ぶ</p>
+        </li>
+      </ol>
+      <div class="gh">
+        <div class="gh-bar">開発者ツール｜ネットワーク（表示例）</div>
+        <table style="width:100%; border-collapse:collapse; font-size:13px; font-family: Consolas, Menlo, monospace;">
+          <tr style="color:var(--gray);"><td style="padding:4px 12px;">名前</td><td>時間</td></tr>
+          <tr><td style="padding:2px 12px;">settings</td><td>4 ms</td></tr>
+          <tr><td style="padding:2px 12px;">houses</td><td>5 ms</td></tr>
+          <tr style="background:var(--yellow-light);"><td style="padding:2px 12px;">today（1号棟）</td><td>385 ms</td></tr>
+          <tr style="background:var(--yellow-light);"><td style="padding:2px 12px;">today（2号棟）</td><td>392 ms</td></tr>
+          <tr style="background:var(--yellow-light);"><td style="padding:2px 12px;">……（8号棟まで）</td><td>……</td></tr>
+        </table>
+      </div>
+      <div class="terms">
+        <div class="term-row"><code>today</code><span>棟1つの「本日の集計」の要求<br><code>app.py</code> の <code>today_summary</code></span></div>
+        <div class="term-row"><code>8回</code><span>一覧は棟の数だけ要求．1回ずつ順番</span></div>
+      </div>
+      <label class="note-label" for="devtools">today の1回の時間 × 8回 ≒ 表示時間？</label>
+      <textarea class="note" data-id="devtools" id="devtools" style="min-height:60px;" placeholder="例：0.39秒 × 8回 ＝ 3.1秒 → 表示時間とほぼ同じ"></textarea>
+      <div class="check-row">
+        <p class="done">遅いのは today の要求</p>
+        <label class="check"><input type="checkbox" data-step="4"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑤ 件数 ===== -->
+    <section class="card" id="step-5">
+      <div class="step-head">
+        <span class="step-num">5</span>
+        <h2>記録の数の見積もり</h2>
+      </div>
+      <p>SQLite Viewer で <code>readings</code> を開くと，下に行の数</p>
+      <div class="terms">
+        <div class="term-row"><code>9月まで</code><span>8棟 × 1日144回（10分ごと） × 365日<br>＝ 約42万件</span></div>
+        <div class="term-row"><code>9月から</code><span>8棟 × 1日1440回（1分ごと） × 90日<br>＝ 約104万件</span></div>
+      </div>
+      <div class="predict">
+        <p class="predict-q">1日に増える記録は，9月の前と後で何倍？</p>
+        <div class="predict-options">
+          <button type="button">同じ</button>
+          <button type="button">2倍</button>
+          <button type="button" data-right>10倍</button>
+        </div>
+        <div class="predict-answer" hidden><b>10倍</b>　10分ごと → 1分ごと<br>前任者の9月の変更（Issue #1）は，1行の変更でも記録の増え方を10倍に</div>
+      </div>
+      <div class="check-row">
+        <p class="done">行の数と見積もりが，ほぼ一致</p>
+        <label class="check"><input type="checkbox" data-step="5"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑥ 原因 ===== -->
+    <section class="card" id="step-6">
+      <div class="step-head">
+        <span class="step-num">6</span>
+        <h2>原因の説明</h2>
+        <span class="where vs">VS Code</span>
+      </div>
+      <p><code>app.py</code> の <code>today_summary</code>（Ctrl + F →「def today」）</p>
+<span class="code-file">app.py（today_summary の前半）</span>
+<div class="code"><span class="line is-mark">    sql = <span class="s">"SELECT … FROM readings WHERE house_id = ? ORDER BY id"</span></span><span class="line"> </span><span class="line is-mark">    <span class="c"># 1. この棟の全記録を取得する（古い順）</span></span><span class="line">    rows = fetch_all(sql, (house_id,))</span><span class="line"> </span><span class="line is-mark">    <span class="c"># 2. 本日の記録だけを抽出する</span></span><span class="line">    today_rows = []</span><span class="line">    <span class="k">for</span> row <span class="k">in</span> rows:</span><span class="line">        <span class="k">if</span> row[<span class="s">"measured_at"</span>].startswith(today):</span><span class="line">            today_rows.append(row)</span></div>
+      <div class="terms">
+        <div class="term-row"><code>SELECT … WHERE house_id = ?</code><span>データベースへの問い合わせ（<span data-tip="データベースに「どの行が欲しいか」を伝える言葉" data-tip-head="用語｜SQL">SQL</span>）<br>「この棟の記録を全部」</span></div>
+        <div class="term-row"><code>startswith(today)</code><span>日時が今日の日付で始まる？</span></div>
+      </div>
+      <p>今日の分を探すのに，その棟の約18万件を毎回全部読む<br>→ 1日に1回の要求で8棟分．記録が増えるほど遅い</p>
+      <details>
+        <summary>豆知識｜原因の候補はほかにも</summary>
+        <div class="detail-body">
+          <p><b>索引がない</b>　本の索引のように「3号棟の今日」の場所を示す仕組みがない</p>
+          <p><b>要求が8回</b>　通信が遅い場所（畑）では，1回ごとの待ちが積み重なる</p>
+        </div>
+      </details>
+      <label class="note-label" for="cause">原因を，園主に1〜2行で説明すると？</label>
+      <textarea class="note" data-id="cause" id="cause" placeholder="例：9月から記録が〇倍の速さで増え，……"></textarea>
+      <p class="hint">書いたら，相談の Issue にコメントで追記</p>
+      <div class="check-row">
+        <p class="done">原因を記入し，Issue にコメント</p>
+        <label class="check"><input type="checkbox" data-step="6"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑦ 練習 ===== -->
+    <section class="card practice" id="step-7">
+      <div class="step-head">
+        <span class="step-num">7</span>
+        <h2>件数の見積もり</h2>
+      </div>
+
+      <h3>問1　記録の数</h3>
+      <p>棟の数・記録の間隔（分）・日数を受け取り，記録の数を出力</p>
+      <div class="io">
+        <div><b>入力例（棟 間隔 日数）</b><pre>8 10 365</pre></div>
+        <div><b>出力例</b><pre>420480</pre></div>
+      </div>
+      <div class="judge" data-id="07-1">
+        <script type="text/plain" class="starter">houses, minutes, days = map(int, input().split())   # 例：8 10 365
+
+# 1日は 24 × 60 分
+</script>
+        <script type="application/json" class="tests">[
+          {"in": "8 10 365", "out": "420480"},
+          {"in": "8 1 90", "out": "1036800"},
+          {"in": "1 60 1", "out": "24"},
+          {"in": "3 5 7", "out": "6048"}
+        ]</script>
+      </div>
+      <details>
+        <summary>ヒント</summary>
+        <div class="detail-body"><p>1日の回数 ＝ 1440 ÷ 間隔．割り算 <code>//</code> は整数の答え</p></div>
+      </details>
+      <details>
+        <summary>解答例</summary>
+        <div class="detail-body">
+<div class="code"><span class="line">houses, minutes, days = map(int, input().split())</span><span class="line">per_day = 24 * 60 // minutes</span><span class="line">print(houses * per_day * days)</span></div>
+        </div>
+      </details>
+
+      <h3>問2　最初に低温になった時刻（続き）</h3>
+      <p>時刻と温度の記録（古い順）から，最初に 8.0 未満になった時刻を出力．なければ <code>なし</code></p>
+      <div class="io">
+        <div><b>入力例</b><pre>4
+05:40 8.6
+05:50 8.1
+06:00 7.8
+06:10 7.5</pre></div>
+        <div><b>出力例</b><pre>06:00</pre></div>
+      </div>
+      <div class="judge" data-id="07-2">
+        <script type="text/plain" class="starter">n = int(input())
+records = []
+for i in range(n):
+    time, temperature = input().split()
+    records.append({"time": time, "temperature": float(temperature)})
+
+</script>
+        <script type="application/json" class="tests">[
+          {"in": "4\n05:40 8.6\n05:50 8.1\n06:00 7.8\n06:10 7.5", "out": "06:00"},
+          {"in": "3\n01:00 9.0\n02:00 8.0\n03:00 8.5", "out": "なし"},
+          {"in": "2\n00:00 7.0\n00:10 6.5", "out": "00:00"}
+        ]</script>
+      </div>
+      <details>
+        <summary>ヒント</summary>
+        <div class="detail-body"><p>見つけたら <code>break</code> で for を抜ける<br>見つかったかどうかを，変数に入れておく</p></div>
+      </details>
+      <details>
+        <summary>解答例</summary>
+        <div class="detail-body">
+<div class="code"><span class="line">answer = <span class="s">"なし"</span></span><span class="line"><span class="k">for</span> record <span class="k">in</span> records:</span><span class="line">    <span class="k">if</span> record[<span class="s">"temperature"</span>] &lt; 8.0:</span><span class="line">        answer = record[<span class="s">"time"</span>]</span><span class="line">        <span class="k">break</span></span><span class="line">print(answer)</span></div>
+        </div>
+      </details>
+      <div class="check-row">
+        <p class="done">問1 が全問正解（問2 は続き）</p>
+        <label class="check"><input type="checkbox" data-step="7"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑦ 手応えメモ ===== -->
+    <section class="card" id="step-8">
+      <div class="step-head">
+        <span class="step-num">8</span>
+        <h2>手応えメモ</h2>
+      </div>
+      <p class="hint">このブラウザに保存．第11回で並べて振り返る</p>
+      <label class="note-label" for="memo-done">自分でできた所</label>
+      <textarea class="note" data-id="memo-done" id="memo-done"></textarea>
+      <label class="note-label" for="memo-help">手伝ってもらった所</label>
+      <textarea class="note" data-id="memo-help" id="memo-help"></textarea>
+      <label class="note-label" for="memo-again">もう一度やりたい所・もっと知りたい所</label>
+      <textarea class="note" data-id="memo-again" id="memo-again"></textarea>
+      <div class="check-row">
+        <p class="done">3つとも記入</p>
+        <label class="check"><input type="checkbox" data-step="8"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <section class="card finish" id="finish" hidden>
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="">
+      <span class="stamp">第7回 完了</span>
+      <h2>原因を突き止めた</h2>
+      <ul class="goal">
+        <li>再現と測定</li>
+        <li>開発者ツールで遅い要求を特定</li>
+        <li>記録の数の見積もり</li>
+      </ul>
+      <p style="margin-top: 16px;">次回は，直して本番に届ける</p>
+    </section>
+
+    <section class="card">
+      <h2>終了</h2>
+      <p class="closable">センサー → サーバーの順に，各ターミナルで Ctrl + C<br>入力待ち（$）に戻ったら，VS Code・ブラウザを閉じる</p>
+      <p class="hint">試験データは残る．次回もそのまま使用</p>
+    </section>
+
+  </main>
+
+  <script src="../config.js"></script>
+  <script src="../tip.js"></script>
+  <script src="../page.js"></script>
+  <script src="../lesson.js"></script>
+</body>
+</html>
