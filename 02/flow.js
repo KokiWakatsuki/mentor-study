@@ -8,7 +8,7 @@
 
 const STEPS = [
   {
-    title: "1. センサーが測定値を送信する",
+    title: "1. センサーが送信",
     file: "sensor.py",
     code: `def send(house_id, temperature, humidity):
     """測定値をサーバーに送信する．"""
@@ -17,11 +17,11 @@ const STEPS = [
             "humidity": humidity}
     ...
     urllib.request.urlopen(request, timeout=TIMEOUT_SECONDS)`,
-    text: "sensor.py の send が，棟の番号・温度・湿度をサーバーに送信する．",
+    text: "sensor.py の send：棟の番号・温度・湿度を送信",
     active: ["box-sensor", "arrow-1"],
   },
   {
-    title: "2. サーバーが受信し，データベースに保存する",
+    title: "2. サーバーが保存",
     file: "app.py",
     code: `@app.post("/api/readings")
 def add_reading(reading: Reading):
@@ -29,22 +29,22 @@ def add_reading(reading: Reading):
     ...
     sql = "INSERT INTO readings (...) VALUES (?, ?, ?, ?)"
     write(sql, params)`,
-    text: "app.py の add_reading が受信し，データベースに1行保存する．\nサーバーの画面の「POST /api/readings」はこのときの記録．",
+    text: "app.py の add_reading：受信してデータベースに保存\n（記録「POST /api/readings」）",
     active: ["box-server", "arrow-2", "box-db"],
   },
   {
-    title: "3. 画面がサーバーに要求する",
+    title: "3. 画面が要求",
     file: "static/list.js",
     code: `// 棟ごとに本日の集計を取得し，カードを追加する
 for (const house of houses) {
   const today = await getJson(\`/api/houses/\${house.id}/today\`);
   ...
 }`,
-    text: "「更新」を押すと，list.js が棟ごとに本日の集計を要求する．\nサーバーの画面の「GET /api/houses/1/today」はこのときの記録．",
+    text: "list.js：「更新」で棟ごとの集計を要求\n（記録「GET /api/houses/1/today」）",
     active: ["box-screen", "arrow-3", "box-server"],
   },
   {
-    title: "4. サーバーがデータベースから取得し，集計して返す",
+    title: "4. サーバーが取得・応答",
     file: "app.py",
     code: `@app.get("/api/houses/{house_id}/today")
 def today_summary(house_id: int):
@@ -54,11 +54,11 @@ def today_summary(house_id: int):
     # 2. 本日の記録だけを抽出する
     ...
     return {"temperature": ..., "max": ..., "min": ...}`,
-    text: "app.py の today_summary が，データベースから記録を取得し，最新値・最高・最低を求めて返す．",
+    text: "app.py の today_summary：記録を取得し，最新値・最高・最低を計算して応答",
     active: ["box-server", "arrow-2", "box-db", "arrow-3"],
   },
   {
-    title: "5. 画面がカードを表示する",
+    title: "5. 画面に表示",
     file: "static/list.js",
     code: `// 棟1つ分のカードを作成する
 function makeCard(house, today) {
@@ -67,7 +67,7 @@ function makeCard(house, today) {
     formatTemperature(today.temperature);
   ...
 }`,
-    text: "list.js の makeCard が，受信した温度をカードに表示する．",
+    text: "list.js の makeCard：受信した温度をカードに表示",
     active: ["box-screen", "mini-card"],
   },
 ];

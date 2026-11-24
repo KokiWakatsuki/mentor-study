@@ -202,7 +202,7 @@ details[open] summary::before { content: "▾ "; }
 .arrow.on { color: var(--green); font-weight: bold; }
 .mini-card { display: block; visibility: hidden; margin-top: 6px; padding: 2px; border-radius: 6px; background: var(--white); color: var(--text); }
 .mini-card.on { visibility: visible; }  /* 場所は常に確保し，表示だけ切り替える（ボタンの位置を固定） */
-.flow-text { min-height: 5.7em; margin: 14px 0 10px; white-space: pre-line; }  /* 段が変わってもボタンの位置を固定する */
+.flow-text { min-height: 3.8em; margin: 14px 0 10px; white-space: pre-line; }  /* 段が変わってもボタンの位置を固定する */
 .flow-nav { display: flex; gap: 10px; }
 .flow-nav button { padding: 8px 24px; border: none; border-radius: 8px; background: var(--green); color: var(--white); font-size: 15px; font-weight: bold; cursor: pointer; }
 .flow-nav button:disabled { background: #CCD5D1; cursor: default; }
@@ -221,3 +221,23 @@ details[open] summary::before { content: "▾ "; }
   .screens { grid-template-columns: 1fr; }
   .rule, .file { grid-template-columns: 1fr; gap: 0; }
 }
+
+
+/* ===== 吹き出し（マウスを合わせると補足を表示） ===== */
+
+[data-tip] { border-bottom: 1px dotted var(--gray); cursor: help; }
+.cmd code[data-tip] { border-bottom: none; }
+.bubble {
+  position: fixed;
+  z-index: 10;
+  max-width: 300px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--text);
+  color: var(--white);
+  font-size: 14px;
+  line-height: 1.6;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+.hint { color: var(--gray); font-size: 13px; }

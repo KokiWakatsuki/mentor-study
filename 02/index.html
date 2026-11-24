@@ -15,7 +15,7 @@
     <img src="https://raw.githubusercontent.com/KokiWakatsuki/house-mimamori/main/static/images/farm.jpg" alt="ひだまり農園のビニールハウス">
     <div class="hero-text">
       <h1>第2回　着任</h1>
-      <p>引き継いだアプリを，自分の PC で起動する</p>
+      <p>引き継いだアプリを，自分の PC で起動</p>
     </div>
   </section>
 
@@ -24,13 +24,13 @@
     <!-- ===== 状況と目標 ===== -->
     <section class="card">
       <h2>状況</h2>
-      <p>ひだまり農園は，ビニールハウス8棟で，冬にいちごとトマトを栽培している．</p>
-      <p>ハウス内が 5℃ 未満になると，作物が傷む．そこで農園は，各棟の温度を監視するアプリ「ハウスみまもり」を使用している．</p>
-      <p>本日，このアプリの開発チームに配属．<br>前任者からアプリを引き継ぐ．</p>
+      <p>ひだまり農園：ビニールハウス8棟で，いちご・トマトを栽培．<br>
+         5℃ 未満で作物が傷むため，温度監視アプリ「ハウスみまもり」を使用．</p>
+      <p>本日，このアプリの開発チームに配属．</p>
       <h2>今回の目標</h2>
       <ul class="goal">
-        <li>アプリを自分の PC で起動する</li>
-        <li>温度が画面に表示されるまでの流れを知る</li>
+        <li>アプリを自分の PC で起動</li>
+        <li>温度が画面に表示されるまでの流れを理解</li>
       </ul>
     </section>
 
@@ -40,22 +40,23 @@
       <div class="screens">
         <div class="screen-group">
           <h3>Windows</h3>
-          <div class="screen-item">PowerShell<small>コマンドを入力する画面</small></div>
-          <div class="screen-item">PowerShell（管理者）<small>管理者の権限で使う PowerShell</small></div>
-          <div class="screen-item">VS Code<small>コードを編集するアプリ</small></div>
-          <div class="screen-item">ブラウザ<small>アプリの画面を見る</small></div>
+          <div class="screen-item"><span data-tip="コマンドを入力する画面">PowerShell</span></div>
+          <div class="screen-item"><span data-tip="管理者の権限で使う PowerShell．画面上部に「管理者」と表示">PowerShell（管理者）</span></div>
+          <div class="screen-item"><span data-tip="コードを編集するアプリ">VS Code</span></div>
+          <div class="screen-item">ブラウザ</div>
         </div>
         <div class="screen-group ubuntu">
-          <h3>Ubuntu</h3>
-          <div class="screen-item">Ubuntu の画面<small>Windows の中で動く，別の OS．<br>アプリはここで動かす</small></div>
+          <h3><span data-tip="Windows の中で動く，別の OS（Linux の一種）．アプリはここで動かす">Ubuntu</span></h3>
+          <div class="screen-item"><span data-tip="最後に「名前@PC名:~$」と表示される画面">Ubuntu の画面</span></div>
         </div>
       </div>
       <div class="rules">
-        <div class="rule"><b>開き方</b><span>Windows キー → 名前を入力 → Enter</span></div>
-        <div class="rule"><b>管理者</b><span>Enter の代わりに右クリック →「管理者として実行」→「はい」</span></div>
+        <div class="rule"><b>起動</b><span>Windows キー → 名前を入力 → Enter</span></div>
+        <div class="rule"><b>管理者</b><span>Enter の代わりに右クリック →「管理者として実行」</span></div>
         <div class="rule"><b>貼り付け</b><span>右クリック</span></div>
-        <div class="rule"><b>閉じる</b><span>手順に「閉じてよい」と書くまで開いたまま</span></div>
+        <div class="rule"><b>終了</b><span>「終了可」の表示まで開いたまま</span></div>
       </div>
+      <p class="hint">点線の語・コマンドにマウスを合わせると，補足を表示．</p>
     </section>
 
     <!-- ===== ① ===== -->
@@ -65,9 +66,8 @@
         <h2>PC の確認</h2>
         <span class="where ps">PowerShell</span>
       </div>
-      <p class="lead">受講できる PC か確認する．何もインストールしない．</p>
-      <div class="cmd"><code>[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/house-mimamori-course/win/pc.txt | iex</code><button>コピー</button></div>
-      <p class="done">表がすべて ○ なら次へ．× があればメンターと確認．</p>
+      <div class="cmd"><code data-tip="受講可能な PC か確認．インストールなし">[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/house-mimamori-course/win/pc.txt | iex</code><button>コピー</button></div>
+      <p class="done">すべて ○ → 次へ（× はメンターと確認）</p>
       <details>
         <summary>表示例</summary>
         <div class="detail-body">
@@ -87,11 +87,10 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <h2>道具の確認</h2>
         <span class="where ps">PowerShell</span>
       </div>
-      <p class="lead">必要な道具がそろっているか確認する．</p>
-      <div class="cmd"><code>[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/house-mimamori-course/win/tools.txt | iex</code><button>コピー</button></div>
-      <p class="done">「次の作業」の列を確認．<br>③・④ と書かれた行は，その番号の手順で準備する．</p>
+      <div class="cmd"><code data-tip="必要な道具の有無を確認．インストールなし">[Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/house-mimamori-course/win/tools.txt | iex</code><button>コピー</button></div>
+      <p class="done">「次の作業」に ③・④ → その手順で準備</p>
       <details>
-        <summary>表示例（Ubuntu と VS Code がない場合）</summary>
+        <summary>表示例</summary>
         <div class="detail-body">
 <pre class="out">    道具        次の作業      詳細
 ○  winget      不要
@@ -108,42 +107,33 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <h2>Ubuntu の準備</h2>
         <span class="where admin">PowerShell（管理者）</span>
       </div>
-      <p class="lead">アプリを動かす Ubuntu を準備する．</p>
       <ol class="actions">
         <li>
-          <p>WSL（Ubuntu を動かす仕組み）を更新<span class="when">全員</span></p>
-          <div class="cmd"><code>wsl --update</code><button>コピー</button></div>
+          <p><span data-tip="Windows で Ubuntu を動かす仕組み．古い版では docker が自動起動しない">WSL</span> の更新<span class="when">全員</span></p>
+          <div class="cmd"><code data-tip="WSL を最新版に更新">wsl --update</code><button>コピー</button></div>
         </li>
         <li>
-          <p>Ubuntu をインストール<span class="when">② で WSL が × の人</span></p>
-          <div class="cmd"><code>wsl --install -d Ubuntu</code><button>コピー</button></div>
-          <p>数分かかる．再起動を求められたら再起動する．</p>
+          <p>Ubuntu のインストール<span class="when">② で WSL が ×</span></p>
+          <div class="cmd"><code data-tip="Ubuntu をインストール．数分">wsl --install -d Ubuntu</code><button>コピー</button></div>
+          <p class="hint">再起動の指示 → 再起動</p>
         </li>
         <li>
-          <p>Ubuntu の初期設定（ユーザー名とパスワード）</p>
+          <p>初期設定</p>
           <details open>
-            <summary>表示される内容と入力</summary>
+            <summary>表示と入力</summary>
             <div class="detail-body">
               <ol>
-                <li>英語の案内文で止まったら，Enter</li>
-                <li><code>Enter new UNIX username:</code><br>→ 英小文字で名前を入力（例：<code>koki</code>）</li>
-                <li><code>New password:</code><br>→ パスワードを入力．<b>入力しても何も表示されない</b>．2回入力する</li>
-                <li><code>名前@PC名:~$</code> と表示されたら完了</li>
+                <li>英語の案内文で停止 → Enter</li>
+                <li><code>Enter new UNIX username:</code> → 英小文字の名前</li>
+                <li><code>New password:</code> → パスワード（<b>入力は非表示</b>．2回）</li>
+                <li><code>名前@PC名:~$</code> → 完了</li>
               </ol>
             </div>
           </details>
         </li>
       </ol>
-      <p class="done">このパスワードは，Windows とは別の Ubuntu 用．<br>このあと何度も使うので，忘れないこと．</p>
-      <p class="closable">管理者の PowerShell は，ここで閉じてよい．</p>
-      <details>
-        <summary>豆知識：コマンドの意味</summary>
-        <div class="detail-body term">
-          <code>wsl</code><span>Windows で Linux（OS の一種）を動かす仕組み</span>
-          <code>--update</code><span>最新版に更新．古い版では docker が自動起動しない</span>
-          <code>--install -d Ubuntu</code><span>Linux の一種である Ubuntu をインストール</span>
-        </div>
-      </details>
+      <p class="done">パスワード：Ubuntu 用（Windows とは別）．以降も使用</p>
+      <p class="closable">管理者の PowerShell：終了可</p>
     </section>
 
     <!-- ===== ④ ===== -->
@@ -153,36 +143,25 @@ Windows     ○    Windows 10 Home（ビルド 19045）
         <h2>VS Code の準備</h2>
         <span class="where ps">PowerShell</span>
       </div>
-      <p class="lead">コードを編集するアプリ VS Code を準備する．</p>
       <ol class="actions">
         <li>
-          <p>VS Code をインストール<span class="when">② で VS Code が × の人</span></p>
-          <div class="cmd"><code>winget install -e --id Microsoft.VisualStudioCode</code><button>コピー</button></div>
+          <p>VS Code のインストール<span class="when">② で VS Code が ×</span></p>
+          <div class="cmd"><code data-tip="Windows 標準の道具（winget）で VS Code をインストール">winget install -e --id Microsoft.VisualStudioCode</code><button>コピー</button></div>
         </li>
         <li>
-          <p>PowerShell を閉じて，開き直す</p>
-          <p class="lead">インストールした VS Code を，PowerShell に認識させるため．</p>
+          <p><span data-tip="インストールした VS Code を PowerShell に認識させるため">PowerShell の再起動</span></p>
         </li>
         <li>
-          <p>拡張機能（Ubuntu 接続・日本語化）を追加<span class="when">全員</span></p>
-          <div class="cmd"><code>code --install-extension ms-vscode-remote.remote-wsl --install-extension ms-ceintl.vscode-language-pack-ja</code><button>コピー</button></div>
+          <p>拡張機能の追加<span class="when">全員</span></p>
+          <div class="cmd"><code data-tip="Ubuntu 接続と日本語化の拡張機能を追加">code --install-extension ms-vscode-remote.remote-wsl --install-extension ms-ceintl.vscode-language-pack-ja</code><button>コピー</button></div>
         </li>
       </ol>
-      <p class="done">最後の2行に <code>successfully installed</code>（または <code>already installed</code>）があれば成功．</p>
-      <p class="closable">PowerShell は，ここで閉じてよい．以降は使わない．</p>
-      <details>
-        <summary>表示例</summary>
-        <div class="detail-body">
-<pre class="out">Installing extensions...
-Extension 'ms-vscode-remote.remote-wsl' ... was successfully installed.
-Extension 'ms-ceintl.vscode-language-pack-ja' ... was successfully installed.</pre>
-          <p>途中の「Installing」は作業中の表示．エラーではない．</p>
-        </div>
-      </details>
+      <p class="done">最後の2行に <code>successfully installed</code>（または <code>already installed</code>）→ 成功</p>
+      <p class="closable">PowerShell：終了可（以降は不使用）</p>
       <details>
         <summary>うまくいかないとき</summary>
         <div class="detail-body">
-          <p><b>code が見つからない</b><br>PowerShell を開き直したか確認．同じならメンターと確認．</p>
+          <p><b>code が見つからない</b> → PowerShell の再起動を確認</p>
         </div>
       </details>
     </section>
@@ -191,32 +170,31 @@ Extension 'ms-ceintl.vscode-language-pack-ja' ... was successfully installed.</p
     <section class="card">
       <div class="step-head">
         <span class="step-num">5</span>
-        <h2>git・docker の準備</h2>
+        <h2><span data-tip="変更履歴を記録する道具">git</span>・<span data-tip="アプリを「箱（コンテナ）」ごと起動する道具">docker</span> の準備</h2>
         <span class="where ub">Ubuntu</span>
       </div>
-      <p class="lead">git：変更履歴を記録する道具<br>docker：アプリを「箱（コンテナ）」ごと起動する道具</p>
-      <p class="done">パスワードを聞かれたら，③ で決めた <b>Ubuntu のパスワード</b>を入力．<br>（Windows のパスワードではない．入力しても表示されない）</p>
+      <p class="done">パスワード：③ の Ubuntu 用（入力は非表示）</p>
       <ol class="actions">
         <li>
-          <p>git をインストール</p>
-          <div class="cmd"><code>sudo apt update && sudo apt install -y git</code><button>コピー</button></div>
+          <p>git のインストール</p>
+          <div class="cmd"><code data-tip="sudo：管理者の権限で実行．apt：Ubuntu 公式の配布元からインストール">sudo apt update && sudo apt install -y git</code><button>コピー</button></div>
         </li>
         <li>
-          <p>docker をインストール（数分）</p>
-          <div class="cmd"><code>curl -fsSL https://get.docker.com | sudo sh && sudo usermod -aG docker $USER</code><button>コピー</button></div>
-          <p class="lead">途中で英文が表示され，20秒止まる．そのまま待つ．</p>
+          <p>docker のインストール（数分）</p>
+          <div class="cmd"><code data-tip="docker 公式のインストール手順を実行し，sudo なしで docker を使えるよう設定">curl -fsSL https://get.docker.com | sudo sh && sudo usermod -aG docker $USER</code><button>コピー</button></div>
+          <p class="hint">英文で20秒停止 → そのまま待機</p>
         </li>
         <li>
-          <p>Ubuntu を再起動（設定の反映．再起動はこの1回だけ）</p>
-          <div class="cmd"><code>wsl.exe --shutdown</code><button>コピー</button></div>
-          <p class="lead">画面が止まったら閉じて，Windows キー →「Ubuntu」→ Enter で開き直す．</p>
+          <p>Ubuntu の再起動（1回のみ）</p>
+          <div class="cmd"><code data-tip="Ubuntu を停止．設定を反映するため">wsl.exe --shutdown</code><button>コピー</button></div>
+          <p class="hint">停止後，Ubuntu を起動し直す</p>
         </li>
         <li>
           <p>確認</p>
-          <div class="cmd"><code>curl -fsSL https://kokiwakatsuki.github.io/house-mimamori-course/ubuntu/tools.sh | bash</code><button>コピー</button></div>
+          <div class="cmd"><code data-tip="git・docker などの状態を確認">curl -fsSL https://kokiwakatsuki.github.io/house-mimamori-course/ubuntu/tools.sh | bash</code><button>コピー</button></div>
         </li>
       </ol>
-      <p class="done">表がすべて ○ なら完了．</p>
+      <p class="done">すべて ○ → 完了</p>
       <details>
         <summary>表示例</summary>
         <div class="detail-body">
@@ -231,20 +209,10 @@ Extension 'ms-ceintl.vscode-language-pack-ja' ... was successfully installed.</p
       <details>
         <summary>うまくいかないとき</summary>
         <div class="detail-body">
-          <p><b>systemd が ※</b><br>WSL が古い．③ の 1（<code>wsl --update</code>）のあと，ここの 3 をやり直す．</p>
-          <p><b>systemd が ×</b><br>次を実行してから，ここの 3 をやり直す．</p>
-          <div class="cmd"><code>printf '[boot]\nsystemd=true\n' | sudo tee -a /etc/wsl.conf</code><button>コピー</button></div>
-          <p><b>docker が △</b><br>再起動が未反映．ここの 3 をやり直す．</p>
-          <p><b>パスワードが違う</b><br>Ubuntu のパスワードか確認し，もう一度実行．</p>
-        </div>
-      </details>
-      <details>
-        <summary>豆知識：コマンドの意味（待ち時間に）</summary>
-        <div class="detail-body term">
-          <code>sudo</code><span>管理者の権限で実行．パスワードが必要</span>
-          <code>apt install</code><span>Ubuntu の公式の配布元からインストール</span>
-          <code>curl … | sudo sh</code><span>docker 公式のインストール手順を取得して実行</span>
-          <code>usermod -aG docker</code><span>sudo なしで docker を使えるようにする</span>
+          <p><b>systemd が ※</b> → ③ の1（WSL の更新）→ ここの3</p>
+          <p><b>systemd が ×</b> → 次を実行 → ここの3</p>
+          <div class="cmd"><code data-tip="docker を自動起動する設定を追加">printf '[boot]\nsystemd=true\n' | sudo tee -a /etc/wsl.conf</code><button>コピー</button></div>
+          <p><b>docker が △</b> → ここの3</p>
         </div>
       </details>
     </section>
@@ -256,26 +224,23 @@ Extension 'ms-ceintl.vscode-language-pack-ja' ... was successfully installed.</p
         <h2>アプリの取得</h2>
         <span class="where ub">Ubuntu</span>
       </div>
-      <p class="lead">前任者が GitHub に公開したアプリを複製（clone）し，VS Code で開く．</p>
-      <div class="cmd"><code>git clone https://github.com/KokiWakatsuki/house-mimamori.git && cd house-mimamori && code .</code><button>コピー</button></div>
+      <div class="cmd"><code data-tip="GitHub のアプリを複製（clone）し，VS Code で開く">git clone https://github.com/KokiWakatsuki/house-mimamori.git && cd house-mimamori && code .</code><button>コピー</button></div>
       <details open>
-        <summary>VS Code が開いたら</summary>
+        <summary>VS Code の起動後</summary>
         <div class="detail-body">
           <ol>
-            <li>英語表示なら，右下の「Change Language and Restart」</li>
+            <li>英語表示 → 右下「Change Language and Restart」</li>
             <li>「作成者を信頼しますか？」→「はい」</li>
-            <li>右下「おすすめ拡張機能をインストールしますか？」→「インストール」</li>
+            <li>「おすすめ拡張機能」→「インストール」</li>
           </ol>
         </div>
       </details>
-      <h2 style="margin-top: 24px;">VS Code の画面</h2>
-      <p>左がファイル一覧．クリックすると，右に中身が表示される．<br>今日見るのは，次の4つだけ．</p>
       <div class="files">
-        <div class="file"><code>README.md</code><span>アプリの説明書（この表と同じ内容）</span></div>
-        <div class="file"><code>sensor.py</code><span>センサーの代わり．温度を送信</span></div>
-        <div class="file"><code>app.py</code><span>サーバー．温度を保存し，画面に返す</span></div>
+        <div class="file"><code>README.md</code><span>説明書</span></div>
+        <div class="file"><code>sensor.py</code><span>センサーの代わり</span></div>
+        <div class="file"><code>app.py</code><span>サーバー</span></div>
         <div class="file"><code>static/</code><span>画面</span></div>
-        <div class="file later"><code>その他</code><span>今日は見なくてよい</span></div>
+        <div class="file later"><code>その他</code><span>今日は不要</span></div>
       </div>
     </section>
 
@@ -286,27 +251,18 @@ Extension 'ms-ceintl.vscode-language-pack-ja' ... was successfully installed.</p
         <h2>アプリの起動</h2>
         <span class="where ub">Ubuntu</span>
       </div>
-      <p class="lead">前任者と同じ環境（コンテナ）で，アプリを起動する．</p>
-      <div class="cmd"><code>docker compose up --build</code><button>コピー</button></div>
-      <p>初回は1〜2分かかる．<br><code>Uvicorn running on http://0.0.0.0:8000</code> と表示されたら起動完了．</p>
-      <p class="closable">この Ubuntu の画面はサーバー．閉じない．</p>
-      <p>ブラウザで <a href="http://localhost:8000" target="_blank">http://localhost:8000</a> を開く．</p>
+      <div class="cmd"><code data-tip="compose.yml の設定でコンテナを作成・起動．初回は1〜2分">docker compose up --build</code><button>コピー</button></div>
+      <p class="hint"><code>Uvicorn running on http://0.0.0.0:8000</code> → 起動完了</p>
+      <p class="closable">この画面：サーバー（終了不可）</p>
+      <p>ブラウザで <a href="http://localhost:8000" target="_blank">http://localhost:8000</a></p>
       <img class="shot" src="../images/02/app_empty.jpg" alt="起動直後の画面．全棟が記録なし">
-      <p class="done">全棟「記録なし」なら成功．</p>
+      <p class="done">全棟「記録なし」→ 成功</p>
       <details>
         <summary>うまくいかないとき</summary>
         <div class="detail-body">
-          <p><b>permission denied</b><br>⑤ の 3（再起動）をやり直し，次を実行．</p>
-          <div class="cmd"><code>cd ~/house-mimamori && docker compose up --build</code><button>コピー</button></div>
-          <p><b>address already in use</b><br>別のアプリが使用中．メンターと確認．</p>
-        </div>
-      </details>
-      <details>
-        <summary>豆知識：コマンドの意味（待ち時間に）</summary>
-        <div class="detail-body term">
-          <code>docker compose</code><span>compose.yml の設定に従ってコンテナを操作</span>
-          <code>up</code><span>コンテナを起動</span>
-          <code>--build</code><span>Dockerfile の手順でコンテナを作成．初回はここに時間がかかる</span>
+          <p><b>permission denied</b> → ⑤ の3 → 次を実行</p>
+          <div class="cmd"><code data-tip="アプリのフォルダに移動して起動">cd ~/house-mimamori && docker compose up --build</code><button>コピー</button></div>
+          <p><b>address already in use</b> → メンターと確認</p>
         </div>
       </details>
     </section>
@@ -315,42 +271,40 @@ Extension 'ms-ceintl.vscode-language-pack-ja' ... was successfully installed.</p
     <section class="card">
       <div class="step-head">
         <span class="step-num">8</span>
-        <h2>センサーの代わりを実行</h2>
+        <h2><span data-tip="実際のハウスでは，センサー（測定機器）が温度を送信">センサーの代わり</span>を実行</h2>
         <span class="where ub">2つ目の Ubuntu</span>
       </div>
-      <p class="lead">実際のハウスでは，センサー（測定機器）が温度を送信する．ここでは，その代わりのプログラムを使う．</p>
       <ol class="actions">
         <li>
-          <p>Windows キー →「Ubuntu」→ Enter で，2つ目の Ubuntu を開く</p>
+          <p>Ubuntu をもう1つ起動</p>
         </li>
         <li>
-          <p>センサーの代わりを実行</p>
-          <div class="cmd"><code>cd house-mimamori && python3 sensor.py</code><button>コピー</button></div>
+          <p>実行</p>
+          <div class="cmd"><code data-tip="アプリのフォルダに移動し，センサーの代わりを起動．1分ごとに8棟の温度を送信">cd house-mimamori && python3 sensor.py</code><button>コピー</button></div>
 <pre class="out">1号棟：10.2℃，75.3% を送信
-2号棟：9.8℃，74.1% を送信
-……（8号棟まで．1分ごとに続く）</pre>
+……（8号棟まで．1分ごと）</pre>
         </li>
         <li>
-          <p>ブラウザに戻り，「更新」を押す</p>
+          <p>ブラウザで「更新」</p>
           <img class="shot" src="../images/02/app_data.jpg" alt="温度が表示された画面．3号棟が低温">
-          <p class="caption">表示例（3号棟が 5℃ 未満の場合）．数値は毎回異なる．</p>
+          <p class="caption">表示例（数値は毎回異なる）</p>
         </li>
       </ol>
-      <p class="done">8棟の温度が表示されたら成功．<br>カードを押すと，その棟の温度のグラフが開く．</p>
+      <p class="done">8棟の温度を表示 → 成功（カードで棟のグラフ）</p>
     </section>
 
     <!-- ===== ⑨ ===== -->
     <section class="card">
       <div class="step-head">
         <span class="step-num">9</span>
-        <h2>温度が表示されるまでの流れ</h2>
+        <h2>温度表示までの流れ</h2>
       </div>
-      <p>1つ目の Ubuntu（サーバー）の画面には，通信のたびに1行ずつ記録が出る．</p>
+      <p>サーバーの画面に，通信ごとの記録</p>
       <div class="log">
-        <div class="log-line"><code>"POST /api/readings HTTP/1.1" 200 OK</code><span>センサーから温度が届き，保存した</span></div>
-        <div class="log-line"><code>"GET /api/houses/1/today HTTP/1.1" 200 OK</code><span>画面から「1号棟の本日の集計」を要求された</span></div>
+        <div class="log-line"><code>"POST /api/readings HTTP/1.1" 200 OK</code><span>センサーから温度を受信・保存</span></div>
+        <div class="log-line"><code>"GET /api/houses/1/today HTTP/1.1" 200 OK</code><span>画面から1号棟の集計を要求</span></div>
       </div>
-      <p>このとき動いているコードを，「次へ」で順に見る．<br><b>コードは読めなくてよい</b>．右の図のどこが動いているかだけ見る．</p>
+      <p>「次へ」で，動いているコードを順に表示．<br><b>コードの読解は不要</b>．図の強調だけ確認．</p>
 
       <div class="flow" id="flow">
         <div class="flow-step" id="flow-step"></div>
@@ -382,15 +336,16 @@ Extension 'ms-ceintl.vscode-language-pack-ja' ... was successfully installed.</p
       <h2>まとめ</h2>
       <ul class="goal">
         <li>センサーが送信 → サーバーが保存</li>
-        <li>画面が要求 → サーバーが取得して応答</li>
+        <li>画面が要求 → サーバーが取得・応答</li>
       </ul>
-      <p style="margin-top: 16px;">次回は，このコードを少しずつ読む．</p>
-      <p class="closable">終了：2つの Ubuntu の画面で Ctrl + C を押し，閉じる．</p>
+      <p style="margin-top: 16px;">次回：コードの読解</p>
+      <p class="closable">終了：2つの Ubuntu で Ctrl + C → 画面を閉じる</p>
     </section>
 
   </main>
 
   <script src="flow.js"></script>
+  <script src="../tip.js"></script>
   <script>
     // 「コピー」ボタン：隣のコマンドをクリップボードにコピーする
     for (const button of document.querySelectorAll(".cmd button")) {
