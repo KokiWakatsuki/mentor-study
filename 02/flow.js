@@ -17,7 +17,7 @@ const STEPS = [
             "humidity": humidity}
     ...
     urllib.request.urlopen(request, timeout=TIMEOUT_SECONDS)`,
-    text: "sensor.py の send という関数が，棟の番号・温度・湿度をまとめて，サーバーに送信する．",
+    text: "sensor.py の send が，棟の番号・温度・湿度をサーバーに送信する．",
     active: ["box-sensor", "arrow-1"],
   },
   {
@@ -29,7 +29,7 @@ def add_reading(reading: Reading):
     ...
     sql = "INSERT INTO readings (...) VALUES (?, ?, ?, ?)"
     write(sql, params)`,
-    text: "app.py の add_reading が受信し，データベースに1行追加する．サーバーの画面の「POST /api/readings」はこのときの記録．",
+    text: "app.py の add_reading が受信し，データベースに1行保存する．\nサーバーの画面の「POST /api/readings」はこのときの記録．",
     active: ["box-server", "arrow-2", "box-db"],
   },
   {
@@ -40,7 +40,7 @@ for (const house of houses) {
   const today = await getJson(\`/api/houses/\${house.id}/today\`);
   ...
 }`,
-    text: "「更新」を押すと，list.js が棟ごとの本日の集計をサーバーに要求する．サーバーの画面の「GET /api/houses/1/today」はこのときの記録．",
+    text: "「更新」を押すと，list.js が棟ごとに本日の集計を要求する．\nサーバーの画面の「GET /api/houses/1/today」はこのときの記録．",
     active: ["box-screen", "arrow-3", "box-server"],
   },
   {
@@ -54,7 +54,7 @@ def today_summary(house_id: int):
     # 2. 本日の記録だけを抽出する
     ...
     return {"temperature": ..., "max": ..., "min": ...}`,
-    text: "app.py の today_summary が，データベースから記録を取得し，最新値・最高・最低を求めて画面に返す．",
+    text: "app.py の today_summary が，データベースから記録を取得し，最新値・最高・最低を求めて返す．",
     active: ["box-server", "arrow-2", "box-db", "arrow-3"],
   },
   {

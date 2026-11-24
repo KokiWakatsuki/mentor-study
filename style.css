@@ -1,144 +1,223 @@
-/* ハウスみまもり講座のスタイル（アプリと同じ配色） */
+/* ハウスみまもり講座のスタイル
+   画面の半分（幅 680〜960px）で読むことを想定．配色はカラーユニバーサルデザイン推奨配色から選定． */
+
+
+/* ===== 色・サイズの定義 ===== */
 
 :root {
-  --green-dark: #1F6B52;
+  --green: #1F6B52;
   --green-light: #E8F3EE;
+  --blue: #005AFF;
+  --blue-dark: #003EB3;
+  --orange: #B5400F;
   --gray: #5F6B75;
+  --line: #DDE3E0;
   --text: #1E2A32;
   --background: #F4F6F5;
   --white: #FFFFFF;
-  --radius: 14px;
+  --radius: 16px;
 }
+
+
+/* ===== ページ全体 ===== */
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic UI", sans-serif;
+  font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic UI", "Meiryo", sans-serif;
+  font-size: 16px;
+  line-height: 1.9;
   color: var(--text);
   background: var(--background);
-  line-height: 1.8;
+  word-break: auto-phrase;   /* 日本語を文節で折り返す（Chrome・Edge） */
+  line-break: strict;
 }
 
-.page { max-width: 880px; margin: 0 auto; padding: 24px; }
+.page { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 12px; padding-left: 1.4em; }
+li { margin-bottom: 6px; }
+code { font-family: "Consolas", "Menlo", monospace; font-size: 0.92em; }
+a { color: var(--blue-dark); }
+
 
 /* ===== ヘッダー・写真 ===== */
 
-.topbar { padding: 14px 24px; background: var(--green-dark); }
-.brand { color: var(--white); font-weight: bold; font-size: 20px; text-decoration: none; }
+.topbar { padding: 14px 20px; background: var(--green); }
+.brand { color: var(--white); font-weight: bold; font-size: 18px; text-decoration: none; }
 
-.hero { position: relative; height: 220px; overflow: hidden; }
+.hero { position: relative; height: 200px; overflow: hidden; }
 .hero img { width: 100%; height: 100%; object-fit: cover; }
 .hero-text {
   position: absolute;
   left: 0; right: 0; bottom: 0;
-  padding: 24px;
+  padding: 20px;
   color: var(--white);
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.65));
 }
-.hero-text h1 { margin: 0; font-size: 28px; }
-.hero-text p { margin: 0; font-size: 17px; }
+.hero-text h1 { margin: 0; font-size: 28px; line-height: 1.4; }
+.hero-text p { margin: 0; font-size: 16px; }
 
-/* ===== 各セクション ===== */
 
-.panel {
-  margin-bottom: 18px;
-  padding: 20px 24px;
+/* ===== カード（各セクション） ===== */
+
+.card {
+  margin-bottom: 28px;
+  padding: 28px;
   border-radius: var(--radius);
   background: var(--white);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
 }
-.panel h2 { margin: 0 0 8px; font-size: 20px; color: var(--green-dark); }
-.panel h3 { margin: 18px 0 4px; font-size: 16px; }
+.card h2 { margin: 0 0 16px; font-size: 21px; line-height: 1.5; }
 
-.note { padding: 10px 14px; border-radius: 8px; background: var(--green-light); font-size: 15px; }
-.ok { color: var(--green-dark); font-weight: bold; }
+.goal { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.goal li { padding: 10px 14px; border-radius: 10px; background: var(--green-light); font-weight: bold; }
 
-/* ===== 実行場所の表示（PowerShell・Ubuntu） ===== */
 
-.where { display: inline-block; padding: 1px 10px; border-radius: 999px; font-size: 13px; font-weight: bold; color: var(--white); background: var(--gray); }
-.where.ps { background: #005AFF; }
-.where.ub { background: #B5400F; }
+/* ===== 今日使う画面 ===== */
+
+.screens { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.screen-group { padding: 14px; border: 2px solid var(--blue); border-radius: 12px; }
+.screen-group.ubuntu { border-color: var(--orange); }
+.screen-group h3 { margin: 0 0 8px; font-size: 16px; }
+.screen-item { margin-bottom: 8px; padding: 8px 12px; border-radius: 8px; background: var(--background); font-weight: bold; line-height: 1.5; }
+.screen-item small { display: block; font-weight: normal; font-size: 13px; color: var(--gray); }
+
+.rules { display: grid; gap: 10px; }
+.rule { display: grid; grid-template-columns: 7em 1fr; gap: 12px; align-items: baseline; }
+.rule b { color: var(--green); }
+
+
+/* ===== 手順 ===== */
+
+.step-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 14px; }
+.step-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--green); color: var(--white); font-size: 20px; font-weight: bold;
+}
+.step-head h2 { margin: 0; }
+.lead { color: var(--gray); }
+
+.actions { margin: 16px 0; padding: 0; list-style: none; counter-reset: action; }
+.actions > li { position: relative; margin-bottom: 20px; padding-left: 40px; }
+.actions > li::before {
+  counter-increment: action;
+  content: counter(action);
+  position: absolute; left: 0; top: 2px;
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 2px solid var(--green); color: var(--green);
+  font-size: 14px; font-weight: bold; line-height: 22px; text-align: center;
+}
+.when { display: inline-block; margin-left: 6px; padding: 0 8px; border-radius: 6px; background: #FFF4E5; color: #8A4B00; font-size: 13px; font-weight: bold; }
+
+
+/* ===== 実行する画面の表示 ===== */
+
+.where { display: inline-block; padding: 2px 12px; border-radius: 999px; font-size: 14px; font-weight: bold; line-height: 1.6; color: var(--white); white-space: nowrap; }
+.where.ps { background: var(--blue); }
+.where.admin { background: var(--blue-dark); }
+.where.ub { background: var(--orange); }
+.where.web { background: var(--gray); }
+
 
 /* ===== コマンドとコピーボタン ===== */
 
-.cmd { display: flex; margin: 6px 0 10px; }
+.cmd { display: flex; margin: 8px 0 4px; border-radius: 10px; overflow: hidden; background: var(--text); }
 .cmd code {
   flex: 1;
-  padding: 10px 14px;
-  border-radius: 8px 0 0 8px;
-  background: var(--text);
+  min-width: 0;
+  padding: 12px 14px;
   color: var(--green-light);
-  font-size: 14px;
-  white-space: pre-wrap;
-  word-break: break-all;
+  white-space: nowrap;   /* コマンドは折り返さず，横にスクロール */
+  overflow-x: auto;
 }
-.cmd button { padding: 0 16px; border: none; border-radius: 0 8px 8px 0; background: var(--green-dark); color: var(--white); font-size: 14px; cursor: pointer; }
+.cmd button {
+  flex-shrink: 0;
+  padding: 0 18px;
+  border: none;
+  background: var(--green);
+  color: var(--white);
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-/* ===== 流れの図 ===== */
 
-.map { display: flex; align-items: center; gap: 8px; margin: 12px 0; }
-.map div { flex: 1; padding: 12px 6px; border-radius: 10px; background: var(--green-light); text-align: center; font-weight: bold; }
-.map span { color: var(--gray); font-size: 22px; }
-.map small { display: block; color: var(--gray); font-size: 12px; font-weight: normal; }
+/* ===== 完了の目印・閉じてよい画面 ===== */
 
-/* ===== 一覧（トップページ） ===== */
+.done { position: relative; margin-top: 16px; padding: 12px 16px 12px 42px; border-radius: 10px; background: var(--green-light); }
+.done::before { content: "✓"; position: absolute; left: 16px; top: 11px; color: var(--green); font-weight: bold; font-size: 18px; }
+.closable { margin-top: 10px; padding: 10px 16px; border-radius: 10px; background: var(--background); color: var(--gray); }
 
-.lessons { list-style: none; padding: 0; }
-.lessons li { margin-bottom: 10px; }
-.lessons a { color: var(--green-dark); font-weight: bold; }
 
-/* ===== 出力例・開閉欄・閉じてよい表示 ===== */
+/* ===== 開閉欄 ===== */
 
-.out { margin: 8px 0; padding: 10px 14px; border-radius: 8px; background: #F0F2F1; font-size: 13px; overflow-x: auto; white-space: pre; }
-details { margin: 10px 0; padding: 8px 14px; border: 1px solid #DDE3E0; border-radius: 8px; }
-summary { cursor: pointer; font-weight: bold; color: var(--green-dark); }
-.close { color: var(--gray); }
-.where.admin { background: #003EB3; }
-.shot { width: 100%; margin: 8px 0; border-radius: 10px; border: 1px solid #DDE3E0; }
+details { margin-top: 12px; border: 1px solid var(--line); border-radius: 10px; }
+summary { padding: 10px 16px; cursor: pointer; font-weight: bold; color: var(--green); list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "▸ "; }
+details[open] summary::before { content: "▾ "; }
+.detail-body { padding: 4px 16px 14px; }
+.out { margin: 8px 0; padding: 12px 14px; border-radius: 8px; background: var(--background); font-size: 13px; line-height: 1.7; overflow-x: auto; white-space: pre; }
+.term { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; }
+.term code { font-weight: bold; white-space: nowrap; }
 
-/* ===== 今日使う画面（Windows と Ubuntu） ===== */
 
-.sides { display: flex; gap: 12px; margin: 8px 0 12px; }
-.side { flex: 1; padding: 12px; border: 2px solid #005AFF; border-radius: 12px; }
-.side.ubuntu { border-color: #B5400F; }
-.side-title { margin-bottom: 6px; font-weight: bold; }
-.chip { margin: 6px 0; padding: 6px 10px; border-radius: 8px; background: var(--green-light); }
-.chip small { display: block; color: var(--gray); font-size: 12px; }
+/* ===== 画像 ===== */
+
+.shot { display: block; width: 100%; margin: 12px 0 4px; border: 1px solid var(--line); border-radius: 10px; }
+.caption { color: var(--gray); font-size: 14px; }
+
 
 /* ===== VS Code のファイル一覧 ===== */
 
-.files { border: 1px solid #DDE3E0; border-radius: 10px; overflow: hidden; }
-.file { padding: 8px 14px; border-bottom: 1px solid #EEF1EF; color: var(--gray); font-family: monospace; }
-.file span { margin-left: 16px; font-family: inherit; font-size: 14px; }
-.file.today { color: var(--text); font-weight: bold; background: var(--green-light); }
-.file.today span { font-weight: normal; }
+.files { margin-top: 8px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.file { display: grid; grid-template-columns: 9em 1fr; gap: 12px; padding: 10px 16px; border-bottom: 1px solid var(--line); line-height: 1.6; }
+.file:last-child { border-bottom: none; }
+.file code { font-weight: bold; }
+.file.later { color: var(--gray); background: var(--background); }
+
 
 /* ===== ⑨ 流れの解説 ===== */
 
-.flow { margin-top: 12px; padding: 16px; border-radius: 12px; background: #F7F9F8; }
-.flow-step { margin-bottom: 10px; font-weight: bold; font-size: 17px; }
-.flow-body { display: flex; gap: 16px; }
-.flow-code { flex: 3; min-width: 0; }
-.flow-file { display: inline-block; padding: 2px 10px; border-radius: 6px 6px 0 0; background: var(--text); color: var(--green-light); font-size: 13px; font-family: monospace; }
-.flow-code pre { margin: 0; padding: 12px; border-radius: 0 8px 8px 8px; background: var(--text); color: #E8F3EE; font-size: 13px; overflow-x: auto; min-height: 210px; }
-.flow-app { flex: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; align-content: start; }
-.flow-app .wide { grid-column: 1 / 3; }  /* サーバー・データベースは横幅いっぱい */
-.box { padding: 8px; border: 2px solid #CCD5D1; border-radius: 10px; background: var(--white); text-align: center; font-weight: bold; color: var(--gray); transition: all 0.3s; }
+.log { display: grid; gap: 10px; margin: 12px 0 20px; }
+.log-line { padding: 10px 14px; border-left: 4px solid var(--green); border-radius: 0 8px 8px 0; background: var(--background); line-height: 1.6; }
+.log-line code { display: block; overflow-x: auto; white-space: nowrap; }
+.log-line span { color: var(--gray); font-size: 14px; }
+
+.flow { padding: 20px; border-radius: 12px; background: var(--background); }
+.flow-step { margin-bottom: 12px; font-size: 17px; font-weight: bold; }
+.flow-body { display: grid; gap: 16px; }  /* コードの下に図（画面の半分の幅でも読めるよう1列） */
+.flow-file { display: inline-block; padding: 2px 12px; border-radius: 6px 6px 0 0; background: var(--text); color: var(--green-light); font-size: 13px; }
+.flow-code pre { margin: 0; padding: 14px; border-radius: 0 8px 8px 8px; background: var(--text); color: var(--green-light); font-size: 13px; line-height: 1.6; overflow-x: auto; min-height: 220px; }
+.flow-app { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; max-width: 520px; width: 100%; margin: 0 auto; }
+.flow-app .wide { grid-column: 1 / 3; }
+.box { padding: 8px; border: 2px solid #CCD5D1; border-radius: 10px; background: var(--white); color: var(--gray); text-align: center; font-weight: bold; line-height: 1.5; transition: all 0.3s; }
 .box small { display: block; font-weight: normal; font-size: 12px; }
-.box.on { border-color: var(--green-dark); background: var(--green-light); color: var(--text); }
-.arrow { text-align: center; color: #CCD5D1; font-size: 13px; transition: color 0.3s; }
-.arrow.on { color: var(--green-dark); font-weight: bold; }
-.mini-card { visibility: hidden; display: block; margin-top: 6px; padding: 4px; border-radius: 6px; background: var(--white); color: var(--text); font-size: 15px; }
+.box.on { border-color: var(--green); background: var(--green-light); color: var(--text); }
+.arrow { color: #B8C2BE; text-align: center; font-size: 13px; transition: color 0.3s; }
+.arrow.on { color: var(--green); font-weight: bold; }
+.mini-card { display: block; visibility: hidden; margin-top: 6px; padding: 2px; border-radius: 6px; background: var(--white); color: var(--text); }
 .mini-card.on { visibility: visible; }  /* 場所は常に確保し，表示だけ切り替える（ボタンの位置を固定） */
-.flow-text { margin: 12px 0 8px; min-height: 3.6em; }
-.caption { margin-top: 0; color: var(--gray); font-size: 14px; }  /* 段が変わってもボタンの位置を固定する */
-.flow-nav { display: flex; gap: 8px; }
-.flow-nav button { padding: 8px 20px; border: none; border-radius: 8px; background: var(--green-dark); color: var(--white); font-size: 15px; cursor: pointer; }
+.flow-text { min-height: 5.7em; margin: 14px 0 10px; white-space: pre-line; }  /* 段が変わってもボタンの位置を固定する */
+.flow-nav { display: flex; gap: 10px; }
+.flow-nav button { padding: 8px 24px; border: none; border-radius: 8px; background: var(--green); color: var(--white); font-size: 15px; font-weight: bold; cursor: pointer; }
 .flow-nav button:disabled { background: #CCD5D1; cursor: default; }
 
-/* ===== スマートフォン表示 ===== */
 
-@media (max-width: 640px) {
-  .sides, .flow-body { flex-direction: column; }
+/* ===== トップページの一覧 ===== */
+
+.lessons { margin: 0; padding: 0; list-style: none; }
+.lessons a { display: block; padding: 14px 18px; border-radius: 10px; background: var(--green-light); color: var(--text); font-weight: bold; text-decoration: none; }
+
+
+/* ===== 幅が狭いとき（画面の半分より狭い） ===== */
+
+@media (max-width: 720px) {
+  .card { padding: 22px 18px; }
+  .screens { grid-template-columns: 1fr; }
+  .rule, .file { grid-template-columns: 1fr; gap: 0; }
 }
