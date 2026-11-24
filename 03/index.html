@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>第3回 低温の判定 | メンター勉強会</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../lesson.css">
+</head>
+<body data-lesson="03">
+  <header class="topbar">
+    <a class="brand" href="../">メンター勉強会</a>
+  </header>
+
+  <section class="hero">
+    <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="ひだまり農園のビニールハウス">
+    <div class="hero-text">
+      <h1>第3回　低温の判定</h1>
+      <p>「8℃ 未満なら低温」をコードで読む</p>
+    </div>
+  </section>
+
+  <nav class="progress" aria-label="進捗">
+    <div class="progress-groups">
+      <div class="progress-group"><span>準備</span>
+        <div class="progress-dots"><button class="dot" data-step="1">1</button></div>
+      </div>
+      <div class="progress-group"><span>読む</span>
+        <div class="progress-dots"><button class="dot" data-step="2">2</button><button class="dot" data-step="3">3</button></div>
+      </div>
+      <div class="progress-group"><span>変える</span>
+        <div class="progress-dots"><button class="dot" data-step="4">4</button><button class="dot" data-step="5">5</button></div>
+      </div>
+      <div class="progress-group"><span>書く</span>
+        <div class="progress-dots"><button class="dot" data-step="6">6</button><button class="dot" data-step="7">7</button></div>
+      </div>
+    </div>
+    <div class="progress-count" id="progress-count"></div>
+  </nav>
+
+  <main class="page">
+
+    <section class="card">
+      <h2>今回の目標</h2>
+      <ul class="goal">
+        <li>変数と if を読める</li>
+        <li>低温の基準を変えて，画面の変化を確認</li>
+        <li>判定のプログラムを自分で書く</li>
+      </ul>
+    </section>
+
+    <aside class="memo">
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/strawberry.jpg" alt="">
+      <div><b>先輩メモ｜引き継ぎ 1</b><p>まずは「低温」の札が付く仕組みから．<br>アプリで一番大事な判定．</p></div>
+    </aside>
+
+    <!-- ===== ① 起動 ===== -->
+    <section class="card" id="step-1">
+      <div class="step-head">
+        <span class="step-num">1</span>
+        <h2>アプリの起動</h2>
+        <span class="where ub">Ubuntu</span>
+      </div>
+      <p class="hint">今回から，サーバーとセンサーは VS Code の中のターミナルで実行<br>画面が1つで済む</p>
+      <ol class="actions" style="--step: '1'">
+        <li>
+          <p>VS Code でアプリを開く</p>
+          <p class="hint">Windows キー →「ubuntu」→ Enter</p>
+          <div class="cmd"><code data-tip="アプリのフォルダに移動し，VS Code で開く">cd ~/berry-watch && code .</code><button class="copy">コピー</button></div>
+          <p class="hint">VS Code が開いたら，Ubuntu の画面は終了可</p>
+        </li>
+        <li>
+          <p>サーバーの起動<span class="where vs" style="margin-left:6px;">VS Code</span></p>
+          <p class="hint">上部のメニュー「ターミナル」→「新しいターミナル」<br>→ 下に開いた画面に貼り付け（Ctrl + V）→ Enter</p>
+          <div class="cmd"><code data-tip="アプリを起動">docker compose up</code><button class="copy">コピー</button></div>
+          <p class="hint"><code>Application startup complete.</code> → 起動完了</p>
+        </li>
+        <li>
+          <p>センサーの代わりを実行<span class="where vs" style="margin-left:6px;">VS Code</span></p>
+          <p class="hint">ターミナルの右上の「＋」→ 2つ目のターミナル</p>
+          <div class="cmd"><code data-tip="センサーの代わりを起動">python3 sensor.py</code><button class="copy">コピー</button></div>
+          <p class="hint">ターミナルの切り替え：右側の一覧（bash が2つ）</p>
+          <div class="vsc">
+            <div class="vsc-bar">berry-watch [WSL: Ubuntu] - Visual Studio Code</div>
+            <div class="vsc-main">
+              <div class="vsc-icons"><span class="on">▤</span><span>⌕</span><span>⑂</span><span>▷</span><span>⊞</span></div>
+              <div class="vsc-side">BERRY-WATCH<br>▸ data<br>▸ static<br>app.py<br>sensor.py</div>
+              <div class="vsc-editor"><span class="cl">（ここにファイルの中身）</span></div>
+            </div>
+            <div class="vsc-term">
+              <div class="vsc-term-bar"><span>ターミナル</span><span><span class="mark">＋</span> ∨ 🗑 ✕</span></div>
+              <div class="vsc-term-body">
+<pre class="out">名前@PC名:~/berry-watch$ python3 sensor.py
+1号棟：10.2℃，75.3% を送信</pre>
+                <div class="vsc-tabs">bash<br><span class="on">bash</span></div>
+              </div>
+            </div>
+            <div class="vsc-status">&gt;&lt; WSL: Ubuntu　　main</div>
+          </div>
+          <p class="caption">上：ファイル　下：ターミナル（右に一覧）　左下：WSL: Ubuntu と今の枝（main）</p>
+        </li>
+        <li>
+          <p>ブラウザで <a href="http://localhost:8000" target="_blank">http://localhost:8000</a></p>
+        </li>
+      </ol>
+      <details>
+        <summary>うまくいかないとき</summary>
+        <div class="detail-body">
+          <p><b>No such file or directory</b><br>→ アプリが未取得．第2回の「アプリの取得」から</p>
+          <p><b>左下に「WSL: Ubuntu」が出ない</b><br>→ VS Code を閉じて，1-1 をもう一度</p>
+          <p><b>permission denied</b>（docker）<br>→ メンターと確認</p>
+        </div>
+      </details>
+      <div class="check-row">
+        <p class="done">8棟の温度の表示<br>VS Code にファイル一覧</p>
+        <label class="check"><input type="checkbox" data-step="1"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ② 変数と比較 ===== -->
+    <section class="card" id="step-2">
+      <div class="step-head">
+        <span class="step-num">2</span>
+        <h2>変数と比較</h2>
+      </div>
+      <p>アプリの話の前に，短いコードで</p>
+<div class="code"><span class="line">limit = 8.0</span><span class="line">temperature = 7.5</span><span class="line">print(temperature &lt; limit)</span></div>
+      <div class="terms">
+        <div class="term-row"><code>limit = 8.0</code><span><span data-tip="値に名前を付けたもの／あとから何度でも使える" data-tip-head="用語｜変数">変数</span> limit に 8.0 を入れる</span></div>
+        <div class="term-row"><code>temperature &lt; limit</code><span>temperature は limit より小さい？<br>答えは True（はい）か False（いいえ）</span></div>
+        <div class="term-row"><code>print( )</code><span>（ ）の中を画面に出力</span></div>
+      </div>
+      <div class="predict">
+        <p class="predict-q">出力は？</p>
+        <div class="predict-options">
+          <button type="button" data-right>True</button>
+          <button type="button">False</button>
+          <button type="button">7.5</button>
+        </div>
+        <div class="predict-answer" hidden><b>True</b>　7.5 は 8.0 より小さい</div>
+      </div>
+      <div class="predict">
+        <p class="predict-q">2行目を <code>temperature = 8.0</code> にすると？</p>
+        <div class="predict-options">
+          <button type="button">True</button>
+          <button type="button" data-right>False</button>
+        </div>
+        <div class="predict-answer" hidden><b>False</b>　8.0 は 8.0 より小さくない（同じ）<br>「未満」は，同じ値を含まない</div>
+      </div>
+      <div class="check-row">
+        <p class="done">2問とも答えを確認</p>
+        <label class="check"><input type="checkbox" data-step="2"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ③ if ===== -->
+    <section class="card" id="step-3">
+      <div class="step-head">
+        <span class="step-num">3</span>
+        <h2>if で分ける</h2>
+      </div>
+<div class="code"><span class="line">limit = 8.0</span><span class="line">temperature = 7.5</span><span class="line"><span class="k">if</span> temperature &lt; limit:</span><span class="line">    print(<span class="s">"低温"</span>)</span><span class="line"><span class="k">else</span>:</span><span class="line">    print(<span class="s">"正常"</span>)</span></div>
+      <div class="terms">
+        <div class="term-row"><code>if 条件:</code><span>条件が True なら，下の字下げした行を実行</span></div>
+        <div class="term-row"><code>else:</code><span>それ以外（False）なら，こちらを実行</span></div>
+        <div class="term-row"><code>字下げ</code><span>行頭の空白4つ．どこまでが if の中かの印</span></div>
+      </div>
+      <div class="predict">
+        <p class="predict-q">temperature が 8.0 なら，出力は？</p>
+        <div class="predict-options">
+          <button type="button">低温</button>
+          <button type="button" data-right>正常</button>
+          <button type="button">両方</button>
+        </div>
+        <div class="predict-answer" hidden><b>正常</b>　8.0 &lt; 8.0 は False → else の行だけ実行</div>
+      </div>
+      <div class="check-row">
+        <p class="done">答えを確認</p>
+        <label class="check"><input type="checkbox" data-step="3"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ④ アプリの中 ===== -->
+    <section class="card" id="step-4">
+      <div class="step-head">
+        <span class="step-num">4</span>
+        <h2>アプリの中の判定</h2>
+        <span class="where vs">VS Code</span>
+      </div>
+      <p>VS Code の左の一覧 → <code>app.py</code>．上の「設定」の中</p>
+<span class="code-file">app.py（設定）</span>
+<div class="code"><span class="line">DB_PATH = <span class="s">"data/house.db"</span>   <span class="c"># データベースのファイル</span></span><span class="line">SCHEMA_PATH = <span class="s">"schema.sql"</span>  <span class="c"># テーブルの作り方</span></span><span class="line is-mark">COLD_LIMIT = 8.0            <span class="c"># 低温の基準（℃）</span></span><span class="line">RECENT_COUNT = 60           <span class="c"># 棟の画面に表示する記録の件数</span></span></div>
+      <p>Ctrl + F →「is_cold」で検索</p>
+<span class="code-file">app.py（today_summary の最後）</span>
+<div class="code"><span class="line">        <span class="s">"is_cold"</span>: latest[<span class="s">"temperature"</span>] &lt; COLD_LIMIT,</span></div>
+      <div class="pair">
+        <div class="terms" style="margin:0;">
+          <div class="term-row"><code>latest["temperature"]</code><span>最新の温度</span></div>
+          <div class="term-row"><code>&lt; COLD_LIMIT</code><span>8.0 未満？</span></div>
+          <div class="term-row"><code>"is_cold"</code><span>判定結果（True / False）の名前<br>画面へ送る</span></div>
+        </div>
+        <div class="terms" style="margin:0;">
+          <div class="term-row"><code>True</code><span>画面の札「低温」・赤</span></div>
+          <div class="term-row"><code>False</code><span>画面の札「正常」</span></div>
+        </div>
+      </div>
+      <p class="hint" style="margin-top:10px;">画面側（<code>static/list.js</code> の <code>setBadge</code>）にも同じ形の if<br>言語は JavaScript．形は Python とほぼ同じ</p>
+      <div class="predict">
+        <p class="predict-q"><code>COLD_LIMIT = 30.0</code> にすると，一覧は？</p>
+        <div class="predict-options">
+          <button type="button">変わらない</button>
+          <button type="button" data-right>全棟が低温</button>
+          <button type="button">全棟が記録なし</button>
+        </div>
+        <div class="predict-answer" hidden><b>全棟が低温</b>　どの棟も 30℃ 未満 → is_cold が True<br>次の手順で確認</div>
+      </div>
+      <div class="check-row">
+        <p class="done">COLD_LIMIT と is_cold の行を発見</p>
+        <label class="check"><input type="checkbox" data-step="4"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑤ 変えて戻す ===== -->
+    <section class="card" id="step-5">
+      <div class="step-head">
+        <span class="step-num">5</span>
+        <h2>基準を変えて，元に戻す</h2>
+        <span class="where vs">VS Code</span>
+      </div>
+      <ol class="actions" style="--step: '5'">
+        <li>
+          <p><code>8.0</code> を <code>30.0</code> に書き換え → Ctrl + S（保存）</p>
+          <p class="hint">サーバーのターミナルに <code>Reloading...</code><br>→ サーバーが自動で再起動</p>
+        </li>
+        <li>
+          <p>ブラウザの「更新」ボタン</p>
+          <p class="hint">全棟が「低温」・赤い警告の帯</p>
+        </li>
+        <li>
+          <p>変更の確認：左端のアイコン列の上から3つ目 <span data-tip="枝分かれした線のアイコン／Ctrl + Shift + G でも開く" data-tip-head="場所｜ソース管理">ソース管理</span> → <code>app.py</code></p>
+          <p class="hint">左が変更前，右が変更後．変えた行に色</p>
+        </li>
+        <li>
+          <p>元に戻す：ソース管理の <code>app.py</code> にマウスを合わせる → 右に出る <span data-tip="矢印が左に回るアイコン／変更を捨てて，最後に記録した状態に戻す" data-tip-head="場所｜変更を破棄">↶（変更を破棄）</span> →「破棄」</p>
+          <p class="hint">app.py の 30.0 が 8.0 に戻る → ブラウザの「更新」で元の表示</p>
+        </li>
+      </ol>
+      <details>
+        <summary>豆知識｜変更の記録と git</summary>
+        <div class="detail-body">
+          <p>「変更前」は，git が記録した最後の状態<br>Ubuntu で <code>git diff</code> でも同じ変更を表示（終了は q）</p>
+        </div>
+      </details>
+      <label class="note-label" for="explain">基準を変えると，園主にとって何が変わる？（1行）</label>
+      <textarea class="note" data-id="explain" id="explain" placeholder="例：〇℃ で札が赤くなるので，……"></textarea>
+      <div class="check-row">
+        <p class="done">30.0 で全棟が低温<br>戻すと元の表示</p>
+        <label class="check"><input type="checkbox" data-step="5"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <aside class="memo">
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="">
+      <div><b>園主より｜低温の札</b><p>赤い札が出たら，すぐハウスへ．<br>8℃ を切ると実が傷むからね．</p></div>
+    </aside>
+
+    <!-- ===== ⑥ 練習 ===== -->
+    <section class="card practice" id="step-6">
+      <div class="step-head">
+        <span class="step-num">6</span>
+        <h2>判定を書く</h2>
+      </div>
+      <p class="hint">このページの中で実行．インストールなし<br>入力は1行目で受け取り済み．続きを書く</p>
+      <div class="terms">
+        <div class="term-row"><code>字下げ</code><span>Tab キー（空白4つ）．「:」の行で Enter → 自動で字下げ</span></div>
+        <div class="term-row"><code>▶ 実行して判定</code><span>いくつかの入力で試し，○×の表</span></div>
+        <div class="term-row"><code>× のとき</code><span>「正しい出力」と「あなたの出力」を見比べる<br>エラーは赤い文とヒントを読む</span></div>
+      </div>
+
+      <h3>問1　低温の判定</h3>
+      <p>温度を1つ受け取り，8.0 未満なら <code>低温</code>，それ以外は <code>正常</code> と出力</p>
+      <div class="io">
+        <div><b>入力例</b><pre>7.5</pre></div>
+        <div><b>出力例</b><pre>低温</pre></div>
+      </div>
+      <div class="judge" data-id="03-1">
+        <script type="text/plain" class="starter">temperature = float(input())   # 温度を受け取る（例：7.5）
+
+</script>
+        <script type="application/json" class="tests">[
+          {"in": "7.5", "out": "低温"},
+          {"in": "12.3", "out": "正常"},
+          {"in": "8.0", "out": "正常"},
+          {"in": "7.9", "out": "低温"},
+          {"in": "-1.5", "out": "低温"}
+        ]</script>
+      </div>
+      <details>
+        <summary>ヒント</summary>
+        <div class="detail-body"><p>③ のコードとほぼ同じ形<br>limit の代わりに 8.0 を直接書いてもよい</p></div>
+      </details>
+      <details>
+        <summary>解答例</summary>
+        <div class="detail-body">
+<div class="code"><span class="line">temperature = float(input())</span><span class="line"><span class="k">if</span> temperature &lt; 8.0:</span><span class="line">    print(<span class="s">"低温"</span>)</span><span class="line"><span class="k">else</span>:</span><span class="line">    print(<span class="s">"正常"</span>)</span></div>
+        </div>
+      </details>
+
+      <h3>問2　3段階の判定（続き）</h3>
+      <p>8.0 未満は <code>低温</code>，10.0 未満は <code>注意</code>，それ以外は <code>正常</code></p>
+      <div class="io">
+        <div><b>入力例</b><pre>9.2</pre></div>
+        <div><b>出力例</b><pre>注意</pre></div>
+      </div>
+      <div class="judge" data-id="03-2">
+        <script type="text/plain" class="starter">temperature = float(input())
+
+</script>
+        <script type="application/json" class="tests">[
+          {"in": "9.2", "out": "注意"},
+          {"in": "7.0", "out": "低温"},
+          {"in": "8.0", "out": "注意"},
+          {"in": "10.0", "out": "正常"},
+          {"in": "15.4", "out": "正常"}
+        ]</script>
+      </div>
+      <details>
+        <summary>ヒント</summary>
+        <div class="detail-body"><p>if と else の間に <code>elif 条件:</code>（そうでなく，もし〜なら）<br>上から順に調べ，最初に True の所だけ実行</p></div>
+      </details>
+      <details>
+        <summary>解答例</summary>
+        <div class="detail-body">
+<div class="code"><span class="line">temperature = float(input())</span><span class="line"><span class="k">if</span> temperature &lt; 8.0:</span><span class="line">    print(<span class="s">"低温"</span>)</span><span class="line"><span class="k">elif</span> temperature &lt; 10.0:</span><span class="line">    print(<span class="s">"注意"</span>)</span><span class="line"><span class="k">else</span>:</span><span class="line">    print(<span class="s">"正常"</span>)</span></div>
+        </div>
+      </details>
+      <div class="check-row">
+        <p class="done">問1 が全問正解（問2 は続き）</p>
+        <label class="check"><input type="checkbox" data-step="6"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ⑦ 手応えメモ ===== -->
+    <section class="card" id="step-7">
+      <div class="step-head">
+        <span class="step-num">7</span>
+        <h2>手応えメモ</h2>
+      </div>
+      <p class="hint">このブラウザに保存．第11回で並べて振り返る</p>
+      <label class="note-label" for="memo-done">自分でできた所</label>
+      <textarea class="note" data-id="memo-done" id="memo-done"></textarea>
+      <label class="note-label" for="memo-help">手伝ってもらった所</label>
+      <textarea class="note" data-id="memo-help" id="memo-help"></textarea>
+      <label class="note-label" for="memo-again">もう一度やりたい所・もっと知りたい所</label>
+      <textarea class="note" data-id="memo-again" id="memo-again"></textarea>
+      <div class="check-row">
+        <p class="done">3つとも記入</p>
+        <label class="check"><input type="checkbox" data-step="7"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <section class="card finish" id="finish" hidden>
+      <img src="https://raw.githubusercontent.com/KokiWakatsuki/berry-watch/main/static/images/farm.jpg" alt="">
+      <span class="stamp">第3回 完了</span>
+      <h2>低温の判定を読めた</h2>
+      <ul class="goal">
+        <li>変数・比較・if</li>
+        <li>基準の変更と，元に戻す操作</li>
+        <li>判定のプログラム</li>
+      </ul>
+      <p style="margin-top: 16px;">次回は，本日の最高・最低の求め方</p>
+    </section>
+
+    <section class="card">
+      <h2>終了</h2>
+      <p class="closable">センサー → サーバーの順に，各ターミナルで Ctrl + C<br>入力待ち（$）に戻ったら，VS Code・ブラウザを閉じる</p>
+    </section>
+
+  </main>
+
+  <script src="../tip.js"></script>
+  <script src="../page.js"></script>
+  <script src="../lesson.js"></script>
+</body>
+</html>
