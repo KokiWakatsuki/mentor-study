@@ -1,8 +1,7 @@
 # WSL に Ubuntu が入らない（wsl --install が「再起動が必要」をくり返す）原因を調べ，次にすることを出す．
 # 機能・設定の変更は行わない（DISM の照会のログ・一時ファイルは作られることがある）．
-# 使い方（管理者の PowerShell）：
-#   [Net.ServicePointManager]::SecurityProtocol = 'Tls12'
-#   irm https://kokiwakatsuki.github.io/mentor-study/win/wsl-check.txt | iex
+# 使い方（管理者の PowerShell．1行）：
+#   [Net.ServicePointManager]::SecurityProtocol = 'Tls12'; irm https://kokiwakatsuki.github.io/mentor-study/win/wsl-check.txt | iex
 #
 # 根拠：WSL 3.0.5 のソース．wsl --install が「再起動が必要」を出す道筋は1つ
 #   WslClient.cpp InstallPrerequisites → WslInstall.cpp CheckForMissingOptionalComponents．次の A〜E のどれかが欠けると出る
