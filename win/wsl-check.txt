@@ -1,84 +1,237 @@
-# WSL に Ubuntu が入らない（「再起動が必要」をくり返す）原因を調べる．確認のみ．変更は一切しない．
+# WSL に Ubuntu が入らない（wsl --install が「再起動が必要」をくり返す）原因を調べ，次にすることを出す．
+# 機能・設定の変更は行わない（DISM の照会のログ・一時ファイルは作られることがある）．
 # 使い方（管理者の PowerShell）：
 #   [Net.ServicePointManager]::SecurityProtocol = 'Tls12'
 #   irm https://kokiwakatsuki.github.io/mentor-study/win/wsl-check.txt | iex
 #
-# wsl --install は，次の4つがすべてそろったときだけ「土台（VirtualMachinePlatform）あり」と判断する（WSL のソース
-# src/windows/common/wslutil.cpp の IsVirtualMachinePlatformInstalled）．1つでも欠けると「再起動が必要」を出す．
-#   HNS・vmcompute・vfpext のサービスがある／Windows の機能 VirtualMachinePlatform の InstallState が 1（有効）
+# 根拠：WSL 3.0.5 のソース．wsl --install が「再起動が必要」を出す道筋は1つ
+#   WslClient.cpp InstallPrerequisites → WslInstall.cpp CheckForMissingOptionalComponents．次の A〜E のどれかが欠けると出る
+#   A HNS・B vmcompute・C vfpext（ビルド 22621 以上）のサービスを OpenService(SERVICE_QUERY_CONFIG) で開ける（helpers.cpp）
+#   D WMI の Win32_OptionalFeature で VirtualMachinePlatform の InstallState が 1．照会が失敗したときは「あり」とみなす（wslutil.cpp）
+#   E ビルド 22000 未満か --enable-wsl1 のときだけ，lxssmanager のサービスを開ける
+#   ビルドは HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion の CurrentBuildNumber（helpers.cpp GetWindowsVersion）
+
+& {
+
+# ============================================================
+# 道具
+# ============================================================
 
 function Mark($ok) { if ($ok) { '○' } else { '×' } }
-function HasService($name) { $null = sc.exe query $name 2>&1; return ($LASTEXITCODE -eq 0) }   # ドライバーも含めて調べる
-function FeatureState($name) {
-  $f = Get-CimInstance Win32_OptionalFeature -Filter "Name='$name'" -ErrorAction SilentlyContinue
-  if ($f) { return [int]$f.InstallState } else { return 0 }   # 1 有効・2 無効・3 なし・0 不明
-}
-function StateText($s) { switch ($s) { 1 { '有効' } 2 { '無効' } 3 { 'なし' } default { '不明' } } }
 
-$os       = Get-CimInstance Win32_OperatingSystem
+# サービス（ドライバーを含む）を WSL と同じ方法で開く．0 開ける・1060 登録なし・5 権限なし・ほか
+$probeOk = $true
+try {
+  if (-not ('WslProbe' -as [type])) {
+    Add-Type -ErrorAction Stop @'
+using System; using System.Runtime.InteropServices;
+public static class WslProbe {
+  [DllImport("advapi32.dll", CharSet = CharSet.Unicode, SetLastError = true)] static extern IntPtr OpenSCManager(string machine, string db, uint access);
+  [DllImport("advapi32.dll", CharSet = CharSet.Unicode, SetLastError = true)] static extern IntPtr OpenService(IntPtr manager, string name, uint access);
+  [DllImport("advapi32.dll")] static extern bool CloseServiceHandle(IntPtr handle);
+  public static int Code(string name) {
+    IntPtr manager = OpenSCManager(null, null, 1);              // SC_MANAGER_CONNECT
+    if (manager == IntPtr.Zero) { return -1; }
+    try {
+      IntPtr service = OpenService(manager, name, 1);           // SERVICE_QUERY_CONFIG
+      if (service == IntPtr.Zero) { return Marshal.GetLastWin32Error(); }
+      CloseServiceHandle(service);
+      return 0;
+    } finally { CloseServiceHandle(manager); }
+  }
+}
+'@
+  }
+  $null = [WslProbe]::Code('HNS')
+} catch { $probeOk = $false }
+function ServiceCode($name) {
+  if ($probeOk) { return [int][WslProbe]::Code($name) }
+  $null = sc.exe qc $name 2>&1; return [int]$LASTEXITCODE      # 予備の方法（ほぼ同じ結果）
+}
+function ServiceText($code) { switch ($code) { 0 { '開ける' } 1060 { '登録なし' } 5 { '開く権限なし' } default { "開けない（コード $code）" } } }
+
+# Windows の機能の状態（WMI）．取得できなければ $null（WSL は「あり」とみなす）
+function WmiFeature($name) {
+  try {
+    $f = Get-CimInstance -Namespace root/cimv2 -ClassName Win32_OptionalFeature -Filter "Name='$name'" -ErrorAction Stop
+    if ($null -eq $f -or $null -eq $f.InstallState) { return $null }
+    return [int]$f.InstallState
+  } catch { return $null }
+}
+function WmiText($s) {
+  if ($null -eq $s) { return '取得できない（WSL は有効とみなす）' }
+  switch ($s) { 1 { '1（有効）' } 2 { '2（無効）' } 3 { '3（なし）' } 4 { '4（不明）' } default { "$s（有効ではない）" } }
+}
+
+# Windows の機能の状態（DISM）．Enabled・Disabled・EnablePending・DisablePending など
+function DismFeature($name) {
+  try { return [string](Get-WindowsOptionalFeature -Online -FeatureName $name -ErrorAction Stop).State } catch { return '取得できない' }
+}
+
+# ============================================================
+# 実行の条件
+# ============================================================
+
+$isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+if (-not $isAdmin) {
+  ''
+  '× 管理者の PowerShell ではない．Windows キー →「powershell」→ 右クリック →「管理者として実行」で開き直して，もう一度'
+  ''
+  return
+}
+if ([Environment]::Is64BitOperatingSystem -and -not [Environment]::Is64BitProcess) {
+  ''
+  '× 32bit の PowerShell で動いている．スタートの「Windows PowerShell」（x86 ではない方）で，もう一度'
+  ''
+  return
+}
+
+# ============================================================
+# 1. WSL が再起動を求める理由（WSL 3.0.5 と同じ判定）
+# ============================================================
+
+$cv       = Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion'
+$build    = [int]$cv.CurrentBuildNumber
+$needVfp  = $build -ge 22621
+$needLxss = $build -lt 22000
+$cHns     = ServiceCode 'HNS'
+$cVmc     = ServiceCode 'vmcompute'
+$cVfp     = ServiceCode 'vfpext'
+$cLxss    = ServiceCode 'lxssmanager'
+$vmpWmi   = WmiFeature 'VirtualMachinePlatform'
+$okA = $cHns -eq 0
+$okB = $cVmc -eq 0
+$okC = (-not $needVfp) -or ($cVfp -eq 0)
+$okD = ($null -eq $vmpWmi) -or ($vmpWmi -eq 1)
+$okE = (-not $needLxss) -or ($cLxss -eq 0)
+$allOk = $okA -and $okB -and $okC -and $okD -and $okE
+
+''
+'【1】WSL が「再起動が必要」を出す理由（WSL と同じ判定．ビルド {0}）' -f $build
+' A  {0}  HNS のサービス            {1}' -f (Mark $okA), (ServiceText $cHns)
+' B  {0}  vmcompute のサービス      {1}' -f (Mark $okB), (ServiceText $cVmc)
+' C  {0}  vfpext のサービス         {1}' -f (Mark $okC), $(if (-not $needVfp) { '（このビルドでは不要）' } else { ServiceText $cVfp })
+' D  {0}  機能 VirtualMachinePlatform（WMI）  {1}' -f (Mark $okD), (WmiText $vmpWmi)
+' E  {0}  lxssmanager のサービス    {1}' -f (Mark $okE), $(if (-not $needLxss) { '（このビルドでは不要）' } else { ServiceText $cLxss })
+if (-not $probeOk) { ' （サービスは sc.exe で調べた．WSL と同じ関数が使えなかったため）' }
+
+# ============================================================
+# 2. 欠けた理由の手がかり
+# ============================================================
+
+$vmpDism  = DismFeature 'VirtualMachinePlatform'
+$wslDism  = DismFeature 'Microsoft-Windows-Subsystem-Linux'
+$sys32    = Join-Path $env:SystemRoot 'System32'
+$fileHns  = Test-Path -LiteralPath (Join-Path $sys32 'HostNetSvc.dll')
+$fileVmc  = Test-Path -LiteralPath (Join-Path $sys32 'vmcompute.exe')
+$fileVfp  = Test-Path -LiteralPath (Join-Path $sys32 'drivers\vfpext.sys')
+$cbsKey   = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing'
+$pendCbs  = Test-Path "$cbsKey\RebootPending"
+$pendPkg  = Test-Path "$cbsKey\PackagesPending"
+$pendWu   = Test-Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired'
+$pendFile = $null -ne (Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager' -Name PendingFileRenameOperations -ErrorAction SilentlyContinue)
+$anyPend  = $pendCbs -or $pendPkg -or $pendWu -or $pendFile
+$boot     = (Get-CimInstance Win32_OperatingSystem).LastBootUpTime
+$wmiRepo  = (winmgmt /verifyrepository 2>&1 | Out-String).Trim()
+$wmiCode  = $LASTEXITCODE
+$setupErrors = $null
+$setupEv  = @(Get-WinEvent -FilterHashtable @{ LogName = 'Setup'; Level = 2, 3; StartTime = (Get-Date).AddDays(-7) } -MaxEvents 5 -ErrorAction SilentlyContinue -ErrorVariable setupErrors)
+$setupRead = -not ($setupErrors | Where-Object { $_.FullyQualifiedErrorId -notmatch 'NoMatchingEventsFound' })
+$cbsTail  = @()
+$cbsRead  = $true
+try { $cbsTail = @(Get-Content -LiteralPath (Join-Path $env:SystemRoot 'Logs\CBS\CBS.log') -Tail 4000 -ErrorAction Stop) } catch { $cbsRead = $false }
+$cbsErr   = @($cbsTail | Where-Object { $_ -match 'VirtualMachinePlatform|Hyper-V|vfp|HostNetSvc|vmcompute' -and $_ -match 'Error|Failed|0x8' } | Select-Object -Last 5)
+$rollback = @($cbsTail | Where-Object { $_ -match 'rollback|Rolling back|revert' } | Select-Object -Last 3)
+
+''
+'【2】欠けた理由の手がかり'
+' ・機能 VirtualMachinePlatform（DISM）  {0}' -f $vmpDism
+' ・機能 Windows Subsystem for Linux（DISM）  {0}' -f $wslDism
+' ・部品のファイル  HostNetSvc.dll {0}／vmcompute.exe {1}／vfpext.sys {2}' -f (Mark $fileHns), (Mark $fileVmc), (Mark $fileVfp)
+' ・再起動待ち  CBS {0}／更新の保留 {1}／Windows Update {2}／ファイル置換 {3}' -f $(if ($pendCbs) { 'あり' } else { 'なし' }), $(if ($pendPkg) { 'あり' } else { 'なし' }), $(if ($pendWu) { 'あり' } else { 'なし' }), $(if ($pendFile) { 'あり' } else { 'なし' })
+' ・最後の起動  {0}' -f $boot
+' ・WMI の記録の検証  {0}' -f $(if ($wmiCode -eq 0) { '問題なし' } else { "問題の可能性（コード $wmiCode：$wmiRepo）" })
+if ($setupRead) { ' ・Windows の更新の警告・エラー（7日以内・Setup ログ・最大5件）  {0}件' -f $setupEv.Count } else { ' ・Windows の更新の記録（Setup ログ）  読めなかった' }
+foreach ($e in $setupEv) { '     {0:MM/dd HH:mm}  {1}' -f $e.TimeCreated, (($e.Message -split "`r?`n")[0]) }
+if ($cbsRead) { ' ・CBS.log（末尾4000行）の土台に関わるエラー {0}件／元に戻した記録 {1}件' -f $cbsErr.Count, $rollback.Count } else { ' ・CBS.log  読めなかった' }
+foreach ($l in ($cbsErr + $rollback)) { '     ' + ($l.Substring(0, [Math]::Min(150, $l.Length))) }
+
+# 参考（判定には使わない）
 $computer = Get-CimInstance Win32_ComputerSystem
 $cpu      = Get-CimInstance Win32_Processor | Select-Object -First 1
+$sMode    = (Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy' -ErrorAction SilentlyContinue).SkuPolicyRequired -eq 1
+$insider  = (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\WindowsSelfHost\Applicability' -ErrorAction SilentlyContinue).BranchName
+$wslPkg   = Get-AppxPackage MicrosoftCorporationII.WindowsSubsystemForLinux -ErrorAction SilentlyContinue
+$wslExe   = @(Get-Command wsl.exe -All -ErrorAction SilentlyContinue | ForEach-Object { $_.Source }) -join '・'
+$msiDir   = $null; $history = $null
+try { $msiDir  = [Microsoft.Win32.Registry]::GetValue('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Lxss\Msi', 'InstallLocation', $null) } catch { }
+try { $history = [Microsoft.Win32.Registry]::GetValue('HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Lxss\InstallStatus', '', $null) } catch { }
+''
+'【参考】（判定には使わない）'
+' ・Windows  ビルド {0}.{1}{2}／S モード {3}' -f $cv.CurrentBuildNumber, $cv.UBR, $(if ($insider) { "／Insider（$insider）" } else { '' }), $(if ($sMode) { 'はい' } else { 'いいえ' })
+' ・CPU  {0}（{1}）／BIOS の仮想化 {2}／ハイパーバイザー {3}' -f $env:PROCESSOR_ARCHITECTURE, $cpu.Name, $(if ($cpu.VirtualizationFirmwareEnabled) { '有効' } else { '表示なし' }), $(if ($computer.HypervisorPresent) { '動いている' } else { '動いていない' })
+' ・WSL  {0}／wsl.exe {1}／本体の登録 {2}' -f $(if ($wslPkg) { $wslPkg.Version } else { 'Store 版なし' }), $wslExe, $(if ($msiDir) { $msiDir } else { 'なし' })
+' ・この起動中に WSL が有効化した機能  {0}' -f $(if ($history) { "$history（再起動まで，有効化の表示を省く）" } else { 'なし' })
 
-$sMode     = (Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy' -ErrorAction SilentlyContinue).SkuPolicyRequired -eq 1
-$insider   = (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\WindowsSelfHost\Applicability' -ErrorAction SilentlyContinue).BranchName
-$firmware  = [bool]$cpu.VirtualizationFirmwareEnabled
-$hyper     = [bool]$computer.HypervisorPresent
-$launchRaw = (bcdedit /enum '{current}' | Select-String 'hypervisorlaunchtype') -replace '.*hypervisorlaunchtype\s+', ''
-$launch    = if ($launchRaw) { "$launchRaw".Trim() } else { '未設定（自動と同じ）' }
-$launchOk  = $launch -notmatch '^Off'
-$vmp       = FeatureState 'VirtualMachinePlatform'
-$wslOc     = FeatureState 'Microsoft-Windows-Subsystem-Linux'
-$hns       = HasService 'HNS'
-$vmcompute = HasService 'vmcompute'
-$vfpext    = HasService 'vfpext'
-$pending   = (Test-Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending') -or
-             (Test-Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired')
-$wsl       = Get-AppxPackage MicrosoftCorporationII.WindowsSubsystemForLinux -ErrorAction SilentlyContinue
-$wslVer    = if ($wsl) { $wsl.Version } else { 'なし' }
-$wslSvc    = Get-CimInstance Win32_Service -Filter "Name='WslService'" -ErrorAction SilentlyContinue
-$vhd       = Test-Path "$env:ProgramFiles\WSL\system.vhd"
-$wslOk     = $wslSvc -and $wslSvc.StartMode -ne 'Disabled' -and $vhd
+# ============================================================
+# 3. 原因と次にすること（上から順に，最初に当てはまったもの）
+# ============================================================
+
+$required = @(@{ n = 'HNS'; c = $cHns }, @{ n = 'vmcompute'; c = $cVmc })
+if ($needVfp)  { $required += @{ n = 'vfpext'; c = $cVfp } }
+if ($needLxss) { $required += @{ n = 'lxssmanager'; c = $cLxss } }
+$missing = @($required | Where-Object { $_.c -eq 1060 } | ForEach-Object { $_.n })
+$denied  = @($required | Where-Object { $_.c -ne 0 -and $_.c -ne 1060 })
 
 ''
-'番号  判定  項目                    この PC'
-' 1    {0}    S モードでない          {1}' -f (Mark (-not $sMode)), $(if ($sMode) { 'S モード' } else { '通常' })
-' 2    ・    Windows                 {0}（ビルド {1}）{2}' -f ($os.Caption -replace 'Microsoft ', ''), $os.Version, $(if ($insider) { "  Insider：$insider" } else { '' })
-' 3    ・    CPU                     {0}（{1}）' -f $env:PROCESSOR_ARCHITECTURE, $cpu.Name
-' 4    {0}    BIOS の仮想化           {1}' -f (Mark ($firmware -or $hyper)), $(if ($firmware) { '有効' } elseif ($hyper) { '（ハイパーバイザー動作中のため表示なし）' } else { '無効' })
-' 5    {0}    ハイパーバイザーの起動  {1}' -f (Mark $hyper), $(if ($hyper) { '動いている' } else { '動いていない' })
-' 6    {0}    起動設定                {1}' -f (Mark $launchOk), $launch
-' 7    {0}    土台の機能（VMP）       {1}' -f (Mark ($vmp -eq 1)), (StateText $vmp)
-' 8    {0}    HNS のサービス          {1}' -f (Mark $hns), $(if ($hns) { 'あり' } else { 'なし' })
-' 9    {0}    vmcompute のサービス    {1}' -f (Mark $vmcompute), $(if ($vmcompute) { 'あり' } else { 'なし' })
-'10    {0}    vfpext のサービス       {1}' -f (Mark $vfpext), $(if ($vfpext) { 'あり' } else { 'なし' })
-'11    {0}    再起動待ちなし          {1}' -f (Mark (-not $pending)), $(if ($pending) { '再起動待ちが残っている' } else { 'なし' })
-'12    ・    WSL の版                {0}（WSL の機能：{1}）' -f $wslVer, (StateText $wslOc)
-'13    {0}    WSL 本体の部品          {1}' -f (Mark $wslOk), $(if ($wslOk) { 'そろっている' } elseif (-not $wslSvc) { 'WslService がない' } elseif (-not $vhd) { 'system.vhd がない' } else { 'WslService が無効' })
-''
-
-# 原因の判定（上から順に，最初に当てはまったもの）
-if ($sMode) {
-  '原因：S モード．PowerShell や WSL が使えない → S モードの解除（元に戻せない）をメンターと相談'
-} elseif (-not ($hns -and $vmcompute -and $vfpext) -or $vmp -ne 1) {
-  '原因：WSL が「土台がない」と判断している（7〜10 の × が理由．このため毎回「再起動が必要」になる）'
-  '直し方：土台を一度外して入れ直す（管理者の PowerShell．1行ずつ）'
-  '  dism /online /disable-feature /featurename:VirtualMachinePlatform /norestart'
-  '  → 再起動'
-  '  dism /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart'
-  '  → 再起動 → このスクリプトをもう一度'
-} elseif (-not $launchOk) {
-  '原因：ハイパーバイザーを起動しない設定（6 が Off）'
-  '直し方：bcdedit /set hypervisorlaunchtype auto → 再起動 → wsl --install -d Ubuntu'
-} elseif (-not $hyper) {
-  '原因：設定はそろっているのに，ハイパーバイザーが起動していない（5 が ×）'
-  '直し方：BIOS の仮想化（4）を確認．○ なら Windows の版の不具合の可能性 → メンターと確認'
-} elseif (-not $wslOk) {
-  '原因：WSL 本体の部品が欠けている（13）'
-  '直し方：https://github.com/microsoft/WSL/releases から，CPU（3）に合う .msi を入れ直す → メンターと確認'
-} elseif ($pending) {
-  '原因：Windows の再起動待ちが残っている（11）'
-  '直し方：スタート → 電源 →「再起動」（「シャットダウン」ではなく）→ wsl --install -d Ubuntu'
-} else {
-  '土台はそろっている．wsl --install -d Ubuntu を実行し，最後の数行（エラー番号など）をメンターに見せる'
+'【3】原因と次にすること'
+if ($allOk) {
+  '直接の理由：なし．WSL の判定はすべて ○（この状態なら wsl --install は再起動を求めないはず）'
+  '次に：'
+  '  1. wsl --install -d Ubuntu を実行し，表示の全文を写真に撮る（別のエラーなら，それが手がかり）'
+  '  2. それでも「再起動が必要」なら，実行された WSL の版・経路が違う．WSL の公式のログを取る：'
+  '     irm https://raw.githubusercontent.com/microsoft/WSL/master/diagnostics/collect-wsl-logs.ps1 -OutFile collect-wsl-logs.ps1'
+  '     powershell -ExecutionPolicy Bypass -File .\collect-wsl-logs.ps1'
+  '     （記録が始まったら，別の管理者の PowerShell で wsl --install -d Ubuntu → 元の画面で何かキー → できた WslLogs-….zip をメンターへ）'
+} elseif ($vmpDism -match 'Pending') {
+  '直接の理由：VirtualMachinePlatform の変更が保留中（DISM：{0}）．再起動で終わっていない' -f $vmpDism
+  '次に：スタート → 電源 →「再起動」（「シャットダウン」ではなく）→ このスクリプトをもう一度'
+  '  再起動しても保留中のまま／再起動中に「変更を元に戻しています」が出るなら，更新が戻されている：'
+  '     DISM /Online /Cleanup-Image /RestoreHealth → sfc /scannow → 再起動 → このスクリプトをもう一度'
+} elseif ($denied.Count -gt 0) {
+  '直接の理由：土台の部品（{0}）を開けない．WSL は「ない」とみなす' -f (($denied | ForEach-Object { "$($_.n)：コード $($_.c)" }) -join '・')
+  '根本の原因：未確定（権限・セキュリティソフト・管理の設定の可能性）'
+  '次に：sc.exe sdshow {0} の結果と，この画面をメンターへ．学校・会社の管理の PC なら管理者に相談' -f $denied[0].n
+} elseif (-not $okD) {
+  '直接の理由：WMI で VirtualMachinePlatform が有効ではない（WMI：{0}／DISM：{1}）' -f (WmiText $vmpWmi), $vmpDism
+  if ($vmpDism -eq 'Enabled') {
+    '根本の原因：DISM と WMI の記録が食い違っている'
+    '次に：再起動 → このスクリプトをもう一度．同じなら，WMI の記録の検証（【2】）とこの画面をメンターへ（WMI の修復はログを見てから）'
+  } else {
+    '次に：dism /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart → 再起動 → このスクリプトをもう一度'
+    if ($setupEv.Count -gt 0 -or $rollback.Count -gt 0) { '  【2】に更新の失敗の記録あり．有効化が戻されるなら，先に DISM /Online /Cleanup-Image /RestoreHealth → sfc /scannow' }
+  }
+} elseif ($missing.Count -gt 0) {
+  $fileMissing = (($missing -contains 'HNS') -and -not $fileHns) -or (($missing -contains 'vmcompute') -and -not $fileVmc) -or (($missing -contains 'vfpext') -and -not $fileVfp)
+  '直接の理由：機能は有効なのに，土台の部品（{0}）が登録されていない' -f ($missing -join '・')
+  if ($missing -contains 'lxssmanager') {
+    '次に：dism /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart → 再起動 → このスクリプトをもう一度'
+  } elseif ($fileMissing) {
+    '根本の原因：部品のファイル自体がない．機能の中身が入っていない（更新の失敗か，この Windows の版の不具合）'
+    '次に：DISM /Online /Cleanup-Image /RestoreHealth → sfc /scannow → 再起動 → このスクリプトをもう一度'
+    '  まだ × なら：dism /online /disable-feature /featurename:VirtualMachinePlatform /norestart → 再起動'
+    '              → dism /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart → 再起動 → もう一度'
+    if ($insider) { '  それでも × なら，Insider の版の不具合の可能性．設定 → Windows Update で新しい版にしてから，もう一度' }
+  } else {
+    '根本の原因：ファイルはあるのに登録がない．機能の登録が途中で壊れている'
+    '次に：dism /online /disable-feature /featurename:VirtualMachinePlatform /norestart → 再起動'
+    '      → dism /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart → 再起動 → このスクリプトをもう一度'
+  }
 }
+if ($anyPend -and -not ($vmpDism -match 'Pending')) { '注意：Windows の再起動待ちが残っている（【2】）．上の手順の前に，一度「再起動」しておく' }
+if ($sMode) { '注意：S モード．PowerShell や WSL が制限される．解除（元に戻せない）をメンターと相談' }
 ''
+'この画面をそのまま（写真でよい）メンターに送る'
+''
+
+}
