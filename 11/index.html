@@ -20,6 +20,15 @@
     .parts-check label { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border: 2px solid var(--line); border-radius: 10px; cursor: pointer; }
     .parts-check label:has(input:checked) { border-color: var(--green); background: var(--green-light); }
     .skills label { display: block; padding: 6px 0; }
+    .pick { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px 10px; align-items: center; margin: 10px 0; }
+    .pick-need, .pick-tool { padding: 10px 12px; border-radius: 10px; font-size: 14px; line-height: 1.5; }
+    .pick-need { background: var(--background); border: 2px dashed var(--line); }
+    .pick-tool { background: var(--green-light); border: 2px solid var(--green); }
+    .pick-tool b { display: block; color: var(--green); font-size: 16px; }
+    .pick-arrow { color: var(--gray); font-weight: bold; }
+    .pick-head { color: var(--gray); font-size: 12px; font-weight: bold; }
+    .look { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 0; padding: 0; list-style: none; }
+    .look li { padding: 4px 12px; border-radius: 999px; background: var(--background); border: 1px solid var(--line); font-size: 14px; }
   </style>
   <script src="../config.js"></script>
   <script src="../gate.js" data-lesson="11"></script>
@@ -40,13 +49,13 @@
   <nav class="progress" aria-label="進捗">
     <div class="progress-groups">
       <div class="progress-group"><span>振り返り</span>
-        <div class="progress-dots"><button class="dot" data-step="1">1</button><button class="dot" data-step="2">2</button></div>
+        <div class="progress-dots"><button class="dot" data-step="1">1</button><button class="dot" data-step="2">2</button><button class="dot" data-step="3">3</button></div>
       </div>
       <div class="progress-group"><span>次の相談</span>
-        <div class="progress-dots"><button class="dot" data-step="3">3</button></div>
+        <div class="progress-dots"><button class="dot" data-step="4">4</button></div>
       </div>
       <div class="progress-group"><span>まとめ</span>
-        <div class="progress-dots"><button class="dot" data-step="4">4</button></div>
+        <div class="progress-dots"><button class="dot" data-step="5">5</button></div>
       </div>
     </div>
     <div class="progress-count" id="progress-count"></div>
@@ -111,10 +120,52 @@
       </div>
     </section>
 
-    <!-- ===== ② 手応えメモ ===== -->
+    <!-- ===== ② 道具の選び方 ===== -->
     <section class="card printable" id="step-2">
       <div class="step-head">
         <span class="step-num">2</span>
+        <h2>なぜ，この道具だった？</h2>
+      </div>
+      <p>11回で使った道具は，園主の条件から選んでいた</p>
+      <div class="pick">
+        <span class="pick-head">条件</span><span></span><span class="pick-head">選んだ道具</span>
+        <div class="pick-need">農園は1つ<br>測るのは8棟</div><span class="pick-arrow">→</span>
+        <div class="pick-tool"><b>SQLite</b>ファイル1つで動く</div>
+        <div class="pick-need">作るのは学生<br>人も時間も少ない</div><span class="pick-arrow">→</span>
+        <div class="pick-tool"><b>Python ＋ FastAPI</b>読みやすく，API を短く書ける</div>
+        <div class="pick-need">画面は一覧とカードだけ</div><span class="pick-arrow">→</span>
+        <div class="pick-tool"><b>HTML ＋ JavaScript</b>ほかの道具を足さない</div>
+        <div class="pick-need">誰の PC でも<br>同じに動かしたい</div><span class="pick-arrow">→</span>
+        <div class="pick-tool"><b>docker</b>箱ごと配る（第2回）</div>
+      </div>
+      <div class="predict">
+        <p class="predict-q">データベースに SQLite を選んだ，一番の理由は？</p>
+        <div class="predict-options">
+          <button type="button">いちばん速いから</button>
+          <button type="button" data-right>この規模なら，ファイル1つで足りるから</button>
+          <button type="button">有名だから</button>
+        </div>
+        <div class="predict-answer" hidden><b>この規模なら，ファイル1つで足りるから</b>　データベース用のサーバーを別に立てなくてよい<br>条件が変われば選び直す．例：100の農園に広げて，サーバーを何台にも分けたら，ファイル1つの SQLite は共有しにくい → PostgreSQL などの，データベース専用のサーバーへ</div>
+      </div>
+      <p style="margin-top:14px;">道具を選ぶときに見るもの</p>
+      <ul class="look">
+        <li>条件（規模・人数・期限）</li>
+        <li>チームで扱えるか</li>
+        <li>使う人が多いか（調べれば答えが見つかる）</li>
+        <li>お金</li>
+      </ul>
+      <label class="note-label" for="pick" style="margin-top:14px;">自分が何かを作るなら，どの条件で道具を選ぶ？</label>
+      <textarea class="note" data-id="pick" id="pick" placeholder="例：作るもの：……／条件：……／選ぶ道具：……"></textarea>
+      <div class="check-row">
+        <p class="done">SQLite を選んだ理由を予想</p>
+        <label class="check"><input type="checkbox" data-step="2"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+      </div>
+    </section>
+
+    <!-- ===== ③ 手応えメモ ===== -->
+    <section class="card printable" id="step-3">
+      <div class="step-head">
+        <span class="step-num">3</span>
         <h2>手応えメモを並べる</h2>
       </div>
       <p class="hint">各回の最後に書いたメモ（このブラウザに保存した分）</p>
@@ -129,14 +180,14 @@
       <textarea class="note" data-id="strength" id="strength" placeholder="例：原因を測って絞る作業．……"></textarea>
       <div class="check-row">
         <p class="done">得意そうな作業を記入</p>
-        <label class="check"><input type="checkbox" data-step="2"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+        <label class="check"><input type="checkbox" data-step="3"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
 
-    <!-- ===== ③ 次の相談 ===== -->
-    <section class="card printable" id="step-3">
+    <!-- ===== ④ 次の相談 ===== -->
+    <section class="card printable" id="step-4">
       <div class="step-head">
-        <span class="step-num">3</span>
+        <span class="step-num">4</span>
         <h2>次の相談「土の水分も測りたい」</h2>
       </div>
       <div class="picture"><div class="overlay"><img src="../images/11/concept_soil.jpg" alt="いちごの株の横に挿した土の水分センサー"></div></div>
@@ -166,14 +217,14 @@
       <textarea class="note" data-id="question" id="question" style="min-height:60px;" placeholder="例：水分が分かったら，何を判断したいですか？"></textarea>
       <div class="check-row">
         <p class="done">まとめと質問を記入</p>
-        <label class="check"><input type="checkbox" data-step="3"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+        <label class="check"><input type="checkbox" data-step="4"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
 
-    <!-- ===== ④ できるようになったこと ===== -->
-    <section class="card printable" id="step-4">
+    <!-- ===== ⑤ できるようになったこと ===== -->
+    <section class="card printable" id="step-5">
       <div class="step-head">
-        <span class="step-num">4</span>
+        <span class="step-num">5</span>
         <h2>できるようになったこと</h2>
       </div>
       <div class="skills">
@@ -184,6 +235,7 @@
         <label><input type="checkbox" data-skill="5"> ブランチ・コミット・Pull request で変更を提案できる</label>
         <label><input type="checkbox" data-skill="6"> コンフリクトを，両方の意図で解消できる</label>
         <label><input type="checkbox" data-skill="7"> 相談を聞き取り，Issue と受入基準にできる</label>
+        <label><input type="checkbox" data-skill="8"> 条件から道具を選び，理由を説明できる</label>
       </div>
       <label class="note-label" for="next" style="margin-top:12px;">この先，自分で伸ばしたいこと</label>
       <textarea class="note" data-id="next" id="next" placeholder="例：アルゴリズムの問題を週に〇問．……"></textarea>
@@ -191,7 +243,7 @@
       <button type="button" class="print no-print">PDF に保存（印刷 → PDF に保存）</button>
       <div class="check-row">
         <p class="done">チェックと記入をして，PDF に保存</p>
-        <label class="check"><input type="checkbox" data-step="4"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
+        <label class="check"><input type="checkbox" data-step="5"><span class="check-off">確認したら押す</span><span class="check-on">✓ 確認済</span></label>
       </div>
     </section>
 
