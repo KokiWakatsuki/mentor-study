@@ -22,5 +22,6 @@ gate.js           公開前の回を「準備中」にする（確認は URL に
 ubuntu/git-setup.sh  git の名前とメールの設定
 win/pc.txt        Windows の PC 確認スクリプト（PowerShell）
 win/tools.txt     Windows の道具確認スクリプト（PowerShell）
+win/wsl-check.txt Ubuntu が入らない（再起動をくり返す）原因の確認スクリプト
 ubuntu/tools.sh   Ubuntu の道具確認スクリプト
 ```

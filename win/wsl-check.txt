@@ -1,0 +1,84 @@
+# WSL に Ubuntu が入らない（「再起動が必要」をくり返す）原因を調べる．確認のみ．変更は一切しない．
+# 使い方（管理者の PowerShell）：
+#   [Net.ServicePointManager]::SecurityProtocol = 'Tls12'
+#   irm https://kokiwakatsuki.github.io/mentor-study/win/wsl-check.txt | iex
+#
+# wsl --install は，次の4つがすべてそろったときだけ「土台（VirtualMachinePlatform）あり」と判断する（WSL のソース
+# src/windows/common/wslutil.cpp の IsVirtualMachinePlatformInstalled）．1つでも欠けると「再起動が必要」を出す．
+#   HNS・vmcompute・vfpext のサービスがある／Windows の機能 VirtualMachinePlatform の InstallState が 1（有効）
+
+function Mark($ok) { if ($ok) { '○' } else { '×' } }
+function HasService($name) { $null = sc.exe query $name 2>&1; return ($LASTEXITCODE -eq 0) }   # ドライバーも含めて調べる
+function FeatureState($name) {
+  $f = Get-CimInstance Win32_OptionalFeature -Filter "Name='$name'" -ErrorAction SilentlyContinue
+  if ($f) { return [int]$f.InstallState } else { return 0 }   # 1 有効・2 無効・3 なし・0 不明
+}
+function StateText($s) { switch ($s) { 1 { '有効' } 2 { '無効' } 3 { 'なし' } default { '不明' } } }
+
+$os       = Get-CimInstance Win32_OperatingSystem
+$computer = Get-CimInstance Win32_ComputerSystem
+$cpu      = Get-CimInstance Win32_Processor | Select-Object -First 1
+
+$sMode     = (Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy' -ErrorAction SilentlyContinue).SkuPolicyRequired -eq 1
+$insider   = (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\WindowsSelfHost\Applicability' -ErrorAction SilentlyContinue).BranchName
+$firmware  = [bool]$cpu.VirtualizationFirmwareEnabled
+$hyper     = [bool]$computer.HypervisorPresent
+$launchRaw = (bcdedit /enum '{current}' | Select-String 'hypervisorlaunchtype') -replace '.*hypervisorlaunchtype\s+', ''
+$launch    = if ($launchRaw) { "$launchRaw".Trim() } else { '未設定（自動と同じ）' }
+$launchOk  = $launch -notmatch '^Off'
+$vmp       = FeatureState 'VirtualMachinePlatform'
+$wslOc     = FeatureState 'Microsoft-Windows-Subsystem-Linux'
+$hns       = HasService 'HNS'
+$vmcompute = HasService 'vmcompute'
+$vfpext    = HasService 'vfpext'
+$pending   = (Test-Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending') -or
+             (Test-Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired')
+$wsl       = Get-AppxPackage MicrosoftCorporationII.WindowsSubsystemForLinux -ErrorAction SilentlyContinue
+$wslVer    = if ($wsl) { $wsl.Version } else { 'なし' }
+$wslSvc    = Get-CimInstance Win32_Service -Filter "Name='WslService'" -ErrorAction SilentlyContinue
+$vhd       = Test-Path "$env:ProgramFiles\WSL\system.vhd"
+$wslOk     = $wslSvc -and $wslSvc.StartMode -ne 'Disabled' -and $vhd
+
+''
+'番号  判定  項目                    この PC'
+' 1    {0}    S モードでない          {1}' -f (Mark (-not $sMode)), $(if ($sMode) { 'S モード' } else { '通常' })
+' 2    ・    Windows                 {0}（ビルド {1}）{2}' -f ($os.Caption -replace 'Microsoft ', ''), $os.Version, $(if ($insider) { "  Insider：$insider" } else { '' })
+' 3    ・    CPU                     {0}（{1}）' -f $env:PROCESSOR_ARCHITECTURE, $cpu.Name
+' 4    {0}    BIOS の仮想化           {1}' -f (Mark ($firmware -or $hyper)), $(if ($firmware) { '有効' } elseif ($hyper) { '（ハイパーバイザー動作中のため表示なし）' } else { '無効' })
+' 5    {0}    ハイパーバイザーの起動  {1}' -f (Mark $hyper), $(if ($hyper) { '動いている' } else { '動いていない' })
+' 6    {0}    起動設定                {1}' -f (Mark $launchOk), $launch
+' 7    {0}    土台の機能（VMP）       {1}' -f (Mark ($vmp -eq 1)), (StateText $vmp)
+' 8    {0}    HNS のサービス          {1}' -f (Mark $hns), $(if ($hns) { 'あり' } else { 'なし' })
+' 9    {0}    vmcompute のサービス    {1}' -f (Mark $vmcompute), $(if ($vmcompute) { 'あり' } else { 'なし' })
+'10    {0}    vfpext のサービス       {1}' -f (Mark $vfpext), $(if ($vfpext) { 'あり' } else { 'なし' })
+'11    {0}    再起動待ちなし          {1}' -f (Mark (-not $pending)), $(if ($pending) { '再起動待ちが残っている' } else { 'なし' })
+'12    ・    WSL の版                {0}（WSL の機能：{1}）' -f $wslVer, (StateText $wslOc)
+'13    {0}    WSL 本体の部品          {1}' -f (Mark $wslOk), $(if ($wslOk) { 'そろっている' } elseif (-not $wslSvc) { 'WslService がない' } elseif (-not $vhd) { 'system.vhd がない' } else { 'WslService が無効' })
+''
+
+# 原因の判定（上から順に，最初に当てはまったもの）
+if ($sMode) {
+  '原因：S モード．PowerShell や WSL が使えない → S モードの解除（元に戻せない）をメンターと相談'
+} elseif (-not ($hns -and $vmcompute -and $vfpext) -or $vmp -ne 1) {
+  '原因：WSL が「土台がない」と判断している（7〜10 の × が理由．このため毎回「再起動が必要」になる）'
+  '直し方：土台を一度外して入れ直す（管理者の PowerShell．1行ずつ）'
+  '  dism /online /disable-feature /featurename:VirtualMachinePlatform /norestart'
+  '  → 再起動'
+  '  dism /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart'
+  '  → 再起動 → このスクリプトをもう一度'
+} elseif (-not $launchOk) {
+  '原因：ハイパーバイザーを起動しない設定（6 が Off）'
+  '直し方：bcdedit /set hypervisorlaunchtype auto → 再起動 → wsl --install -d Ubuntu'
+} elseif (-not $hyper) {
+  '原因：設定はそろっているのに，ハイパーバイザーが起動していない（5 が ×）'
+  '直し方：BIOS の仮想化（4）を確認．○ なら Windows の版の不具合の可能性 → メンターと確認'
+} elseif (-not $wslOk) {
+  '原因：WSL 本体の部品が欠けている（13）'
+  '直し方：https://github.com/microsoft/WSL/releases から，CPU（3）に合う .msi を入れ直す → メンターと確認'
+} elseif ($pending) {
+  '原因：Windows の再起動待ちが残っている（11）'
+  '直し方：スタート → 電源 →「再起動」（「シャットダウン」ではなく）→ wsl --install -d Ubuntu'
+} else {
+  '土台はそろっている．wsl --install -d Ubuntu を実行し，最後の数行（エラー番号など）をメンターに見せる'
+}
+''
