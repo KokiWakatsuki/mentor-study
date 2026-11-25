@@ -379,3 +379,22 @@ textarea.note:focus { outline: none; border-color: var(--blue); }
 .os-leaves span { padding: 3px 10px; border-radius: 999px; background: var(--white); border: 1px solid var(--line); font-weight: bold; }
 .os-leaves span.here { border: 2px solid var(--orange); color: var(--orange); }
 @media (max-width: 720px) { .ostree, .os-branches { grid-template-columns: 1fr; } }
+
+/* ===== OS の家系図（SVG） ===== */
+.ostree-fig { margin: 6px 0 10px; }
+.ostree-fig svg { display: block; width: 100%; height: auto; font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic UI", "Meiryo", sans-serif; }
+.ostree-fig .edge { fill: none; stroke: #9AA5AD; stroke-width: 2; }
+.ostree-fig .band { fill: var(--yellow-light); stroke: #E9DFA8; }
+.ostree-fig .band-label { font-size: 12px; font-weight: bold; fill: #8A4B00; }
+.ostree-fig .node rect { fill: var(--white); stroke-width: 2; }
+.ostree-fig .node text { font-size: 15px; font-weight: bold; text-anchor: middle; fill: var(--text); }
+.ostree-fig .node text.small { font-size: 13px; }
+.ostree-fig .root rect { fill: var(--text); stroke: var(--text); } .ostree-fig .root text { fill: var(--white); }
+.ostree-fig .win rect { stroke: var(--blue); fill: #F3F7FF; }
+.ostree-fig .unix rect { stroke: #7A8B95; fill: #F6F7F8; }
+.ostree-fig .linux rect { stroke: var(--green); fill: var(--green-light); }
+.ostree-fig .leaf rect { stroke: #C9D2CE; }
+.ostree-fig .leaf.here rect { stroke: var(--orange); } .ostree-fig .leaf.here text { fill: var(--orange); }
+.ostree-fig figcaption { margin-top: 6px; color: var(--gray); font-size: 14px; }
+.ostree-fig .band.lv { fill: #F6F7F8; stroke: var(--line); }
+.ostree-fig .band-label.lv { fill: var(--gray); }
