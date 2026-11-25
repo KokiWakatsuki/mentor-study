@@ -73,30 +73,30 @@
         <div class="osfam-root">OS</div>
         <div class="osfam-row">
           <div class="osfam-col win">
-            <b class="osfam-name">Windows 系</b>
-            <div class="osfam-leaves"><span>Windows 11</span><span data-tip="会社のサーバー向けの Windows" data-tip-head="OS｜Windows Server">Windows Server</span></div>
+            <b class="osfam-name"><span data-tip="Microsoft が作る OS の流れ" data-tip-head="系統｜Windows 系">Windows 系</span></b>
+            <div class="osfam-leaves"><span data-tip="家庭・学校・会社のパソコンで一番多い" data-tip-head="OS｜Windows 11">Windows 11</span><span data-tip="会社のサーバー向けの Windows" data-tip-head="OS｜Windows Server">Windows Server</span></div>
           </div>
           <div class="osfam-similar">
             <span class="osfam-similar-label">操作が似ている仲間</span>
             <div class="osfam-pair">
               <div class="osfam-col unix">
-                <b class="osfam-name">Unix 系</b>
-                <div class="osfam-leaves"><span>macOS</span><span>iOS</span><span data-tip="サーバーやネットワーク機器で使われる" data-tip-head="OS｜FreeBSD">FreeBSD</span></div>
+                <b class="osfam-name"><span data-tip="1970年代の Unix から続く流れ" data-tip-head="系統｜Unix 系">Unix 系</span></b>
+                <div class="osfam-leaves"><span data-tip="Apple のパソコン（Mac）．デザイン・開発で人気" data-tip-head="OS｜macOS">macOS</span><span data-tip="iPhone の OS．中身は macOS と同じ流れ" data-tip-head="OS｜iOS">iOS</span><span data-tip="サーバーやネットワーク機器で使われる" data-tip-head="OS｜FreeBSD">FreeBSD</span></div>
               </div>
               <div class="osfam-col linux">
-                <b class="osfam-name">Linux 系</b>
-                <div class="osfam-sub"><small>Debian 系</small><div class="osfam-leaves"><span>Debian</span><span class="here">Ubuntu</span><span data-tip="仮想マシンをまとめて動かすサーバー用．Debian がもと" data-tip-head="OS｜Proxmox VE">Proxmox VE</span></div></div>
-                <div class="osfam-sub"><small>Red Hat 系</small><div class="osfam-leaves"><span data-tip="Red Hat Enterprise Linux／企業のサーバーで多い（有料）" data-tip-head="OS｜RHEL">RHEL</span><span data-tip="RHEL と同じ作りの無料版" data-tip-head="OS｜Rocky Linux">Rocky Linux</span><span data-tip="AWS（Amazon のクラウド）の標準" data-tip-head="OS｜Amazon Linux">Amazon Linux</span></div></div>
-                <div class="osfam-sub"><small>そのほか</small><div class="osfam-leaves"><span data-tip="とても小さい Linux／docker の箱の中でよく使う" data-tip-head="OS｜Alpine">Alpine</span><span>Android</span></div></div>
+                <b class="osfam-name"><span data-tip="Unix に似せて一から作った Linux を使う OS／無料で使えるものが多く，サーバーで一番多い" data-tip-head="系統｜Linux 系">Linux 系</span></b>
+                <div class="osfam-sub"><small><span data-tip="Debian をもとにした仲間／ソフトを入れる命令は apt" data-tip-head="系統｜Debian 系">Debian 系</span></small><div class="osfam-leaves"><span data-tip="長く使われている Linux．Ubuntu などのもと／サーバーで多い" data-tip-head="OS｜Debian">Debian</span><span class="here" data-tip="この勉強会で使う Linux．入門向けで情報が多い／サーバー・クラウドでも多い" data-tip-head="OS｜Ubuntu">Ubuntu</span><span data-tip="仮想マシンをまとめて動かすサーバー用．Debian がもと" data-tip-head="OS｜Proxmox VE">Proxmox VE</span></div></div>
+                <div class="osfam-sub"><small><span data-tip="Red Hat 社の RHEL をもとにした仲間／ソフトを入れる命令は dnf" data-tip-head="系統｜Red Hat 系">Red Hat 系</span></small><div class="osfam-leaves"><span data-tip="Red Hat Enterprise Linux／企業のサーバーで多い（有料）" data-tip-head="OS｜RHEL">RHEL</span><span data-tip="RHEL と同じ作りの無料版" data-tip-head="OS｜Rocky Linux">Rocky Linux</span><span data-tip="AWS（Amazon のクラウド）の標準" data-tip-head="OS｜Amazon Linux">Amazon Linux</span></div></div>
+                <div class="osfam-sub"><small>そのほか</small><div class="osfam-leaves"><span data-tip="とても小さい Linux／docker の箱の中でよく使う" data-tip-head="OS｜Alpine">Alpine</span><span data-tip="スマホの OS．中身（カーネル）が Linux" data-tip-head="OS｜Android">Android</span></div></div>
               </div>
             </div>
           </div>
           <div class="osfam-col other">
-            <b class="osfam-name">そのほか</b>
+            <b class="osfam-name"><span data-tip="上のどれにも入らない，特定の用途の OS" data-tip-head="系統｜そのほか">そのほか</span></b>
             <div class="osfam-leaves"><span data-tip="仮想マシン用のサーバー OS（VMware 社）．Linux ではない" data-tip-head="OS｜VMware ESXi">VMware ESXi</span><span data-tip="日本生まれ．家電・車などの機械の中" data-tip-head="OS｜TRON">TRON</span></div>
           </div>
         </div>
-        <figcaption>点線の枠：ターミナルのコマンドがほぼ同じ（Mac でも同じように使える）<br>オレンジ：この勉強会の Ubuntu．点線の語は，マウスを合わせると説明</figcaption>
+        <figcaption>点線の枠：ターミナルのコマンドがほぼ同じ（Mac でも同じように使える）<br>オレンジ：この勉強会の Ubuntu．名前にマウスを合わせると用途</figcaption>
       </figure>
       <div class="predict">
         <p class="predict-q">インターネットのサーバーで，一番多い OS は？</p>
