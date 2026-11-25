@@ -398,3 +398,41 @@ textarea.note:focus { outline: none; border-color: var(--blue); }
 .ostree-fig figcaption { margin-top: 6px; color: var(--gray); font-size: 14px; }
 .ostree-fig .band.lv { fill: #F6F7F8; stroke: var(--line); }
 .ostree-fig .band-label.lv { fill: var(--gray); }
+
+/* ===== OS の家系図（系統ごとの列） ===== */
+.osfam { margin: 6px 0 12px; font-size: 14px; line-height: 1.4; }
+.osfam-root { width: 120px; margin: 0 auto; padding: 6px; border-radius: 999px; background: var(--text); color: var(--white); font-weight: bold; text-align: center; }
+/* 根から各系統への線 */
+.osfam-row { position: relative; display: grid; grid-template-columns: 1fr 3.4fr 1fr; gap: 10px; margin-top: 22px; padding-top: 16px; border-top: 2px solid #9AA5AD; }
+.osfam-row::before { content: ""; position: absolute; left: 50%; top: -24px; height: 22px; border-left: 2px solid #9AA5AD; }
+.osfam-col { position: relative; padding: 10px; border-radius: 12px; border: 2px solid; background: var(--white); }
+.osfam-row > .osfam-col::before, .osfam-pair > .osfam-col::before { content: ""; position: absolute; left: 50%; top: -18px; height: 16px; border-left: 2px solid #9AA5AD; }
+.osfam-pair > .osfam-col::before { top: -50px; height: 48px; }
+.osfam-name { display: block; margin-bottom: 6px; font-size: 15px; }
+.osfam-col.win { border-color: var(--blue); background: #F3F7FF; }
+.osfam-col.unix { border-color: #7A8B95; }
+.osfam-col.linux { border-color: var(--green); background: var(--green-light); }
+.osfam-col.other { border-color: var(--line); background: var(--background); }
+.osfam-similar { padding: 34px 8px 8px; border: 2px dashed #9AA5AD; border-radius: 14px; position: relative; }
+.osfam-similar-label { position: absolute; left: 10px; top: 8px; font-size: 12px; font-weight: bold; color: var(--gray); }
+.osfam-pair { display: grid; grid-template-columns: 1fr 2fr; gap: 8px; }
+.osfam-sub { margin-top: 6px; padding-top: 6px; border-top: 1px dashed #B5C9BF; }
+.osfam-sub:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+.osfam-sub small { display: block; color: var(--green); font-size: 12px; font-weight: bold; }
+.osfam-leaves { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 3px; }
+.osfam-leaves > span { padding: 2px 9px; border-radius: 999px; background: var(--white); border: 1px solid var(--line); font-weight: bold; font-size: 13px; }
+.osfam-leaves > span.here { border: 2px solid var(--orange); color: var(--orange); }
+.osfam figcaption { margin-top: 8px; color: var(--gray); font-size: 13px; }
+@media (max-width: 560px) {
+  .osfam-row { grid-template-columns: 1fr; border-top: none; padding-top: 0; margin-top: 12px; }
+  .osfam-row::before, .osfam-row > .osfam-col::before, .osfam-pair > .osfam-col::before { display: none; }
+  .osfam-pair { grid-template-columns: 1fr; }
+}
+/* 家系図の調整：線が文字を横切らない・語の途中で折り返さない・横線は両端の列の中心まで */
+.osfam-row { grid-template-columns: 1.35fr 3.4fr 1.2fr; border-top: none; }
+.osfam-row::after { content: ""; position: absolute; top: 0; left: 11.5%; right: 10.2%; border-top: 2px solid #9AA5AD; }
+.osfam-similar { padding: 16px 8px 30px; }
+.osfam-similar-label { top: auto; bottom: 7px; }
+.osfam-pair > .osfam-col::before { top: -34px; height: 32px; }
+.osfam-name, .osfam-leaves > span { white-space: nowrap; }
+@media (max-width: 560px) { .osfam-row::after { display: none; } }
